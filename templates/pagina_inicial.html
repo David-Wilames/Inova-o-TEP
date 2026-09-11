@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Escolha uma opção</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .descricao {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .opcoes {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .card {
+            background-color: white;
+            width: 350px;
+            padding: 40px 30px;
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .icone {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #222;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .botao {
+            display: inline-block;
+
+            background-color: #2563eb;
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 30px;
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .botao:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Responsividade para celular */
+        @media (max-width: 750px) {
+            .opcoes {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Bem-vindo!</h1>
+
+        <p class="descricao">
+            Selecione uma opção para continuar
+        </p>
+
+        <div class="opcoes">
+
+            <!-- Instituição de Ensino -->
+            <div class="card">
+
+                <div class="icone">🏫</div>
+
+                <h2>Instituição de Ensino</h2>
+
+                <p>
+                    Acesse a área destinada às instituições de ensino.
+                </p>
+
+                <a href="instituicao.html" class="botao">
+                    Entrar
+                </a>
+
+            </div>
+
+
+            <!-- Colaborador -->
+            <div class="card">
+
+                <div class="icone">👤</div>
+
+                <h2>Colaborador</h2>
+
+                <p>
+                    Acesse a área destinada aos colaboradores.
+                </p>
+
+                <a href="colaborador.html" class="botao">
+                    Entrar
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+
