@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Colaborador</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f4f7;
+        }
+        
+        .login-container {
+            width: 400px;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .login-container p {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #777;
+        }
+
+        .campo{
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .campo input:focus {
+            border-color: #4a6cf8;
+        }
+
+        .esqueceu{
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .esqueceu a {
+            color: #4a6cf8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .botao {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: #4a6cf8;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .botao:hover {
+            background-color: #3555d4;
+        }
+
+        .cadastro {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #777;
+        
+        }
+
+        .cadastro a {
+            color: #4a6cf8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h1>Login</h1>
+        <p>Bem-vindo de volta! Por favor, faça login na sua conta.</p>
+
+        <form method="POST" action="/login">
+            <div class="campo">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" required>
+            </div>
+
+            <div class="esqueceu">
+                <a href="/esqueceu-senha">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="botao">Entrar</button>
+        </form>
+
+        <div class="cadastro">
+            Não tem uma conta? <a href="/cadastro">Cadastre-se</a>
+        </div>
+    </div>
+
+</body>
+</html>
+
