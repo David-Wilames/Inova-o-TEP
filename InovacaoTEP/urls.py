@@ -21,5 +21,7 @@ from InovacaoTEP.views import pagina_inicial
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', pagina_inicial, name='pagina_inicial'),
-    path('usuario/', include('usuario.urls')),  # Inclua as URLs do aplicativo 'usuario'
+    path('usuario/', include('usuario.urls')), 
+    path('instituicao/', include('instituicao.urls')),
+     # Inclua as URLs do aplicativo 'usuario'
 ]

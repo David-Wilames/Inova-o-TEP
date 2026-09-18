@@ -1,0 +1,403 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Instituição | Inovação TEP</title>
+
+    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="topbar">
+
+        <div class="logo">
+            <span>INOVAÇÃO</span> TEP
+        </div>
+
+        <div class="header-right">
+
+            <button class="notification">
+                🔔
+            </button>
+
+            <button class="profile-button">
+                👤
+                <span>Perfil</span>
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container">
+
+        <!-- TÍTULO -->
+        <section class="welcome">
+
+            <div>
+                <p class="small-title">PAINEL DA INSTITUIÇÃO</p>
+
+                <h1>
+                    Encontre um professor<br>
+                    para sua aula.
+                </h1>
+
+                <p class="subtitle">
+                    Encontre professores disponíveis para substituir
+                    suas aulas de forma rápida e prática.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- LOCALIZAÇÃO -->
+        <section class="location-card">
+
+            <div class="location-icon">
+                📍
+            </div>
+
+            <div class="location-info">
+                <span>LOCAL DA AULA</span>
+
+                <strong>
+                    Minha instituição
+                </strong>
+
+                <p>
+                    São Paulo - SP
+                </p>
+            </div>
+
+            <button class="change-location">
+                Alterar
+            </button>
+
+        </section>
+
+
+        <!-- ESTATÍSTICAS -->
+        <section class="statistics">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📚
+                </div>
+
+                <div>
+                    <strong>3</strong>
+                    <p>Aulas disponíveis</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👨‍🏫
+                </div>
+
+                <div>
+                    <strong>12</strong>
+                    <p>Professores disponíveis</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div>
+                    <strong>8</strong>
+                    <p>Substituições realizadas</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ÁREA DE BUSCA -->
+        <section class="search-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>
+                        Professores disponíveis
+                    </h2>
+
+                    <p>
+                        Profissionais próximos e disponíveis para sua instituição.
+                    </p>
+                </div>
+
+                <button class="filter-button">
+                    ⚙ Filtros
+                </button>
+
+            </div>
+
+
+            <!-- MAPA -->
+            <div class="map">
+
+                <div class="map-grid"></div>
+
+                <div class="map-route"></div>
+
+                <!-- PROFESSORES -->
+                <div class="map-pin pin-1">
+                    👨‍🏫
+                </div>
+
+                <div class="map-pin pin-2">
+                    👩‍🏫
+                </div>
+
+                <div class="map-pin pin-3">
+                    👨‍🏫
+                </div>
+
+                <!-- INSTITUIÇÃO -->
+                <div class="school-pin">
+
+                    <div class="school-icon">
+                        🏫
+                    </div>
+
+                    <span>
+                        Sua instituição
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTADOS -->
+            <div class="results-title">
+
+                <div>
+                    <strong>
+                        12 professores encontrados
+                    </strong>
+
+                    <span>
+                        Ordenados por proximidade
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- PROFESSOR 1 -->
+            <article class="teacher-card">
+
+                <div class="teacher-photo">
+                    👨‍🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            Carlos Silva
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4,9
+                        </span>
+
+                    </div>
+
+                    <p class="subject">
+                        Matemática • Ensino Médio
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 2,4 km
+                        </span>
+
+                        <span class="available">
+                            ● Disponível agora
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button class="profile-btn">
+                            Ver perfil
+                        </button>
+
+                        <button class="request-btn">
+                            Solicitar professor
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROFESSOR 2 -->
+            <article class="teacher-card">
+
+                <div class="teacher-photo female">
+                    👩‍🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            Ana Oliveira
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4,8
+                        </span>
+
+                    </div>
+
+                    <p class="subject">
+                        Português • Ensino Fundamental
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 4,1 km
+                        </span>
+
+                        <span class="available">
+                            ● Disponível hoje
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button class="profile-btn">
+                            Ver perfil
+                        </button>
+
+                        <button class="request-btn">
+                            Solicitar professor
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROFESSOR 3 -->
+            <article class="teacher-card">
+
+                <div class="teacher-photo">
+                    👨‍🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            João Santos
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4,7
+                        </span>
+
+                    </div>
+
+                    <p class="subject">
+                        História • Ensino Médio
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 5,2 km
+                        </span>
+
+                        <span class="available">
+                            ● Disponível hoje
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button class="profile-btn">
+                            Ver perfil
+                        </button>
+
+                        <button class="request-btn">
+                            Solicitar professor
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- PUBLICAR AULA -->
+        <section class="publish-card">
+
+            <div class="publish-icon">
+                +
+            </div>
+
+            <div class="publish-text">
+
+                <h2>
+                    Não encontrou o professor?
+                </h2>
+
+                <p>
+                    Publique a aula e deixe professores disponíveis
+                    enviarem interesse na substituição.
+                </p>
+
+            </div>
+
+            <button class="publish-button">
+                Publicar aula
+            </button>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
