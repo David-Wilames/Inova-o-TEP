@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Colaborador</title>
+    <title>Login - Professor</title>
 
     <style>
         * {
@@ -112,27 +112,26 @@
 <body>
 
     <div class="login-container">
-        <h1>Login</h1>
+        <h1>Entrar como professor</h1>
         <p>Bem-vindo de volta! Por favor, faça login na sua conta.</p>
 
-        <form method="POST" action="/login">
-            <div class="campo">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+            <form method="POST">
+                {% csrf_token %}
 
-            <div class="campo">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" required>
-            </div>
+                {{ form.non_field_errors }}
 
-            <div class="esqueceu">
-                <a href="/esqueceu-senha">Esqueceu a senha?</a>
-            </div>
+                {% for campo in form %}
+                    <div class="campo">
+                        {{ campo.label_tag }}
+                        {{ campo }}
+                        {{ campo.errors }}
+                    </div>
+                {% endfor %}
 
-            <button type="submit" class="botao">Entrar</button>
-        </form>
-
+                <button type="submit" class="botao">
+                    Entrar
+                </button>
+            </form>
         <div class="cadastro">
             Não tem uma conta? <a href="{% url 'cadastro_colaborador' %}">Cadastre-se</a>
         </div>
