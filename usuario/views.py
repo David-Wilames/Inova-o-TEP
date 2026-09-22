@@ -1,15 +1,50 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import CadastroProfessorForm, LoginProfessorForm
+from django.contrib.auth import login
+
+
 
 def escolha(request):
     return render(request, 'escolha.html')
 
 def login_colaborador(request):
-    return render(request, 'usuarios/login_colaborador.html')
+    if request.method == 'POST':
+        form = LoginProfessorForm(
+            request=request,
+            data=request.POST
+        )
+
+        if form.is_valid():
+            login(request, form.get_user())
+            return redirect ('pagina_inicial')
+
+    else:
+            form = LoginProfessorForm(request=request)
+
+    return render(
+        request,
+        'usuarios/login_colaborador.html',
+        {'form': form},
+    )
 
 def login_estituiçao(request):
     return render(request, 'login_estituiçao.html')
 
 def cadastro_colaborador(request):
-    return render(request, 'usuarios/cadastro.html')
+    if request.method == 'POST':
+
+        form = CadastroProfessorForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect('login_colaborador')
+
+    else:
+
+        form = CadastroProfessorForm()
+
+    return render(request, 'usuarios/cadastro.html', {'form':form})
 
 # Create your views here.
