@@ -8,506 +8,490 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Instituição | Inovação TEP</title>
+    <title>Instituição | Inovação TEP</title>
 
-<!-- CSS -->
-<link
-    rel="stylesheet"
-    href="{% static 'usuarios/css/instituicao/instituicao.css' %}"
->
+    <!-- Seu CSS -->
+    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}">
 
-<!-- Leaflet CSS -->
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    crossorigin=""
->
-
-<!-- Leaflet Routing Machine CSS -->
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
->
+    <!-- CSS do Mapbox -->
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css">
 
 </head>
 
 <body>
 
-<header class="topbar">
+    <header class="topbar">
 
-<div class="logo">
-    <span>INOVAÇÃO</span> TEP
-</div>
-
-<div class="header-right">
-
-    <button class="notification" type="button">
-        🔔
-    </button>
-
-    <button class="profile-button" type="button">
-        👤
-        <span>Perfil</span>
-    </button>
-
-</div>
-
-</header>
-
-<main class="container">
-
-<section class="welcome">
-
-    <p class="small-title">
-        PAINEL DA INSTITUIÇÃO
-    </p>
-
-    <h1>
-        Encontre um professor<br>
-        para sua aula.
-    </h1>
-
-    <p class="subtitle">
-        Encontre professores disponíveis para substituir
-        suas aulas de forma rápida e prática.
-    </p>
-
-</section>
-
-<section class="location-card">
-
-    <div class="location-icon">
-        📍
-    </div>
-
-    <div class="location-info">
-
-        <span>LOCAL DA AULA</span>
-
-        <strong>
-            Minha instituição
-        </strong>
-
-        <p>
-            Cajamar - SP
-        </p>
-
-    </div>
-
-    <button class="change-location" type="button">
-        Alterar
-    </button>
-
-</section>
-
-<section class="statistics">
-
-    <div class="stat-card">
-
-        <div class="stat-icon">
-            📚
+        <div class="logo">
+            <span>INOVAÇÃO</span> TEP
         </div>
 
-        <div>
-            <strong>3</strong>
-            <p>Aulas disponíveis</p>
-        </div>
+        <div class="header-right">
 
-    </div>
+            <button class="notification" type="button">
+                🔔
+            </button>
 
-    <div class="stat-card">
-
-        <div class="stat-icon">
-            👨‍🏫
-        </div>
-
-        <div>
-            <strong>12</strong>
-            <p>Professores disponíveis</p>
-        </div>
-
-    </div>
-
-    <div class="stat-card">
-
-        <div class="stat-icon">
-            ✅
-        </div>
-
-        <div>
-            <strong>8</strong>
-            <p>Substituições realizadas</p>
-        </div>
-
-    </div>
-
-</section>
-
-<section class="search-section">
-
-    <div class="section-header">
-
-        <div>
-
-            <h2>
-                Professores disponíveis
-            </h2>
-
-            <p>
-                Profissionais próximos e disponíveis para sua instituição.
-            </p>
-
-        </div>
-
-        <button class="filter-button" type="button">
-            ⚙ Filtros
-        </button>
-
-    </div>
-
-    <!-- ============================= -->
-    <!-- MAPA -->
-    <!-- ============================= -->
-
-    <div class="uber-map-container">
-
-        <!-- PESQUISA -->
-
-        <div class="uber-search-box">
-
-            <div class="search-icon">
-                ⌕
-            </div>
-
-            <input
-                type="text"
-                id="address-search"
-                placeholder="Para onde?"
-                autocomplete="off"
-            >
-
-            <button
-                id="search-button"
-                type="button"
-            >
-                Buscar
+            <button class="profile-button" type="button">
+                👤
+                <span>Perfil</span>
             </button>
 
         </div>
 
-        <!-- BOTÃO LOCALIZAÇÃO -->
+    </header>
 
-        <button
-            id="location-button"
-            class="location-button"
-            type="button"
-            title="Usar minha localização"
-        >
-            ⦿
-        </button>
+    <main class="container">
 
-        <!-- MAPA -->
+        <section class="welcome">
 
-        <div id="map"></div>
+            <p class="small-title">
+                PAINEL DA INSTITUIÇÃO
+            </p>
 
-        <!-- CARTÃO DA ROTA -->
+            <h1>
+                Encontre um professor<br>
+                para sua aula.
+            </h1>
 
-        <div class="uber-route-card">
+            <p class="subtitle">
+                Encontre professores disponíveis para substituir
+                suas aulas de forma rápida e prática.
+            </p>
 
-            <div class="route-card-top">
+        </section>
+
+
+        <section class="location-card">
+
+            <div class="location-icon">
+                📍
+            </div>
+
+            <div class="location-info">
+
+                <span>LOCAL DA AULA</span>
+
+                <strong>
+                    Minha instituição
+                </strong>
+
+                <p>
+                    Cajamar - SP
+                </p>
+
+            </div>
+
+            <button class="change-location" type="button">
+                Alterar
+            </button>
+
+        </section>
+
+
+        <section class="statistics">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📚
+                </div>
 
                 <div>
 
-                    <span class="route-label">
-                        ROTA
-                    </span>
+                    <strong>3</strong>
 
-                    <strong id="route-title">
-                        Sua instituição
-                    </strong>
+                    <p>
+                        Aulas disponíveis
+                    </p>
 
-                </div>
-
-                <div class="route-icon">
-                    📍
                 </div>
 
             </div>
 
-            <div class="route-line"></div>
 
-            <div class="route-details">
+            <div class="stat-card">
 
-                <div class="route-detail">
+                <div class="stat-icon">
+                    👨‍🏫
+                </div>
 
-                    <span class="detail-icon">
-                        ↔
-                    </span>
+                <div>
 
-                    <div>
+                    <strong>12</strong>
 
-                        <small>
-                            Distância
-                        </small>
+                    <p>
+                        Professores disponíveis
+                    </p>
 
-                        <strong id="route-distance">
-                            --
-                        </strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div>
+
+                    <strong>8</strong>
+
+                    <p>
+                        Substituições realizadas
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="search-section">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Professores disponíveis
+                    </h2>
+
+                    <p>
+                        Profissionais próximos e disponíveis para sua instituição.
+                    </p>
+
+                </div>
+
+                <button class="filter-button" type="button">
+                    ⚙ Filtros
+                </button>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- MAPA -->
+            <!-- ============================= -->
+
+            <div class="uber-map-container">
+
+                <!-- BOTÃO LOCALIZAÇÃO -->
+
+                <button id="location-button" class="location-button" type="button" title="Usar minha localização">
+                    ⦿
+                </button>
+
+
+                <!-- MAPA MAPBOX -->
+
+                <div id="map"></div>
+
+
+                <!-- CARTÃO DA ROTA -->
+
+                <div class="uber-route-card">
+
+                    <div class="route-card-top">
+
+                        <div>
+
+                            <span class="route-label">
+                                ROTA
+                            </span>
+
+                            <strong id="route-title">
+                                Sua instituição
+                            </strong>
+
+                        </div>
+
+                        <div class="route-icon">
+                            📍
+                        </div>
+
+                    </div>
+
+
+                    <div class="route-line"></div>
+
+
+                    <div class="route-details">
+
+
+                        <div class="route-detail">
+
+                            <span class="detail-icon">
+                                ↔
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Distância
+                                </small>
+
+                                <strong id="route-distance">
+                                    --
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="route-detail">
+
+                            <span class="detail-icon">
+                                ◷
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Tempo estimado
+                                </small>
+
+                                <strong id="route-time">
+                                    --
+                                </strong>
+
+                            </div>
+
+                        </div>
+
 
                     </div>
 
                 </div>
 
-                <div class="route-detail">
+            </div>
 
-                    <span class="detail-icon">
-                        ◷
-                    </span>
 
-                    <div>
+            <!-- RESULTADOS -->
 
-                        <small>
-                            Tempo estimado
-                        </small>
+            <div class="results-title">
 
-                        <strong id="route-time">
-                            --
-                        </strong>
+                <strong>
+                    12 professores encontrados
+                </strong>
+
+                <span>
+                    Ordenados por proximidade
+                </span>
+
+            </div>
+
+
+            <!-- PROFESSOR 1 -->
+
+            <article class="teacher-card">
+
+                <div class="teacher-photo">
+                    👨‍🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            Carlos Silva
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4,9
+                        </span>
+
+                    </div>
+
+                    <p class="subject">
+                        Matemática • Ensino Médio
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 2,4 km
+                        </span>
+
+                        <span class="available">
+                            ● Disponível agora
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button class="profile-btn" type="button">
+                            Ver perfil
+                        </button>
+
+                        <button class="request-btn" type="button">
+                            Solicitar professor
+                        </button>
 
                     </div>
 
                 </div>
 
+            </article>
+
+
+            <!-- PROFESSOR 2 -->
+
+            <article class="teacher-card">
+
+                <div class="teacher-photo female">
+                    👩‍🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            Ana Oliveira
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4,8
+                        </span>
+
+                    </div>
+
+                    <p class="subject">
+                        Português • Ensino Fundamental
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 4,1 km
+                        </span>
+
+                        <span class="available">
+                            ● Disponível hoje
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button class="profile-btn" type="button">
+                            Ver perfil
+                        </button>
+
+                        <button class="request-btn" type="button">
+                            Solicitar professor
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROFESSOR 3 -->
+
+            <article class="teacher-card">
+
+                <div class="teacher-photo">
+                    👨‍🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            João Santos
+                        </h3>
+
+                        <span class="rating">
+                            ⭐ 4,7
+                        </span>
+
+                    </div>
+
+                    <p class="subject">
+                        História • Ensino Médio
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 5,2 km
+                        </span>
+
+                        <span class="available">
+                            ● Disponível hoje
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button class="profile-btn" type="button">
+                            Ver perfil
+                        </button>
+
+                        <button class="request-btn" type="button">
+                            Solicitar professor
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- PUBLICAR AULA -->
+
+        <section class="publish-card">
+
+            <div class="publish-icon">
+                +
             </div>
 
-        </div>
+            <div class="publish-text">
 
-    </div>
+                <h2>
+                    Não encontrou o professor?
+                </h2>
 
-    <!-- RESULTADOS -->
-
-    <div class="results-title">
-
-        <strong>
-            12 professores encontrados
-        </strong>
-
-        <span>
-            Ordenados por proximidade
-        </span>
-
-    </div>
-
-    <!-- PROFESSOR 1 -->
-
-    <article class="teacher-card">
-
-        <div class="teacher-photo">
-            👨‍🏫
-        </div>
-
-        <div class="teacher-info">
-
-            <div class="teacher-name">
-
-                <h3>
-                    Carlos Silva
-                </h3>
-
-                <span class="rating">
-                    ⭐ 4,9
-                </span>
-
-            </div>
-
-            <p class="subject">
-                Matemática • Ensino Médio
-            </p>
-
-            <div class="teacher-details">
-
-                <span>
-                    📍 2,4 km
-                </span>
-
-                <span class="available">
-                    ● Disponível agora
-                </span>
-
-            </div>
-
-            <div class="teacher-actions">
-
-                <button class="profile-btn" type="button">
-                    Ver perfil
-                </button>
-
-                <button class="request-btn" type="button">
-                    Solicitar professor
-                </button>
-
-            </div>
-
-        </div>
-
-    </article>
-
-    <!-- PROFESSOR 2 -->
-
-    <article class="teacher-card">
-
-        <div class="teacher-photo female">
-            👩‍🏫
-        </div>
-
-        <div class="teacher-info">
-
-            <div class="teacher-name">
-
-                <h3>
-                    Ana Oliveira
-                </h3>
-
-                <span class="rating">
-                    ⭐ 4,8
-                </span>
-
-            </div>
-
-            <p class="subject">
-                Português • Ensino Fundamental
-            </p>
-
-            <div class="teacher-details">
-
-                <span>
-                    📍 4,1 km
-                </span>
-
-                <span class="available">
-                    ● Disponível hoje
-                </span>
-
-            </div>
-
-            <div class="teacher-actions">
-
-                <button class="profile-btn" type="button">
-                    Ver perfil
-                </button>
-
-                <button class="request-btn" type="button">
-                    Solicitar professor
-                </button>
-
-            </div>
-
-        </div>
-
-    </article>
-
-    <!-- PROFESSOR 3 -->
-
-    <article class="teacher-card">
-
-        <div class="teacher-photo">
-            👨‍🏫
-        </div>
-
-        <div class="teacher-info">
-
-            <div class="teacher-name">
-
-                <h3>
-                    João Santos
-                </h3>
-
-                <span class="rating">
-                    ⭐ 4,7
-                </span>
+                <p>
+                    Publique a aula e deixe professores disponíveis
+                    enviarem interesse na substituição.
+                </p>
 
             </div>
 
-            <p class="subject">
-                História • Ensino Médio
-            </p>
+            <button class="publish-button" type="button">
+                Publicar aula
+            </button>
 
-            <div class="teacher-details">
+        </section>
 
-                <span>
-                    📍 5,2 km
-                </span>
+    </main>
 
-                <span class="available">
-                    ● Disponível hoje
-                </span>
+    <!-- JavaScript do Mapbox -->
 
-            </div>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.js"></script>
 
-            <div class="teacher-actions">
+    <!-- Seu JavaScript -->
 
-                <button class="profile-btn" type="button">
-                    Ver perfil
-                </button>
-
-                <button class="request-btn" type="button">
-                    Solicitar professor
-                </button>
-
-            </div>
-
-        </div>
-
-    </article>
-
-</section>
-
-<!-- PUBLICAR AULA -->
-
-<section class="publish-card">
-
-    <div class="publish-icon">
-        +
-    </div>
-
-    <div class="publish-text">
-
-        <h2>
-            Não encontrou o professor?
-        </h2>
-
-        <p>
-            Publique a aula e deixe professores disponíveis
-            enviarem interesse na substituição.
-        </p>
-
-    </div>
-
-    <button class="publish-button" type="button">
-        Publicar aula
-    </button>
-
-</section>
-```
-
-</main>
-
-<!-- Leaflet JS -->
-
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    crossorigin="">
-</script>
-
-<!-- Leaflet Routing Machine -->
-
-<script
-    src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js">
-</script>
-
-<!-- Seu JavaScript -->
-
-<script src="{% static 'usuarios/css/js/mapains.js' %}"></script>
+    <script src="{% static 'usuarios/js/mapains.js' %}"></script>
 
 </body>
+
 </html>
