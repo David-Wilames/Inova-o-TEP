@@ -8,1206 +8,506 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    ```
-    <title>Instituição | Inovação TEP</title>
+<title>Instituição | Inovação TEP</title>
 
-    <!-- CSS da página -->
-    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}">
+<!-- CSS -->
+<link
+    rel="stylesheet"
+    href="{% static 'usuarios/css/instituicao/instituicao.css' %}"
+>
 
-    <!-- Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<!-- Leaflet CSS -->
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin=""
+>
 
-    <!-- Leaflet Routing Machine -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
-    ```
+<!-- Leaflet Routing Machine CSS -->
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
+>
 
 </head>
 
 <body>
 
-    ```
-    <!-- ============================= -->
-    <!-- CABEÇALHO -->
-    <!-- ============================= -->
+<header class="topbar">
 
-    <header class="topbar">
+<div class="logo">
+    <span>INOVAÇÃO</span> TEP
+</div>
 
-        <div class="logo">
-            <span>INOVAÇÃO</span> TEP
+<div class="header-right">
+
+    <button class="notification" type="button">
+        🔔
+    </button>
+
+    <button class="profile-button" type="button">
+        👤
+        <span>Perfil</span>
+    </button>
+
+</div>
+
+</header>
+
+<main class="container">
+
+<section class="welcome">
+
+    <p class="small-title">
+        PAINEL DA INSTITUIÇÃO
+    </p>
+
+    <h1>
+        Encontre um professor<br>
+        para sua aula.
+    </h1>
+
+    <p class="subtitle">
+        Encontre professores disponíveis para substituir
+        suas aulas de forma rápida e prática.
+    </p>
+
+</section>
+
+<section class="location-card">
+
+    <div class="location-icon">
+        📍
+    </div>
+
+    <div class="location-info">
+
+        <span>LOCAL DA AULA</span>
+
+        <strong>
+            Minha instituição
+        </strong>
+
+        <p>
+            Cajamar - SP
+        </p>
+
+    </div>
+
+    <button class="change-location" type="button">
+        Alterar
+    </button>
+
+</section>
+
+<section class="statistics">
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            📚
         </div>
 
-        <div class="header-right">
+        <div>
+            <strong>3</strong>
+            <p>Aulas disponíveis</p>
+        </div>
 
-            <button class="notification" type="button">
-                🔔
-            </button>
+    </div>
 
-            <button class="profile-button" type="button">
-                👤
-                <span>Perfil</span>
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            👨‍🏫
+        </div>
+
+        <div>
+            <strong>12</strong>
+            <p>Professores disponíveis</p>
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ✅
+        </div>
+
+        <div>
+            <strong>8</strong>
+            <p>Substituições realizadas</p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="search-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Professores disponíveis
+            </h2>
+
+            <p>
+                Profissionais próximos e disponíveis para sua instituição.
+            </p>
+
+        </div>
+
+        <button class="filter-button" type="button">
+            ⚙ Filtros
+        </button>
+
+    </div>
+
+    <!-- ============================= -->
+    <!-- MAPA -->
+    <!-- ============================= -->
+
+    <div class="uber-map-container">
+
+        <!-- PESQUISA -->
+
+        <div class="uber-search-box">
+
+            <div class="search-icon">
+                ⌕
+            </div>
+
+            <input
+                type="text"
+                id="address-search"
+                placeholder="Para onde?"
+                autocomplete="off"
+            >
+
+            <button
+                id="search-button"
+                type="button"
+            >
+                Buscar
             </button>
 
         </div>
 
-    </header>
+        <!-- BOTÃO LOCALIZAÇÃO -->
 
+        <button
+            id="location-button"
+            class="location-button"
+            type="button"
+            title="Usar minha localização"
+        >
+            ⦿
+        </button>
 
-    <!-- ============================= -->
-    <!-- CONTEÚDO PRINCIPAL -->
-    <!-- ============================= -->
+        <!-- MAPA -->
 
-    <main class="container">
+        <div id="map"></div>
 
-        <!-- BOAS-VINDAS -->
+        <!-- CARTÃO DA ROTA -->
 
-        <section class="welcome">
+        <div class="uber-route-card">
 
-            <div>
-
-                <p class="small-title">
-                    PAINEL DA INSTITUIÇÃO
-                </p>
-
-                <h1>
-                    Encontre um professor<br>
-                    para sua aula.
-                </h1>
-
-                <p class="subtitle">
-                    Encontre professores disponíveis para substituir
-                    suas aulas de forma rápida e prática.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- ============================= -->
-        <!-- LOCALIZAÇÃO -->
-        <!-- ============================= -->
-
-        <section class="location-card">
-
-            <div class="location-icon">
-                📍
-            </div>
-
-            <div class="location-info">
-
-                <span>LOCAL DA AULA</span>
-
-                <strong>
-                    Minha instituição
-                </strong>
-
-                <p>
-                    São Paulo - SP
-                </p>
-
-            </div>
-
-            <button class="change-location" type="button">
-                Alterar
-            </button>
-
-        </section>
-
-
-        <!-- ============================= -->
-        <!-- ESTATÍSTICAS -->
-        <!-- ============================= -->
-
-        <section class="statistics">
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    📚
-                </div>
-
-                <div>
-                    <strong>3</strong>
-                    <p>Aulas disponíveis</p>
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    👨‍🏫
-                </div>
-
-                <div>
-                    <strong>12</strong>
-                    <p>Professores disponíveis</p>
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    ✅
-                </div>
-
-                <div>
-                    <strong>8</strong>
-                    <p>Substituições realizadas</p>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ============================= -->
-        <!-- BUSCA / PROFESSORES -->
-        <!-- ============================= -->
-
-        <section class="search-section">
-
-            <div class="section-header">
+            <div class="route-card-top">
 
                 <div>
 
-                    <h2>
-                        Professores disponíveis
-                    </h2>
-
-                    <p>
-                        Profissionais próximos e disponíveis para sua instituição.
-                    </p>
-
-                </div>
-
-                <button class="filter-button" type="button">
-                    ⚙ Filtros
-                </button>
-
-            </div>
-
-
-            <!-- ============================= -->
-            <!-- PESQUISA DO MAPA -->
-            <!-- ============================= -->
-
-            <div class="uber-map-container">
-
-                <!-- PESQUISA DO MAPA -->
-                <div class="uber-search-box">
-
-                    <div class="search-icon">
-                        ⌕
-                    </div>
-
-                    <input type="text" id="address-search" placeholder="Para onde?" autocomplete="off">
-
-                    <button id="search-button" type="button">
-                        Buscar
-                    </button>
-
-                </div>
-
-
-                <!-- BOTÃO MINHA LOCALIZAÇÃO -->
-
-                <button id="location-button" class="location-button" type="button" title="Usar minha localização">
-                    ⦿
-                </button>
-
-
-                <!-- MAPA -->
-
-                <div id="map"></div>
-
-
-                <!-- CARTÃO DA ROTA -->
-
-                <div class="uber-route-card">
-
-                    <div class="route-card-top">
-
-                        <div>
-
-                            <span class="route-label">
-                                ROTA
-                            </span>
-
-                            <strong id="route-title">
-                                Sua instituição
-                            </strong>
-
-                        </div>
-
-                        <div class="route-icon">
-                            📍
-                        </div>
-
-                    </div>
-
-
-                    <div class="route-line"></div>
-
-
-                    <div class="route-details">
-
-                        <div class="route-detail">
-
-                            <span class="detail-icon">
-                                ↔
-                            </span>
-
-                            <div>
-
-                                <small>
-                                    Distância
-                                </small>
-
-                                <strong id="route-distance">
-                                    --
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="route-detail">
-
-                            <span class="detail-icon">
-                                ◷
-                            </span>
-
-                            <div>
-
-                                <small>
-                                    Tempo estimado
-                                </small>
-
-                                <strong id="route-time">
-                                    --
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ============================= -->
-            <!-- RESULTADOS -->
-            <!-- ============================= -->
-
-            <div class="results-title">
-
-                <div>
-
-                    <strong>
-                        12 professores encontrados
-                    </strong>
-
-                    <span>
-                        Ordenados por proximidade
+                    <span class="route-label">
+                        ROTA
                     </span>
 
+                    <strong id="route-title">
+                        Sua instituição
+                    </strong>
+
+                </div>
+
+                <div class="route-icon">
+                    📍
                 </div>
 
             </div>
 
+            <div class="route-line"></div>
 
-            <!-- ============================= -->
-            <!-- PROFESSOR 1 -->
-            <!-- ============================= -->
+            <div class="route-details">
 
-            <article class="teacher-card">
+                <div class="route-detail">
 
-                <div class="teacher-photo">
-                    👨‍🏫
-                </div>
+                    <span class="detail-icon">
+                        ↔
+                    </span>
 
-                <div class="teacher-info">
+                    <div>
 
-                    <div class="teacher-name">
+                        <small>
+                            Distância
+                        </small>
 
-                        <h3>
-                            Carlos Silva
-                        </h3>
-
-                        <span class="rating">
-                            ⭐ 4,9
-                        </span>
-
-                    </div>
-
-                    <p class="subject">
-                        Matemática • Ensino Médio
-                    </p>
-
-                    <div class="teacher-details">
-
-                        <span>
-                            📍 2,4 km
-                        </span>
-
-                        <span class="available">
-                            ● Disponível agora
-                        </span>
-
-                    </div>
-
-                    <div class="teacher-actions">
-
-                        <button class="profile-btn" type="button">
-                            Ver perfil
-                        </button>
-
-                        <button class="request-btn" type="button">
-                            Solicitar professor
-                        </button>
+                        <strong id="route-distance">
+                            --
+                        </strong>
 
                     </div>
 
                 </div>
 
-            </article>
+                <div class="route-detail">
 
+                    <span class="detail-icon">
+                        ◷
+                    </span>
 
-            <!-- ============================= -->
-            <!-- PROFESSOR 2 -->
-            <!-- ============================= -->
+                    <div>
 
-            <article class="teacher-card">
+                        <small>
+                            Tempo estimado
+                        </small>
 
-                <div class="teacher-photo female">
-                    👩‍🏫
-                </div>
-
-                <div class="teacher-info">
-
-                    <div class="teacher-name">
-
-                        <h3>
-                            Ana Oliveira
-                        </h3>
-
-                        <span class="rating">
-                            ⭐ 4,8
-                        </span>
-
-                    </div>
-
-                    <p class="subject">
-                        Português • Ensino Fundamental
-                    </p>
-
-                    <div class="teacher-details">
-
-                        <span>
-                            📍 4,1 km
-                        </span>
-
-                        <span class="available">
-                            ● Disponível hoje
-                        </span>
-
-                    </div>
-
-                    <div class="teacher-actions">
-
-                        <button class="profile-btn" type="button">
-                            Ver perfil
-                        </button>
-
-                        <button class="request-btn" type="button">
-                            Solicitar professor
-                        </button>
+                        <strong id="route-time">
+                            --
+                        </strong>
 
                     </div>
 
                 </div>
-
-            </article>
-
-
-            <!-- ============================= -->
-            <!-- PROFESSOR 3 -->
-            <!-- ============================= -->
-
-            <article class="teacher-card">
-
-                <div class="teacher-photo">
-                    👨‍🏫
-                </div>
-
-                <div class="teacher-info">
-
-                    <div class="teacher-name">
-
-                        <h3>
-                            João Santos
-                        </h3>
-
-                        <span class="rating">
-                            ⭐ 4,7
-                        </span>
-
-                    </div>
-
-                    <p class="subject">
-                        História • Ensino Médio
-                    </p>
-
-                    <div class="teacher-details">
-
-                        <span>
-                            📍 5,2 km
-                        </span>
-
-                        <span class="available">
-                            ● Disponível hoje
-                        </span>
-
-                    </div>
-
-                    <div class="teacher-actions">
-
-                        <button class="profile-btn" type="button">
-                            Ver perfil
-                        </button>
-
-                        <button class="request-btn" type="button">
-                            Solicitar professor
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-            
-        </section>
-
-
-        <!-- ============================= -->
-        <!-- PUBLICAR AULA -->
-        <!-- ============================= -->
-
-        <section class="publish-card">
-
-            <div class="publish-icon">
-                +
-            </div>
-
-            <div class="publish-text">
-
-                <h2>
-                    Não encontrou o professor?
-                </h2>
-
-                <p>
-                    Publique a aula e deixe professores disponíveis
-                    enviarem interesse na substituição.
-                </p>
 
             </div>
 
-            <button class="publish-button" type="button">
-                Publicar aula
-            </button>
+        </div>
 
-        </section>
+    </div>
 
-    </main>
+    <!-- RESULTADOS -->
 
+    <div class="results-title">
 
-    <!-- ============================= -->
-    <!-- LEAFLET -->
-    <!-- ============================= -->
+        <strong>
+            12 professores encontrados
+        </strong>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+        <span>
+            Ordenados por proximidade
+        </span>
 
+    </div>
 
-    <!-- ============================= -->
-    <!-- LEAFLET ROUTING MACHINE -->
-    <!-- ============================= -->
+    <!-- PROFESSOR 1 -->
 
-    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <article class="teacher-card">
 
+        <div class="teacher-photo">
+            👨‍🏫
+        </div>
 
-    <!-- ============================= -->
-    <!-- JAVASCRIPT DO MAPA -->
-    <!-- ============================= -->
+        <div class="teacher-info">
 
-    <script>
+            <div class="teacher-name">
 
-        /* =====================================================
-           CONFIGURAÇÃO
-        ===================================================== */
+                <h3>
+                    Carlos Silva
+                </h3>
 
-        const INSTITUICAO = [-23.5505, -46.6333];
+                <span class="rating">
+                    ⭐ 4,9
+                </span>
 
-        let mapa;
+            </div>
 
-        let marcadorInstituicao = null;
-        let marcadorUsuario = null;
-        let marcadorDestino = null;
-        let circuloUsuario = null;
-        let controleRota = null;
+            <p class="subject">
+                Matemática • Ensino Médio
+            </p>
 
+            <div class="teacher-details">
 
-        /* =====================================================
-           CRIAR MAPA
-        ===================================================== */
+                <span>
+                    📍 2,4 km
+                </span>
 
-        mapa = L.map("map", {
-            zoomControl: false
-        }).setView(INSTITUICAO, 14);
+                <span class="available">
+                    ● Disponível agora
+                </span>
 
+            </div>
 
-        /* =====================================================
-           MAPA REAL - OPENSTREETMAP
-        ===================================================== */
+            <div class="teacher-actions">
 
-        L.tileLayer(
-            "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-            {
-                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-                subdomains: "abcd",
-                maxZoom: 20
-            }
-        ).addTo(mapa);
+                <button class="profile-btn" type="button">
+                    Ver perfil
+                </button>
 
+                <button class="request-btn" type="button">
+                    Solicitar professor
+                </button>
 
-        /* =====================================================
-           CONTROLE DE ZOOM
-        ===================================================== */
+            </div>
 
-        L.control.zoom({
-            position: "bottomright"
-        }).addTo(mapa);
+        </div>
 
+    </article>
 
-        /* =====================================================
-           MARCADOR DA INSTITUIÇÃO
-        ===================================================== */
+    <!-- PROFESSOR 2 -->
 
-        marcadorInstituicao = L.marker(
-            INSTITUICAO
-        ).addTo(mapa);
+    <article class="teacher-card">
 
-        marcadorInstituicao.bindPopup(
-            "<strong>Sua instituição</strong><br>São Paulo - SP"
-        );
+        <div class="teacher-photo female">
+            👩‍🏫
+        </div>
 
+        <div class="teacher-info">
 
-        /* =====================================================
-           ATUALIZAR CARD DA ROTA
-        ===================================================== */
+            <div class="teacher-name">
 
-        function atualizarCard(titulo, distancia, tempo) {
+                <h3>
+                    Ana Oliveira
+                </h3>
 
-            document.getElementById("route-title").innerText = titulo;
+                <span class="rating">
+                    ⭐ 4,8
+                </span>
 
-            document.getElementById("route-distance").innerText = distancia;
+            </div>
 
-            document.getElementById("route-time").innerText = tempo;
+            <p class="subject">
+                Português • Ensino Fundamental
+            </p>
 
-        }
+            <div class="teacher-details">
 
+                <span>
+                    📍 4,1 km
+                </span>
 
-        /* =====================================================
-           CRIAR ROTA
-        ===================================================== */
+                <span class="available">
+                    ● Disponível hoje
+                </span>
 
-        function criarRota(
-            inicioLat,
-            inicioLng,
-            destinoLat,
-            destinoLng
-        ) {
+            </div>
 
-            if (controleRota) {
+            <div class="teacher-actions">
 
-                mapa.removeControl(controleRota);
+                <button class="profile-btn" type="button">
+                    Ver perfil
+                </button>
 
-                controleRota = null;
+                <button class="request-btn" type="button">
+                    Solicitar professor
+                </button>
 
-            }
+            </div>
 
+        </div>
 
-            atualizarCard(
-                "Calculando rota...",
-                "--",
-                "--"
-            );
+    </article>
 
+    <!-- PROFESSOR 3 -->
 
-            controleRota = L.Routing.control({
+    <article class="teacher-card">
 
-                waypoints: [
+        <div class="teacher-photo">
+            👨‍🏫
+        </div>
 
-                    L.latLng(
-                        inicioLat,
-                        inicioLng
-                    ),
+        <div class="teacher-info">
 
-                    L.latLng(
-                        destinoLat,
-                        destinoLng
-                    )
+            <div class="teacher-name">
 
-                ],
+                <h3>
+                    João Santos
+                </h3>
 
-                routeWhileDragging: false,
+                <span class="rating">
+                    ⭐ 4,7
+                </span>
 
-                showAlternatives: false,
+            </div>
 
-                addWaypoints: false,
+            <p class="subject">
+                História • Ensino Médio
+            </p>
 
-                draggableWaypoints: false,
+            <div class="teacher-details">
 
-                fitSelectedRoutes: true,
+                <span>
+                    📍 5,2 km
+                </span>
 
-                language: "pt-BR",
+                <span class="available">
+                    ● Disponível hoje
+                </span>
 
+            </div>
 
-                /* Não mostrar os marcadores padrão */
+            <div class="teacher-actions">
 
-                createMarker: function () {
-                    return null;
-                },
+                <button class="profile-btn" type="button">
+                    Ver perfil
+                </button>
 
+                <button class="request-btn" type="button">
+                    Solicitar professor
+                </button>
 
-                /* Aparência da rota */
+            </div>
 
-                lineOptions: {
+        </div>
 
-                    styles: [
+    </article>
 
-                        {
-                            color: "#ffffff",
-                            opacity: 0.9,
-                            weight: 10
-                        },
+</section>
 
-                        {
-                            color: "#111111",
-                            opacity: 0.95,
-                            weight: 7
-                        }
+<!-- PUBLICAR AULA -->
 
-                    ]
+<section class="publish-card">
 
-                },
+    <div class="publish-icon">
+        +
+    </div>
 
-                show: false
+    <div class="publish-text">
 
-            }).addTo(mapa);
+        <h2>
+            Não encontrou o professor?
+        </h2>
 
+        <p>
+            Publique a aula e deixe professores disponíveis
+            enviarem interesse na substituição.
+        </p>
 
-            /* =================================================
-               ROTA ENCONTRADA
-            ================================================= */
+    </div>
 
-            controleRota.on(
-                "routesfound",
-                function (evento) {
+    <button class="publish-button" type="button">
+        Publicar aula
+    </button>
 
-                    const rota = evento.routes[0];
+</section>
+```
 
+</main>
 
-                    const distancia =
-                        (
-                            rota.summary.totalDistance / 1000
-                        ).toFixed(1);
+<!-- Leaflet JS -->
 
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin="">
+</script>
 
-                    const tempo =
-                        Math.round(
-                            rota.summary.totalTime / 60
-                        );
+<!-- Leaflet Routing Machine -->
 
+<script
+    src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js">
+</script>
 
-                    atualizarCard(
-                        "Rota encontrada",
-                        distancia + " km",
-                        tempo + " min"
-                    );
+<!-- Seu JavaScript -->
 
-                }
-            );
-
-
-            /* =================================================
-               ERRO NA ROTA
-            ================================================= */
-
-            controleRota.on(
-                "routingerror",
-                function () {
-
-                    atualizarCard(
-                        "Não foi possível calcular",
-                        "--",
-                        "--"
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           LOCALIZAÇÃO DO USUÁRIO
-        ===================================================== */
-
-        function localizarUsuario() {
-
-            if (!navigator.geolocation) {
-
-                alert(
-                    "Seu navegador não suporta localização."
-                );
-
-                return;
-
-            }
-
-
-            navigator.geolocation.getCurrentPosition(
-
-                function (position) {
-
-                    const latitude =
-                        position.coords.latitude;
-
-                    const longitude =
-                        position.coords.longitude;
-
-
-                    /* Remove marcador antigo */
-
-                    if (marcadorUsuario) {
-
-                        mapa.removeLayer(
-                            marcadorUsuario
-                        );
-
-                    }
-
-
-                    if (circuloUsuario) {
-
-                        mapa.removeLayer(
-                            circuloUsuario
-                        );
-
-                    }
-
-
-                    /* =================================================
-                       PONTO AZUL
-                    ================================================= */
-
-                    marcadorUsuario =
-                        L.circleMarker(
-                            [
-                                latitude,
-                                longitude
-                            ],
-                            {
-                                radius: 9,
-                                color: "#ffffff",
-                                weight: 3,
-                                fillColor: "#1473e6",
-                                fillOpacity: 1
-                            }
-                        ).addTo(mapa);
-
-
-                    marcadorUsuario.bindPopup(
-                        "<strong>Você está aqui</strong>"
-                    );
-
-
-                    /* =================================================
-                       CÍRCULO DE PRECISÃO
-                    ================================================= */
-
-                    circuloUsuario =
-                        L.circle(
-                            [
-                                latitude,
-                                longitude
-                            ],
-                            {
-                                radius:
-                                    position.coords.accuracy || 100,
-
-                                color: "#1473e6",
-
-                                fillColor: "#1473e6",
-
-                                fillOpacity: 0.08,
-
-                                weight: 1
-                            }
-                        ).addTo(mapa);
-
-
-                    /* =================================================
-                       CENTRALIZAR MAPA
-                    ================================================= */
-
-                    mapa.setView(
-                        [
-                            latitude,
-                            longitude
-                        ],
-                        15
-                    );
-
-
-                    /* =================================================
-                       ROTA ATÉ A INSTITUIÇÃO
-                    ================================================= */
-
-                    criarRota(
-                        latitude,
-                        longitude,
-                        INSTITUICAO[0],
-                        INSTITUICAO[1]
-                    );
-
-                },
-
-
-                function () {
-
-                    alert(
-                        "Não foi possível acessar sua localização. Verifique a permissão do navegador."
-                    );
-
-                },
-
-
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-
-            );
-
-        }
-
-
-        /* =====================================================
-           BOTÃO MINHA LOCALIZAÇÃO
-        ===================================================== */
-
-        document
-            .getElementById("location-button")
-            .addEventListener(
-                "click",
-                localizarUsuario
-            );
-
-
-        /* =====================================================
-           PESQUISA DE ENDEREÇO
-        ===================================================== */
-
-        async function pesquisarEndereco() {
-
-            const campo =
-                document.getElementById(
-                    "address-search"
-                );
-
-
-            const endereco =
-                campo.value.trim();
-
-
-            if (!endereco) {
-
-                alert(
-                    "Digite um endereço."
-                );
-
-                return;
-
-            }
-
-
-            atualizarCard(
-                "Pesquisando...",
-                "--",
-                "--"
-            );
-
-
-            try {
-
-                const resposta =
-                    await fetch(
-                        "https://nominatim.openstreetmap.org/search" +
-                        "?format=json" +
-                        "&limit=1" +
-                        "&countrycodes=br" +
-                        "&q=" +
-                        encodeURIComponent(endereco)
-                    );
-
-
-                const dados =
-                    await resposta.json();
-
-
-                if (!dados.length) {
-
-                    alert(
-                        "Endereço não encontrado."
-                    );
-
-                    return;
-
-                }
-
-
-                const latitude =
-                    parseFloat(
-                        dados[0].lat
-                    );
-
-
-                const longitude =
-                    parseFloat(
-                        dados[0].lon
-                    );
-
-
-                /* Remove destino antigo */
-
-                if (marcadorDestino) {
-
-                    mapa.removeLayer(
-                        marcadorDestino
-                    );
-
-                }
-
-
-                /* =================================================
-                   NOVO MARCADOR
-                ================================================= */
-
-                marcadorDestino =
-                    L.marker(
-                        [
-                            latitude,
-                            longitude
-                        ]
-                    ).addTo(mapa);
-
-
-                marcadorDestino.bindPopup(
-                    "<strong>Destino</strong>"
-                ).openPopup();
-
-
-                /* =================================================
-                   CENTRALIZAR
-                ================================================= */
-
-                mapa.setView(
-                    [
-                        latitude,
-                        longitude
-                    ],
-                    16
-                );
-
-
-                /* =================================================
-                   CRIAR ROTA
-                ================================================= */
-
-                if (marcadorUsuario) {
-
-                    const pos =
-                        marcadorUsuario.getLatLng();
-
-
-                    criarRota(
-                        pos.lat,
-                        pos.lng,
-                        latitude,
-                        longitude
-                    );
-
-                } else {
-
-                    criarRota(
-                        INSTITUICAO[0],
-                        INSTITUICAO[1],
-                        latitude,
-                        longitude
-                    );
-
-                }
-
-            }
-
-            catch (erro) {
-
-                console.error(erro);
-
-                alert(
-                    "Erro ao pesquisar o endereço."
-                );
-
-            }
-
-        }
-
-
-        /* =====================================================
-           BOTÃO PESQUISAR
-        ===================================================== */
-
-        document
-            .getElementById("search-button")
-            .addEventListener(
-                "click",
-                pesquisarEndereco
-            );
-
-
-        /* =====================================================
-           ENTER NA PESQUISA
-        ===================================================== */
-
-        document
-            .getElementById("address-search")
-            .addEventListener(
-                "keydown",
-                function (evento) {
-
-                    if (evento.key === "Enter") {
-
-                        pesquisarEndereco();
-
-                    }
-
-                }
-            );
-
-
-        /* =====================================================
-           CLICAR NO MAPA
-        ===================================================== */
-
-        mapa.on(
-            "click",
-            function (evento) {
-
-                const latitude =
-                    evento.latlng.lat;
-
-                const longitude =
-                    evento.latlng.lng;
-
-
-                /* Remove marcador antigo */
-
-                if (marcadorDestino) {
-
-                    mapa.removeLayer(
-                        marcadorDestino
-                    );
-
-                }
-
-
-                /* =================================================
-                   NOVO DESTINO
-                ================================================= */
-
-                marcadorDestino =
-                    L.marker(
-                        [
-                            latitude,
-                            longitude
-                        ]
-                    ).addTo(mapa);
-
-
-                marcadorDestino.bindPopup(
-                    "<strong>Destino selecionado</strong>"
-                ).openPopup();
-
-
-                /* =================================================
-                   CRIAR ROTA
-                ================================================= */
-
-                if (marcadorUsuario) {
-
-                    const pos =
-                        marcadorUsuario.getLatLng();
-
-
-                    criarRota(
-                        pos.lat,
-                        pos.lng,
-                        latitude,
-                        longitude
-                    );
-
-                } else {
-
-                    criarRota(
-                        INSTITUICAO[0],
-                        INSTITUICAO[1],
-                        latitude,
-                        longitude
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =====================================================
-           CORRIGIR TAMANHO DO MAPA
-        ===================================================== */
-
-        setTimeout(
-            function () {
-
-                mapa.invalidateSize();
-
-            },
-            400
-        );
-
-    </script>
-    ```
+<script src="{% static 'usuarios/css/js/mapains.js' %}"></script>
 
 </body>
-
 </html>
