@@ -1,7 +1,6 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="pt-br">
 
 <head>
@@ -10,32 +9,49 @@
 
     <title>Instituição | Inovação TEP</title>
 
-    <!-- Seu CSS -->
-    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}">
+    <!-- CSS principal da página Instituição -->
+    <link
+        rel="stylesheet"
+        href="{% static 'usuarios/css/instituicao/instituicao.css' %}"
+    >
+
+    <!-- CSS dos componentes de Perfil e Colaborador -->
+    <link
+        rel="stylesheet"
+        href="{% static 'usuarios/css/componentes/perfis.css' %}"
+    >
 
     <!-- CSS do Mapbox -->
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css">
-
+    <link
+        rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css"
+    >
 </head>
 
 <body>
 
+    <!-- CABEÇALHO -->
     <header class="topbar">
 
+        <!-- LOGO -->
         <div class="logo">
             <span>INOVAÇÃO</span> TEP
         </div>
 
+        <!-- LADO DIREITO -->
         <div class="header-right">
 
+            <!-- PERFIL / COLABORADOR -->
+            {% include 'instituicao/componentes/perfis.html' %}
+
+            <!-- NOTIFICAÇÕES -->
             <button class="notification" type="button">
                 🔔
             </button>
 
-            <button class="profile-button" type="button">
-                👤
-                <span>Perfil</span>
-            </button>
+        </div>
+
+    </header>
 
         </div>
 

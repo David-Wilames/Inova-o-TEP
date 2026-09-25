@@ -1,0 +1,253 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Adicionar Instituição | Inovação TEP</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'usuarios/css/instituicao/adicionar_instituicao.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="pagina-cadastro">
+
+        <section class="cadastro-card">
+
+            <div class="cadastro-header">
+
+                <div class="cadastro-icone">
+                    🏫
+                </div>
+
+                <div>
+
+                    <span class="cadastro-label">
+                        INOVAÇÃO TEP
+                    </span>
+
+                    <h1>
+                        Adicionar instituição
+                    </h1>
+
+                    <p>
+                        Cadastre as informações da escola e da aula.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                <!-- DADOS DA ESCOLA -->
+
+                <div class="secao-formulario">
+
+                    <h2>🏫 Dados da escola</h2>
+
+                    <div class="campo">
+
+                        <label for="nome_escola">
+                            Nome da escola
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome_escola"
+                            name="nome_escola"
+                            placeholder="Digite o nome da escola"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="linha">
+
+                        <div class="campo">
+
+                            <label for="numero_escola">
+                                Número da escola
+                            </label>
+
+                            <input
+                                type="text"
+                                id="numero_escola"
+                                name="numero_escola"
+                                placeholder="Ex.: 123"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="cep">
+                                CEP
+                            </label>
+
+                            <input
+                                type="text"
+                                id="cep"
+                                name="cep"
+                                placeholder="00000-000"
+                                maxlength="9"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DADOS DA AULA -->
+
+                <div class="secao-formulario">
+
+                    <h2>📚 Dados da aula</h2>
+
+                    <div class="campo">
+
+                        <label for="materia">
+                            Matéria
+                        </label>
+
+                        <input
+                            type="text"
+                            id="materia"
+                            name="materia"
+                            placeholder="Ex.: Matemática"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="linha">
+
+                        <div class="campo">
+
+                            <label for="tipo_aula">
+                                Tipo
+                            </label>
+
+                            <select
+                                id="tipo_aula"
+                                name="tipo_aula"
+                                required
+                            >
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="aula">
+                                    Aula
+                                </option>
+
+                                <option value="horas">
+                                    Horas
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="quantidade">
+                                Quantidade
+                            </label>
+
+                            <input
+                                type="number"
+                                id="quantidade"
+                                name="quantidade"
+                                min="1"
+                                placeholder="Ex.: 2"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESPONSÁVEL -->
+
+                <div class="secao-formulario">
+
+                    <h2>👤 Responsável pela solicitação</h2>
+
+                    <div class="campo">
+
+                        <label for="responsavel">
+                            Nome do responsável
+                        </label>
+
+                        <input
+                            type="text"
+                            id="responsavel"
+                            name="responsavel"
+                            placeholder="Nome completo"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTÕES -->
+
+                <div class="acoes">
+
+                    <button
+                        type="button"
+                        class="botao-voltar"
+                        onclick="history.back()"
+                    >
+                        ← Voltar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="botao-cadastrar"
+                    >
+                        Adicionar instituição
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

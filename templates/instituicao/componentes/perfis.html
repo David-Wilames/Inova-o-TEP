@@ -1,0 +1,133 @@
+<div class="perfis-container">
+
+    <!-- =====================================================
+         COLABORADOR
+    ====================================================== -->
+
+    <button
+        class="perfil-card perfil-colaborador"
+        type="button"
+        onclick="avisarColaborador()"
+    >
+        <div class="perfil-icone">
+            <span>👤</span>
+        </div>
+
+        <div class="perfil-info">
+            <span class="perfil-label">ACESSAR COMO</span>
+            <strong>Colaborador</strong>
+        </div>
+
+        <div class="perfil-seta">
+            →
+        </div>
+    </button>
+
+
+    <!-- =====================================================
+         INSTITUIÇÃO
+    ====================================================== -->
+
+    <button
+        class="perfil-card perfil-instituicao"
+        type="button"
+        onclick="abrirMenuInstituicao()"
+    >
+        <div class="perfil-icone">
+            <span>🏫</span>
+        </div>
+
+        <div class="perfil-info">
+            <span class="perfil-label">ACESSAR COMO</span>
+            <strong>Instituição</strong>
+        </div>
+
+        <div class="perfil-seta">
+            →
+        </div>
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     MENU DA INSTITUIÇÃO
+===================================================== -->
+
+<div
+    id="menu-instituicao"
+    class="menu-instituicao"
+>
+
+    <div class="menu-instituicao-titulo">
+
+        <span>🏫</span>
+
+        <strong>
+            Área da Instituição
+        </strong>
+
+    </div>
+
+
+    <!-- ADICIONAR INSTITUIÇÃO -->
+
+    <a
+        href="{% url 'adicionar_instituicao' %}"
+        class="opcao-instituicao"
+    >
+        <span>➕</span>
+
+        <span>
+            Adicionar instituição
+        </span>
+    </a>
+
+
+    <!-- MINHA INSTITUIÇÃO -->
+
+    <button
+        type="button"
+        class="opcao-instituicao"
+    >
+        <span>🏫</span>
+
+        <span>
+            Minha instituição
+        </span>
+    </button>
+
+
+    <!-- LOCALIZAR NO MAPA -->
+
+    <button
+        type="button"
+        class="opcao-instituicao"
+    >
+        <span>📍</span>
+
+        <span>
+            Localizar no mapa
+        </span>
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+function abrirMenuInstituicao() {
+
+    const menu = document.getElementById(
+        "menu-instituicao"
+    );
+
+    menu.classList.toggle("mostrar");
+
+}
+
+</script>

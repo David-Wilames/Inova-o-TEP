@@ -1,0 +1,451 @@
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.perfis-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.perfil-card {
+    position: relative;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 5px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+
+    transition:
+        width 0.4s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+/* =====================================================
+   ÍCONE
+===================================================== */
+
+.perfil-icone {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    font-size: 21px;
+
+    transition:
+        transform 0.4s ease,
+        background 0.3s ease;
+}
+
+
+/* =====================================================
+   COLABORADOR
+===================================================== */
+
+.perfil-colaborador .perfil-icone {
+    background: #eef2ff;
+}
+
+
+/* =====================================================
+   INSTITUIÇÃO
+===================================================== */
+
+.perfil-instituicao .perfil-icone {
+    background: #ecfdf5;
+}
+
+
+/* =====================================================
+   INFORMAÇÕES
+===================================================== */
+
+.perfil-info {
+    width: 0;
+
+    opacity: 0;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    margin-left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        width 0.4s ease,
+        opacity 0.25s ease,
+        margin-left 0.4s ease;
+}
+
+
+.perfil-label {
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #9ca3af;
+}
+
+
+.perfil-info strong {
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #171717;
+}
+
+
+/* =====================================================
+   SETA
+===================================================== */
+
+.perfil-seta {
+    width: 0;
+
+    opacity: 0;
+
+    overflow: hidden;
+
+    margin-left: 0;
+
+    font-size: 16px;
+
+    transition:
+        width 0.4s ease,
+        opacity 0.3s ease,
+        margin-left 0.4s ease,
+        transform 0.3s ease;
+}
+
+
+/* =====================================================
+   HOVER DO CARD
+===================================================== */
+
+.perfil-card:hover {
+    width: 190px;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =====================================================
+   MOSTRAR TEXTO
+===================================================== */
+
+.perfil-card:hover .perfil-info {
+    width: 105px;
+
+    opacity: 1;
+
+    margin-left: 10px;
+}
+
+
+/* =====================================================
+   MOSTRAR SETA
+===================================================== */
+
+.perfil-card:hover .perfil-seta {
+    width: 25px;
+
+    opacity: 1;
+
+    margin-left: auto;
+}
+
+
+/* =====================================================
+   ANIMAÇÃO DO ÍCONE
+===================================================== */
+
+.perfil-card:hover .perfil-icone {
+    transform: scale(1.08);
+}
+
+
+/* =====================================================
+   HOVER COLABORADOR
+===================================================== */
+
+.perfil-colaborador:hover {
+    border-color: #6366f1;
+}
+
+
+.perfil-colaborador:hover .perfil-icone {
+    background: #e0e7ff;
+
+    transform:
+        scale(1.08)
+        rotate(-5deg);
+}
+
+
+.perfil-colaborador:hover .perfil-seta {
+    color: #6366f1;
+
+    transform: translateX(4px);
+}
+
+
+/* =====================================================
+   HOVER INSTITUIÇÃO
+===================================================== */
+
+.perfil-instituicao:hover {
+    border-color: #10b981;
+}
+
+
+.perfil-instituicao:hover .perfil-icone {
+    background: #d1fae5;
+
+    transform:
+        scale(1.08)
+        rotate(5deg);
+}
+
+
+.perfil-instituicao:hover .perfil-seta {
+    color: #10b981;
+
+    transform: translateX(4px);
+}
+
+
+/* =====================================================
+   CLIQUE
+===================================================== */
+
+.perfil-card:active {
+    transform: scale(0.96);
+}
+
+
+/* =====================================================
+   MENU DA INSTITUIÇÃO
+===================================================== */
+
+.menu-instituicao {
+    position: fixed;
+
+    top: 90px;
+    right: 25px;
+
+    width: 270px;
+
+    padding: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.14);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(-10px)
+        scale(0.96);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
+
+    z-index: 9998;
+}
+
+
+/* =====================================================
+   MENU ABERTO
+===================================================== */
+
+.menu-instituicao.mostrar {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+/* =====================================================
+   TÍTULO DO MENU
+===================================================== */
+
+.menu-instituicao-titulo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        10px
+        12px
+        14px;
+
+    margin-bottom: 5px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    color: #171717;
+
+    font-size: 14px;
+}
+
+
+.menu-instituicao-titulo span {
+    font-size: 22px;
+}
+
+
+/* =====================================================
+   OPÇÕES
+===================================================== */
+
+.opcao-instituicao {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #333333;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* =====================================================
+   ÍCONE DAS OPÇÕES
+===================================================== */
+
+.opcao-instituicao span:first-child {
+    width: 32px;
+
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #ecfdf5;
+
+    font-size: 17px;
+}
+
+
+/* =====================================================
+   HOVER DAS OPÇÕES
+===================================================== */
+
+.opcao-instituicao:hover {
+    background: #f0fdf4;
+
+    transform: translateX(4px);
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 800px) {
+
+    .perfil-card {
+        width: 50px;
+        height: 50px;
+    }
+
+    .perfil-icone {
+        width: 40px;
+        height: 40px;
+
+        min-width: 40px;
+    }
+
+    .perfil-card:hover {
+        width: 170px;
+    }
+
+    .menu-instituicao {
+        right: 15px;
+
+        width: 250px;
+    }
+}
