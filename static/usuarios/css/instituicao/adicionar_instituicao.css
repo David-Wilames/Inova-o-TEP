@@ -151,7 +151,8 @@ body {
 
 
 .campo input,
-.campo select {
+.campo select,
+.campo textarea {
     width: 100%;
 
     height: 46px;
@@ -173,9 +174,22 @@ body {
         box-shadow 0.2s ease;
 }
 
+.campo input,
+.campo select {
+    height: 46px;
+}
+
+.campo textarea {
+    min-height: 110px;
+    padding: 12px 14px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
 
 .campo input:focus,
-.campo select:focus {
+.campo select:focus,
+.campo textarea {
     border-color: #10b981;
 
     box-shadow:
@@ -292,4 +306,6 @@ body {
     .botao-cadastrar {
         width: 100%;
     }
+
+
 }

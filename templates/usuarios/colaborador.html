@@ -1,0 +1,454 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Colaborador | Inovação TEP</title>
+
+    <!-- CSS da página da instituição -->
+    <link
+        rel="stylesheet"
+        href="{% static 'usuarios/css/instituicao/instituicao.css' %}"
+    >
+
+    <!-- CSS dos componentes -->
+    <link
+        rel="stylesheet"
+        href="{% static 'usuarios/css/componentes/perfis.css' %}"
+    >
+
+    <!-- Mapbox -->
+    <link
+        rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css"
+    >
+</head>
+
+<body>
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <!-- LOGO -->
+        <div class="logo">
+            <span>INOVAÇÃO</span> TEP
+        </div>
+
+        <!-- LADO DIREITO -->
+        <div class="header-right">
+
+            <!-- PERFIL DO COLABORADOR -->
+            <button
+                class="perfil-button"
+                type="button"
+            >
+                👤 Colaborador
+            </button>
+
+            <!-- NOTIFICAÇÕES -->
+            <button
+                class="notification"
+                type="button"
+            >
+                🔔
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
+
+    <main class="container">
+
+        <!-- APRESENTAÇÃO -->
+        <section class="welcome">
+
+            <p class="small-title">
+                PAINEL DO COLABORADOR
+            </p>
+
+            <h1>
+                Encontre oportunidades<br>
+                de substituição.
+            </h1>
+
+            <p class="subtitle">
+                Encontre instituições próximas que precisam
+                de professores para substituir suas aulas.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             LOCALIZAÇÃO
+        ================================================== -->
+
+        <section class="location-card">
+
+            <div class="location-icon">
+                📍
+            </div>
+
+            <div class="location-info">
+
+                <span>
+                    MINHA LOCALIZAÇÃO
+                </span>
+
+                <strong>
+                    Minha localização
+                </strong>
+
+                <p>
+                    Cajamar - SP
+                </p>
+
+            </div>
+
+            <button
+                class="change-location"
+                type="button"
+            >
+                Alterar
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             MAPA
+        ================================================== -->
+
+        <section class="search-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Oportunidades próximas
+                    </h2>
+
+                    <p>
+                        Instituições que procuram professores para substituição.
+                    </p>
+
+                </div>
+
+                <button
+                    class="filter-button"
+                    type="button"
+                >
+                    ⚙ Filtros
+                </button>
+
+            </div>
+
+
+            <!-- MAPA -->
+            <div class="uber-map-container">
+
+                <!-- BOTÃO LOCALIZAÇÃO -->
+                <button
+                    id="location-button"
+                    class="location-button"
+                    type="button"
+                    title="Usar minha localização"
+                >
+                    ⦿
+                </button>
+
+                <!-- MAPA MAPBOX -->
+                <div id="map"></div>
+
+
+                <!-- CARTÃO DA ROTA -->
+                <div class="uber-route-card">
+
+                    <div class="route-card-top">
+
+                        <div>
+
+                            <span class="route-label">
+                                ROTA
+                            </span>
+
+                            <strong id="route-title">
+                                Minha localização
+                            </strong>
+
+                        </div>
+
+                        <div class="route-icon">
+                            📍
+                        </div>
+
+                    </div>
+
+
+                    <div class="route-line"></div>
+
+
+                    <div class="route-details">
+
+                        <div class="route-detail">
+
+                            <span class="detail-icon">
+                                ↔
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Distância
+                                </small>
+
+                                <strong id="route-distance">
+                                    --
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="route-detail">
+
+                            <span class="detail-icon">
+                                ◷
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Tempo estimado
+                                </small>
+
+                                <strong id="route-time">
+                                    --
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 OPORTUNIDADES
+            ================================================== -->
+
+            <div class="results-title">
+
+                <strong>
+                    Oportunidades encontradas
+                </strong>
+
+                <span>
+                    Ordenadas por proximidade
+                </span>
+
+            </div>
+
+
+            <!-- OPORTUNIDADE 1 -->
+            <article class="teacher-card">
+
+                <div class="teacher-photo">
+                    🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            Escola Municipal de Cajamar
+                        </h3>
+
+                    </div>
+
+                    <p class="subject">
+                        Matemática • Ensino Médio
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 2,4 km
+                        </span>
+
+                        <span class="available">
+                            ● Aula disponível
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button
+                            class="profile-btn"
+                            type="button"
+                        >
+                            Ver oportunidade
+                        </button>
+
+                        <button
+                            class="request-btn"
+                            type="button"
+                        >
+                            Tenho interesse
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- OPORTUNIDADE 2 -->
+            <article class="teacher-card">
+
+                <div class="teacher-photo female">
+                    🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            Colégio Nova Geração
+                        </h3>
+
+                    </div>
+
+                    <p class="subject">
+                        Português • Ensino Fundamental
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 4,1 km
+                        </span>
+
+                        <span class="available">
+                            ● Aula disponível hoje
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button
+                            class="profile-btn"
+                            type="button"
+                        >
+                            Ver oportunidade
+                        </button>
+
+                        <button
+                            class="request-btn"
+                            type="button"
+                        >
+                            Tenho interesse
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- OPORTUNIDADE 3 -->
+            <article class="teacher-card">
+
+                <div class="teacher-photo">
+                    🏫
+                </div>
+
+                <div class="teacher-info">
+
+                    <div class="teacher-name">
+
+                        <h3>
+                            Escola Estadual Professor Santos
+                        </h3>
+
+                    </div>
+
+                    <p class="subject">
+                        História • Ensino Médio
+                    </p>
+
+                    <div class="teacher-details">
+
+                        <span>
+                            📍 5,2 km
+                        </span>
+
+                        <span class="available">
+                            ● Aula disponível hoje
+                        </span>
+
+                    </div>
+
+                    <div class="teacher-actions">
+
+                        <button
+                            class="profile-btn"
+                            type="button"
+                        >
+                            Ver oportunidade
+                        </button>
+
+                        <button
+                            class="request-btn"
+                            type="button"
+                        >
+                            Tenho interesse
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         MAPBOX
+    ====================================================== -->
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.js"></script>
+
+    <!-- SEU JAVASCRIPT DO MAPA -->
+    <script src="{% static 'usuarios/js/mapains.js' %}"></script>
+
+</body>
+
+</html>
