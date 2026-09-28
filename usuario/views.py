@@ -72,3 +72,9 @@ def cadastro_colaborador(request):
         'usuarios/cadastro.html',
         {'form': form}
     )
+
+def adicionar_informacoes (request):
+    return render(
+        request,
+        'usuarios/adicionar_informacoes.html'
+    )

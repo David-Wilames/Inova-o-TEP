@@ -28,14 +28,16 @@
             <span>Informações do colaborador</span>
         </button>
 
+        <button type="button" class="menu-colaborador-item" onclick="adicionarInformacoesColaborador()">
+            <span class="menu-colaborador-icone">➕</span>
+            <span>Adicionar informações</span>
+            
+        </button>
+
+
         <button type="button" class="menu-colaborador-item">
             <span class="menu-colaborador-icone">⭐</span>
             <span>Avaliações</span>
-        </button>
-
-        <button type="button" class="menu-colaborador-item">
-            <span class="menu-colaborador-icone">⚙️</span>
-            <span>Configurações</span>
         </button>
 
         <button type="button" class="menu-colaborador-item menu-colaborador-sair" onclick="sairColaborador()">
@@ -47,9 +49,7 @@
 
 </div>
 <script>
-
     function abrirMenuColaborador() {
-
         const menu = document.getElementById("menu-colaborador");
 
         if (!menu) {
@@ -59,11 +59,11 @@
         menu.classList.toggle("mostrar");
     }
 
-
-    function sairColaborador() {
-
-        window.location.href = "/usuario/login/colaborador/";
-
+    function adicionarInformacoesColaborador() {
+        window.location.href = "{% url 'adicionar_informacoes' %}";
     }
 
+    function sairColaborador() {
+        window.location.href = "/usuario/login/colaborador/";
+    }
 </script>

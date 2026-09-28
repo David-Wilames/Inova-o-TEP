@@ -1,0 +1,593 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'usuarios/css/adicionar_informacoes.css' %}">
+
+    <title>Adicionar informações | Inovação TEP</title>
+
+    <link rel="stylesheet"
+          href="{% static 'usuarios/css/adicionar_informacoes.css' %}">
+</head>
+
+<body>
+
+    <div class="pagina-container">
+
+        <!-- CABEÇALHO -->
+        <header class="cabecalho">
+
+            <div class="logo">
+                INOVAÇÃO TEP
+            </div>
+
+            <div class="cabecalho-titulo">
+                Completar perfil
+            </div>
+
+        </header>
+
+
+        <!-- CONTEÚDO -->
+        <main class="conteudo">
+
+            <div class="formulario-container">
+
+                <div class="formulario-cabecalho">
+
+                    <h1>
+                        Adicionar informações
+                    </h1>
+
+                    <p>
+                        Complete suas informações para que as instituições
+                        possam conhecer melhor o seu perfil.
+                    </p>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- ========================= -->
+                    <!-- DADOS PESSOAIS -->
+                    <!-- ========================= -->
+
+                    <section class="form-section">
+
+                        <h2>👤 Dados pessoais</h2>
+
+                        <div class="campo">
+
+                            <label for="nome">
+                                Nome completo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nome"
+                                name="nome"
+                                placeholder="Digite seu nome completo"
+                                required
+                            >
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ========================= -->
+                    <!-- ENDEREÇO -->
+                    <!-- ========================= -->
+
+                    <section class="form-section">
+
+                        <h2>📍 Endereço</h2>
+
+                        <div class="campos-grid">
+
+                            <div class="campo">
+
+                                <label for="cep">
+                                    CEP
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="cep"
+                                    name="cep"
+                                    placeholder="00000-000"
+                                    maxlength="9"
+                                >
+
+                            </div>
+
+
+                            <div class="campo">
+
+                                <label for="numero">
+                                    Número da casa
+                                    <span>(opcional)</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="numero"
+                                    name="numero"
+                                    placeholder="Ex.: 123"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="rua">
+                                Rua
+                            </label>
+
+                            <input
+                                type="text"
+                                id="rua"
+                                name="rua"
+                                placeholder="Digite sua rua"
+                            >
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ========================= -->
+                    <!-- MATÉRIA -->
+                    <!-- ========================= -->
+
+                    <section class="form-section">
+
+                        <h2>📚 Área de atuação</h2>
+
+                        <div class="campo">
+
+                            <label for="materia">
+                                Matéria principal
+                            </label>
+
+                            <input
+                                type="text"
+                                id="materia"
+                                name="materia"
+                                placeholder="Ex.: Matemática"
+                            >
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ========================= -->
+                    <!-- DISPONIBILIDADE -->
+                    <!-- ========================= -->
+
+                    <section class="form-section">
+
+                        <h2>🕐 Disponibilidade</h2>
+
+                        <div class="campo">
+
+                            <label>
+                                Como você está disponível?
+                            </label>
+
+                            <div class="opcoes-disponibilidade">
+
+                                <label class="opcao">
+
+                                    <input
+                                        type="checkbox"
+                                        id="tempo_integral"
+                                        name="tempo_integral"
+                                        value="sim"
+                                    >
+
+                                    <span>
+                                        Tempo integral
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="horarios-container"
+                            id="horarios-container"
+                        >
+
+                            <div class="campos-grid">
+
+                                <div class="campo">
+
+                                    <label for="inicio">
+                                        Horário inicial
+                                    </label>
+
+                                    <input
+                                        type="time"
+                                        id="inicio"
+                                        name="horario_inicio"
+                                    >
+
+                                </div>
+
+
+                                <div class="campo">
+
+                                    <label for="fim">
+                                        Horário final
+                                    </label>
+
+                                    <input
+                                        type="time"
+                                        id="fim"
+                                        name="horario_fim"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ========================= -->
+                    <!-- FORMAÇÃO -->
+                    <!-- ========================= -->
+
+                    <section class="form-section">
+
+                        <h2>🎓 Formação</h2>
+
+                        <div class="campo">
+
+                            <label for="formacao">
+                                Formação acadêmica
+                            </label>
+
+                            <input
+                                type="text"
+                                id="formacao"
+                                name="formacao"
+                                placeholder="Ex.: Licenciatura em Matemática"
+                            >
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="pos_graduacao">
+                                Pós-graduação / especialização
+                                <span>(opcional)</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="pos_graduacao"
+                                name="pos_graduacao"
+                                placeholder="Ex.: Educação Matemática"
+                            >
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ========================= -->
+                    <!-- DISCIPLINAS -->
+                    <!-- ========================= -->
+
+                    <section class="form-section">
+
+                        <h2>📖 Disciplinas</h2>
+
+                        <p class="descricao">
+                            Selecione as disciplinas que você pode lecionar.
+                        </p>
+
+
+                        <div class="disciplinas-container">
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="qualquer"
+                                    id="qualquer-disciplina"
+                                >
+
+                                <span>
+                                    Qualquer disciplina
+                                </span>
+
+                            </label>
+
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="matematica"
+                                >
+
+                                <span>
+                                    Matemática
+                                </span>
+
+                            </label>
+
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="portugues"
+                                >
+
+                                <span>
+                                    Português
+                                </span>
+
+                            </label>
+
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="historia"
+                                >
+
+                                <span>
+                                    História
+                                </span>
+
+                            </label>
+
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="geografia"
+                                >
+
+                                <span>
+                                    Geografia
+                                </span>
+
+                            </label>
+
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="ciencias"
+                                >
+
+                                <span>
+                                    Ciências
+                                </span>
+
+                            </label>
+
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="fisica"
+                                >
+
+                                <span>
+                                    Física
+                                </span>
+
+                            </label>
+
+
+                            <label class="disciplina-opcao">
+
+                                <input
+                                    type="checkbox"
+                                    name="disciplinas"
+                                    value="quimica"
+                                >
+
+                                <span>
+                                    Química
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ========================= -->
+                    <!-- OBSERVAÇÕES -->
+                    <!-- ========================= -->
+
+                    <section class="form-section">
+
+                        <h2>📝 Observações</h2>
+
+                        <div class="campo">
+
+                            <label for="observacoes">
+                                Fale um pouco mais sobre você
+                            </label>
+
+                            <textarea
+                                id="observacoes"
+                                name="observacoes"
+                                rows="6"
+                                maxlength="1000"
+                                placeholder="Adicione informações que possam ser importantes para as instituições..."
+                            ></textarea>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ========================= -->
+                    <!-- BOTÕES -->
+                    <!-- ========================= -->
+
+                    <div class="botoes-formulario">
+
+                        <button
+                            type="button"
+                            class="botao-voltar"
+                            onclick="history.back()"
+                        >
+                            Voltar
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="botao-salvar"
+                        >
+                            Salvar informações
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        // ===============================
+        // TEMPO INTEGRAL
+        // ===============================
+
+        const tempoIntegral =
+            document.getElementById("tempo_integral");
+
+        const horariosContainer =
+            document.getElementById("horarios-container");
+
+
+        tempoIntegral.addEventListener("change", function () {
+
+            if (this.checked) {
+
+                horariosContainer.style.display = "none";
+
+            } else {
+
+                horariosContainer.style.display = "block";
+
+            }
+
+        });
+
+
+        // ===============================
+        // QUALQUER DISCIPLINA
+        // ===============================
+
+        const qualquerDisciplina =
+            document.getElementById("qualquer-disciplina");
+
+        const disciplinas =
+            document.querySelectorAll(
+                'input[name="disciplinas"]:not(#qualquer-disciplina)'
+            );
+
+
+        qualquerDisciplina.addEventListener("change", function () {
+
+            if (this.checked) {
+
+                disciplinas.forEach(function (disciplina) {
+
+                    disciplina.checked = false;
+                    disciplina.disabled = true;
+
+                });
+
+            } else {
+
+                disciplinas.forEach(function (disciplina) {
+
+                    disciplina.disabled = false;
+
+                });
+
+            }
+
+        });
+
+
+        // ===============================
+        // MÁSCARA CEP
+        // ===============================
+
+        const cep =
+            document.getElementById("cep");
+
+        cep.addEventListener("input", function () {
+
+            let valor = this.value.replace(/\D/g, "");
+
+            if (valor.length > 5) {
+
+                valor =
+                    valor.substring(0, 5)
+                    + "-"
+                    + valor.substring(5, 8);
+
+            }
+
+            this.value = valor;
+
+        });
+
+    </script>
+
+</body>
+
+</html>

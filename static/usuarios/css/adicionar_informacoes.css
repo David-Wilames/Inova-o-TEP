@@ -1,0 +1,603 @@
+
+/* =========================================================
+   CONFIGURAÇÕES GERAIS
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #171717;
+    min-height: 100vh;
+}
+
+/* =========================================================
+   CONTAINER PRINCIPAL
+========================================================= */
+
+.pagina-container {
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.cabecalho {
+    width: 100%;
+    height: 72px;
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 45px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* LOGO */
+
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #111827;
+}
+
+/* TÍTULO DO CABEÇALHO */
+
+.cabecalho-titulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* =========================================================
+   CONTEÚDO
+========================================================= */
+
+.conteudo {
+    width: 100%;
+    padding: 45px 20px 70px;
+}
+
+/* =========================================================
+   CONTAINER DO FORMULÁRIO
+========================================================= */
+
+.formulario-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.06);
+
+    border: 1px solid #e5e7eb;
+}
+
+/* =========================================================
+   CABEÇALHO DO FORMULÁRIO
+========================================================= */
+
+.formulario-cabecalho {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.formulario-cabecalho h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+.formulario-cabecalho p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7280;
+    max-width: 650px;
+}
+
+/* =========================================================
+   SEÇÕES DO FORMULÁRIO
+========================================================= */
+
+.form-section {
+    padding: 28px 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.form-section:first-of-type {
+    padding-top: 0;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+}
+
+/* TÍTULO DA SEÇÃO */
+
+.form-section h2 {
+    font-size: 19px;
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 20px;
+}
+
+/* =========================================================
+   CAMPOS
+========================================================= */
+
+.campo {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.campo:last-child {
+    margin-bottom: 0;
+}
+
+.campo label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #374151;
+}
+
+.campo label span {
+    font-size: 12px;
+    font-weight: 400;
+    color: #9ca3af;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.campo input[type="text"],
+.campo input[type="time"],
+.campo input[type="email"],
+.campo input[type="number"] {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+    color: #9ca3af;
+}
+
+/* INPUT FOCADO */
+
+.campo input[type="text"]:focus,
+.campo input[type="time"]:focus,
+.campo input[type="email"]:focus,
+.campo input[type="number"]:focus,
+.campo textarea:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.campo textarea {
+    width: 100%;
+
+    min-height: 140px;
+
+    padding: 14px;
+
+    resize: vertical;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* =========================================================
+   GRID DE CAMPOS
+========================================================= */
+
+.campos-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+/* =========================================================
+   DISPONIBILIDADE
+========================================================= */
+
+.opcoes-disponibilidade {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.opcao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-height: 48px;
+
+    padding: 10px 15px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.opcao:hover {
+    border-color: #2563eb;
+    background: #f8faff;
+}
+
+.opcao input {
+    width: 17px;
+    height: 17px;
+
+    cursor: pointer;
+
+    accent-color: #2563eb;
+}
+
+.opcao span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* =========================================================
+   HORÁRIOS
+========================================================= */
+
+.horarios-container {
+    margin-top: 20px;
+}
+
+/* =========================================================
+   DISCIPLINAS
+========================================================= */
+
+.descricao {
+    font-size: 14px;
+    color: #6b7280;
+
+    margin-top: -10px;
+    margin-bottom: 18px;
+}
+
+.disciplinas-container {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px;
+}
+
+.disciplina-opcao {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 13px 15px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.disciplina-opcao:hover {
+    border-color: #2563eb;
+    background: #f8faff;
+    transform: translateY(-1px);
+}
+
+.disciplina-opcao input {
+    width: 17px;
+    height: 17px;
+
+    cursor: pointer;
+
+    accent-color: #2563eb;
+}
+
+.disciplina-opcao span {
+    font-size: 14px;
+    font-weight: 500;
+
+    color: #374151;
+}
+
+/* CHECKBOX DESABILITADO */
+
+.disciplina-opcao input:disabled + span {
+    color: #9ca3af;
+}
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+.botoes-formulario {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding-top: 30px;
+}
+
+/* BOTÃO VOLTAR */
+
+.botao-voltar,
+.botao-salvar {
+    min-height: 48px;
+
+    padding: 0 25px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.botao-voltar {
+    background: #ffffff;
+
+    color: #374151;
+
+    border: 1px solid #d1d5db;
+}
+
+.botao-voltar:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+
+    transform: translateY(-1px);
+}
+
+/* BOTÃO SALVAR */
+
+.botao-salvar {
+    background: #2563eb;
+
+    color: #ffffff;
+
+    border: 1px solid #2563eb;
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.20);
+}
+
+.botao-salvar:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+.botao-salvar:active,
+.botao-voltar:active {
+    transform: translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVIDADE — TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .cabecalho {
+        height: 65px;
+        padding: 0 25px;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .cabecalho-titulo {
+        font-size: 14px;
+    }
+
+    .conteudo {
+        padding: 25px 15px 50px;
+    }
+
+    .formulario-container {
+        padding: 30px 25px;
+        border-radius: 15px;
+    }
+
+    .formulario-cabecalho h1 {
+        font-size: 26px;
+    }
+
+    .campos-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .disciplinas-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   RESPONSIVIDADE — CELULAR
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .cabecalho {
+        padding: 0 16px;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .cabecalho-titulo {
+        font-size: 12px;
+    }
+
+    .conteudo {
+        padding: 15px 10px 35px;
+    }
+
+    .formulario-container {
+        padding: 24px 18px;
+
+        border-radius: 13px;
+    }
+
+    .formulario-cabecalho {
+        margin-bottom: 25px;
+    }
+
+    .formulario-cabecalho h1 {
+        font-size: 23px;
+    }
+
+    .formulario-cabecalho p {
+        font-size: 14px;
+    }
+
+    .form-section {
+        padding: 23px 0;
+    }
+
+    .form-section h2 {
+        font-size: 17px;
+    }
+
+    .campo input[type="text"],
+    .campo input[type="time"],
+    .campo input[type="email"],
+    .campo input[type="number"] {
+        height: 46px;
+    }
+
+    .opcoes-disponibilidade {
+        width: 100%;
+    }
+
+    .opcao {
+        width: 100%;
+    }
+
+    .disciplinas-container {
+        grid-template-columns: 1fr;
+    }
+
+    .botoes-formulario {
+        flex-direction: column-reverse;
+    }
+
+    .botao-voltar,
+    .botao-salvar {
+        width: 100%;
+    }
+}
+
