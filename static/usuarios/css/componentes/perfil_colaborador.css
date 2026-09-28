@@ -1,0 +1,342 @@
+/* =====================================================
+   PERFIL DO COLABORADOR
+===================================================== */
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.perfil-colaborador-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.perfil-colaborador-card {
+    position: relative;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 5px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+
+    transition:
+        width 0.4s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+/* =====================================================
+   ÍCONE
+===================================================== */
+
+.perfil-colaborador-icone {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    font-size: 21px;
+
+    background: #eef2ff;
+
+    transition:
+        transform 0.4s ease,
+        background 0.3s ease;
+}
+
+
+/* =====================================================
+   INFORMAÇÕES
+===================================================== */
+
+.perfil-colaborador-info {
+    width: 0;
+
+    opacity: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    margin-left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        width 0.4s ease,
+        opacity 0.25s ease,
+        margin-left 0.4s ease;
+}
+
+
+/* =====================================================
+   LABEL
+===================================================== */
+
+.perfil-colaborador-label {
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #9ca3af;
+}
+
+
+/* =====================================================
+   NOME
+===================================================== */
+
+.perfil-colaborador-info strong {
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #171717;
+}
+
+
+/* =====================================================
+   SETA
+===================================================== */
+
+.perfil-colaborador-seta {
+    width: 0;
+
+    opacity: 0;
+
+    overflow: hidden;
+
+    margin-left: 0;
+
+    font-size: 16px;
+
+    transition:
+        width 0.4s ease,
+        opacity 0.3s ease,
+        margin-left 0.4s ease,
+        transform 0.3s ease;
+}
+
+
+/* =====================================================
+   HOVER DO CARD
+===================================================== */
+
+.perfil-colaborador-card:hover {
+    width: 190px;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.12);
+
+    border-color: #6366f1;
+}
+
+
+/* =====================================================
+   MOSTRAR TEXTO
+===================================================== */
+
+.perfil-colaborador-card:hover .perfil-colaborador-info {
+    width: 105px;
+
+    opacity: 1;
+
+    margin-left: 10px;
+}
+
+
+/* =====================================================
+   MOSTRAR SETA
+===================================================== */
+
+.perfil-colaborador-card:hover .perfil-colaborador-seta {
+    width: 25px;
+
+    opacity: 1;
+
+    margin-left: auto;
+
+    color: #6366f1;
+
+    transform: translateX(4px);
+}
+
+
+/* =====================================================
+   ANIMAÇÃO DO ÍCONE
+===================================================== */
+
+.perfil-colaborador-card:hover .perfil-colaborador-icone {
+    background: #e0e7ff;
+
+    transform:
+        scale(1.08) rotate(-5deg);
+}
+
+
+/* =====================================================
+   CLIQUE
+===================================================== */
+
+.perfil-colaborador-card:active {
+    transform: scale(0.96);
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 800px) {
+
+    .perfil-colaborador-card {
+        width: 50px;
+        height: 50px;
+    }
+
+    .perfil-colaborador-icone {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+
+    .perfil-colaborador-card:hover {
+        width: 170px;
+    }
+}
+
+/* =====================================================
+   MENU DO COLABORADOR
+===================================================== */
+
+.menu-colaborador {
+    position: absolute;
+
+    top: 62px;
+    right: 0;
+
+    width: 280px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.12);
+
+    overflow: hidden;
+
+    z-index: 9999;
+
+    /* ANIMAÇÃO */
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+        translateY(-10px) scale(0.96);
+
+    transform-origin: top right;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* =====================================================
+   MENU ABERTO
+===================================================== */
+
+.menu-colaborador.mostrar {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0) scale(1);
+}
+
+.menu-colaborador-item {
+    width: 100%;
+    min-height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 16px;
+
+    background: #ffffff;
+    border: none;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-size: 14px;
+    color: #171717;
+
+    transition: background 0.2s ease;
+}
+
+.menu-colaborador-item:hover {
+    background: #f5f5f5;
+}
+
+
+.menu-colaborador-icone {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+}
+
+
+.menu-colaborador-sair {
+    border-top: 1px solid #eeeeee;
+
+    color: #dc2626;
+}
+
+.menu-colaborador-sair:hover {
+    background: #fef2f2;
+}

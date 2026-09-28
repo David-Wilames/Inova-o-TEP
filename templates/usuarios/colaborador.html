@@ -10,22 +10,13 @@
     <title>Colaborador | Inovação TEP</title>
 
     <!-- CSS da página da instituição -->
-    <link
-        rel="stylesheet"
-        href="{% static 'usuarios/css/instituicao/instituicao.css' %}"
-    >
+    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}">
 
     <!-- CSS dos componentes -->
-    <link
-        rel="stylesheet"
-        href="{% static 'usuarios/css/componentes/perfis.css' %}"
-    >
+    <link rel="stylesheet" href="{% static 'usuarios/css/componentes/perfil_colaborador.css' %}">
 
     <!-- Mapbox -->
-    <link
-        rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css"
-    >
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css">
 </head>
 
 <body>
@@ -44,19 +35,10 @@
         <!-- LADO DIREITO -->
         <div class="header-right">
 
-            <!-- PERFIL DO COLABORADOR -->
-            <button
-                class="perfil-button"
-                type="button"
-            >
-                👤 Colaborador
-            </button>
+            {% include 'usuarios/componentes/perfil_colaborador.html' %}
 
             <!-- NOTIFICAÇÕES -->
-            <button
-                class="notification"
-                type="button"
-            >
+            <button class="notification" type="button">
                 🔔
             </button>
 
@@ -117,10 +99,7 @@
 
             </div>
 
-            <button
-                class="change-location"
-                type="button"
-            >
+            <button class="change-location" type="button">
                 Alterar
             </button>
 
@@ -147,10 +126,7 @@
 
                 </div>
 
-                <button
-                    class="filter-button"
-                    type="button"
-                >
+                <button class="filter-button" type="button">
                     ⚙ Filtros
                 </button>
 
@@ -161,12 +137,7 @@
             <div class="uber-map-container">
 
                 <!-- BOTÃO LOCALIZAÇÃO -->
-                <button
-                    id="location-button"
-                    class="location-button"
-                    type="button"
-                    title="Usar minha localização"
-                >
+                <button id="location-button" class="location-button" type="button" title="Usar minha localização">
                     ⦿
                 </button>
 
@@ -303,17 +274,11 @@
 
                     <div class="teacher-actions">
 
-                        <button
-                            class="profile-btn"
-                            type="button"
-                        >
+                        <button class="profile-btn" type="button">
                             Ver oportunidade
                         </button>
 
-                        <button
-                            class="request-btn"
-                            type="button"
-                        >
+                        <button class="request-btn" type="button">
                             Tenho interesse
                         </button>
 
@@ -359,17 +324,11 @@
 
                     <div class="teacher-actions">
 
-                        <button
-                            class="profile-btn"
-                            type="button"
-                        >
+                        <button class="profile-btn" type="button">
                             Ver oportunidade
                         </button>
 
-                        <button
-                            class="request-btn"
-                            type="button"
-                        >
+                        <button class="request-btn" type="button">
                             Tenho interesse
                         </button>
 
@@ -415,17 +374,11 @@
 
                     <div class="teacher-actions">
 
-                        <button
-                            class="profile-btn"
-                            type="button"
-                        >
+                        <button class="profile-btn" type="button">
                             Ver oportunidade
                         </button>
 
-                        <button
-                            class="request-btn"
-                            type="button"
-                        >
+                        <button class="request-btn" type="button">
                             Tenho interesse
                         </button>
 
