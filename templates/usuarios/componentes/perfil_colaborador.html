@@ -1,55 +1,88 @@
 <div class="perfil-colaborador-container">
 
-    <!-- PERFIL -->
-    <button class="perfil-colaborador-card" type="button" onclick="abrirMenuColaborador()">
-        <div class="perfil-colaborador-icone">
-            <span>👤</span>
-        </div>
+<!-- PERFIL -->
 
-        <div class="perfil-colaborador-info">
-            <span class="perfil-colaborador-label">
-                ACESSAR COMO
-            </span>
+<button class="perfil-colaborador-card" type="button" onclick="abrirMenuColaborador()">
 
-            <strong>Colaborador</strong>
-        </div>
+    <div class="perfil-colaborador-icone">
+        <span>👤</span>
+    </div>
 
-        <div class="perfil-colaborador-seta">
-            →
-        </div>
+    <div class="perfil-colaborador-info">
+        <span class="perfil-colaborador-label">
+            ACESSAR COMO
+        </span>
+
+        <strong>Colaborador</strong>
+    </div>
+
+    <div class="perfil-colaborador-seta">
+        →
+    </div>
+
+</button>
+
+
+<!-- MENU DO COLABORADOR -->
+
+<div class="menu-colaborador" id="menu-colaborador">
+
+    <button type="button" class="menu-colaborador-item">
+
+        <span class="menu-colaborador-icone">👤</span>
+
+        <span>Informações do colaborador</span>
+
     </button>
 
 
-    <!-- MENU DO COLABORADOR -->
-    <div class="menu-colaborador" id="menu-colaborador">
+    <button
+        type="button"
+        class="menu-colaborador-item"
+        onclick="adicionarInformacoesColaborador()">
 
-        <button type="button" class="menu-colaborador-item">
-            <span class="menu-colaborador-icone">👤</span>
-            <span>Informações do colaborador</span>
-        </button>
+        <span class="menu-colaborador-icone">➕</span>
 
-        <button type="button" class="menu-colaborador-item" onclick="adicionarInformacoesColaborador()">
-            <span class="menu-colaborador-icone">➕</span>
-            <span>Adicionar informações</span>
-            
-        </button>
+        <span>Adicionar informações</span>
+
+    </button>
 
 
-        <button type="button" class="menu-colaborador-item">
-            <span class="menu-colaborador-icone">⭐</span>
-            <span>Avaliações</span>
-        </button>
+    <!-- AVALIAÇÕES -->
 
-        <button type="button" class="menu-colaborador-item menu-colaborador-sair" onclick="sairColaborador()">
-            <span class="menu-colaborador-icone">🚪</span>
-            <span>Sair</span>
-        </button>
+    <button
+        type="button"
+        class="menu-colaborador-item"
+        onclick="abrirAvaliacoes()">
 
-    </div>
+        <span class="menu-colaborador-icone">⭐</span>
+
+        <span>Avaliações</span>
+
+    </button>
+
+
+    <!-- SAIR -->
+
+    <button
+        type="button"
+        class="menu-colaborador-item menu-colaborador-sair"
+        onclick="sairColaborador()">
+
+        <span class="menu-colaborador-icone">🚪</span>
+
+        <span>Sair</span>
+
+    </button>
 
 </div>
+
+</div>
+
 <script>
+
     function abrirMenuColaborador() {
+
         const menu = document.getElementById("menu-colaborador");
 
         if (!menu) {
@@ -59,11 +92,25 @@
         menu.classList.toggle("mostrar");
     }
 
+
     function adicionarInformacoesColaborador() {
+
         window.location.href = "{% url 'adicionar_informacoes' %}";
+
     }
 
-    function sairColaborador() {
-        window.location.href = "/usuario/login/colaborador/";
+
+    function abrirAvaliacoes() {
+
+        window.location.href = "/usuario/avaliacoes/";
+
     }
+
+
+    function sairColaborador() {
+
+        window.location.href = "/usuario/login/colaborador/";
+
+    }
+
 </script>

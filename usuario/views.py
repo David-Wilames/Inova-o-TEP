@@ -78,3 +78,9 @@ def adicionar_informacoes (request):
         request,
         'usuarios/adicionar_informacoes.html'
     )
+
+def avaliacoes(request):
+    return render(
+        request,
+        'usuarios/avaliacoes.html'
+    )

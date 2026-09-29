@@ -1,0 +1,450 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Avaliações | Inovação TEP</title>
+
+    <link rel="stylesheet" href="{% static 'usuarios/css/avaliacoes.css' %}">
+
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="topbar">
+
+        <div class="logo">
+            <span>INOVAÇÃO</span> TEP
+        </div>
+
+        <div class="header-right">
+
+            <a href="/usuario/colaborador/" class="voltar-button">
+                ← Voltar
+            </a>
+
+            <button class="notification" type="button">
+                🔔
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO -->
+    <main class="container">
+
+        <!-- TÍTULO -->
+        <section class="welcome">
+
+            <span class="small-title">
+                AVALIAÇÕES
+            </span>
+
+            <h1>
+                Avaliações das<br>
+                instituições.
+            </h1>
+
+            <p class="subtitle">
+                Veja a experiência de outros colaboradores
+                nas instituições cadastradas.
+            </p>
+
+        </section>
+
+
+        <!-- RESUMO -->
+        <section class="rating-summary">
+
+            <div class="summary-main">
+
+                <span class="summary-label">
+                    MÉDIA GERAL
+                </span>
+
+                <div class="rating-number" id="media-geral">
+                    0,0
+                </div>
+
+                <div class="stars large">
+                    ★★★★★
+                </div>
+
+                <span class="rating-count">
+                    71 avaliações
+                </span>
+
+            </div>
+
+
+            <div class="rating-bars">
+
+                <div class="rating-row">
+                    <span>5 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-fill" data-width="85%"></div>
+                    </div>
+                    <span>48</span>
+                </div>
+
+                <div class="rating-row">
+                    <span>4 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-fill" data-width="55%"></div>
+                    </div>
+                    <span>15</span>
+                </div>
+
+                <div class="rating-row">
+                    <span>3 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-fill" data-width="30%"></div>
+                    </div>
+                    <span>5</span>
+                </div>
+
+                <div class="rating-row">
+                    <span>2 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-fill" data-width="15%"></div>
+                    </div>
+                    <span>2</span>
+                </div>
+
+                <div class="rating-row">
+                    <span>1 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-fill" data-width="8%"></div>
+                    </div>
+                    <span>1</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TÍTULO DAS ESCOLAS -->
+        <div class="section-header">
+
+            <div>
+                <span class="section-label">
+                    INSTITUIÇÕES
+                </span>
+
+                <h2>
+                    Avaliações recentes
+                </h2>
+            </div>
+
+        </div>
+
+
+        <!-- ESCOLA 1 -->
+        <article class="school-card">
+
+            <div class="school-icon">
+                🏫
+            </div>
+
+            <div class="school-content">
+
+                <div class="school-top">
+
+                    <div>
+                        <h3>
+                            Escola Municipal de Cajamar
+                        </h3>
+
+                        <span class="location">
+                            📍 Cajamar - SP
+                        </span>
+                    </div>
+
+                    <div class="school-rating">
+
+                        <strong>
+                            4,8
+                        </strong>
+
+                        <div class="stars">
+                            ★★★★★
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="school-info">
+
+                    <span>
+                        ⭐ 23 avaliações
+                    </span>
+
+                    <span>
+                        👨‍🏫 18 colaboradores
+                    </span>
+
+                </div>
+
+
+                <div class="review">
+
+                    <div class="review-header">
+
+                        <strong>
+                            Avaliação de colaborador
+                        </strong>
+
+                        <span>
+                            5 ★
+                        </span>
+
+                    </div>
+
+                    <p>
+                        "Instituição muito organizada e com boa
+                        comunicação com os professores."
+                    </p>
+
+                </div>
+
+
+                <button class="view-button" type="button">
+                    Ver avaliações
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- ESCOLA 2 -->
+        <article class="school-card">
+
+            <div class="school-icon">
+                🏫
+            </div>
+
+            <div class="school-content">
+
+                <div class="school-top">
+
+                    <div>
+                        <h3>
+                            Colégio Nova Geração
+                        </h3>
+
+                        <span class="location">
+                            📍 Cajamar - SP
+                        </span>
+                    </div>
+
+                    <div class="school-rating">
+
+                        <strong>
+                            4,5
+                        </strong>
+
+                        <div class="stars">
+                            ★★★★☆
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="school-info">
+
+                    <span>
+                        ⭐ 17 avaliações
+                    </span>
+
+                    <span>
+                        👨‍🏫 12 colaboradores
+                    </span>
+
+                </div>
+
+
+                <div class="review">
+
+                    <div class="review-header">
+
+                        <strong>
+                            Avaliação de colaborador
+                        </strong>
+
+                        <span>
+                            4 ★
+                        </span>
+
+                    </div>
+
+                    <p>
+                        "Boa experiência de trabalho e atendimento
+                        durante as substituições."
+                    </p>
+
+                </div>
+
+
+                <button class="view-button" type="button">
+                    Ver avaliações
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- ESCOLA 3 -->
+        <article class="school-card">
+
+            <div class="school-icon">
+                🏫
+            </div>
+
+            <div class="school-content">
+
+                <div class="school-top">
+
+                    <div>
+                        <h3>
+                            Escola Estadual Professor Santos
+                        </h3>
+
+                        <span class="location">
+                            📍 Cajamar - SP
+                        </span>
+                    </div>
+
+                    <div class="school-rating">
+
+                        <strong>
+                            4,9
+                        </strong>
+
+                        <div class="stars">
+                            ★★★★★
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="school-info">
+
+                    <span>
+                        ⭐ 31 avaliações
+                    </span>
+
+                    <span>
+                        👨‍🏫 25 colaboradores
+                    </span>
+
+                </div>
+
+
+                <div class="review">
+
+                    <div class="review-header">
+
+                        <strong>
+                            Avaliação de colaborador
+                        </strong>
+
+                        <span>
+                            5 ★
+                        </span>
+
+                    </div>
+
+                    <p>
+                        "Equipe receptiva, ambiente organizado e
+                        ótima comunicação."
+                    </p>
+
+                </div>
+
+
+                <button class="view-button" type="button">
+                    Ver avaliações
+                </button>
+
+            </div>
+
+        </article>
+
+        <script>
+            const mediaElemento = document.getElementById("media-geral");
+
+            let valorAtual = 0;
+            const valorFinal = 4.7;
+            const duracao = 1500;
+
+            const inicio = performance.now();
+
+            function animarMedia(tempo) {
+
+                const progresso = Math.min(
+                    (tempo - inicio) / duracao,
+                    1
+                );
+
+                // Suaviza a animação
+                const suavizado = 1 - Math.pow(1 - progresso, 3);
+
+                valorAtual = valorFinal * suavizado;
+
+                mediaElemento.textContent =
+                    valorAtual.toFixed(1).replace(".", ",");
+
+                if (progresso < 1) {
+                    requestAnimationFrame(animarMedia);
+                }
+            }
+
+            requestAnimationFrame(animarMedia);
+
+
+            /* =========================
+               ANIMAÇÃO DAS BARRAS
+            ========================= */
+
+            const barras = document.querySelectorAll(".rating-fill");
+
+            barras.forEach((barra, index) => {
+
+                const larguraFinal = barra.dataset.width;
+
+                // Começa zerada
+                barra.style.width = "0%";
+
+                // Pequeno atraso entre cada barra
+                setTimeout(() => {
+
+                    barra.style.width = larguraFinal;
+
+                }, 300 + (index * 150));
+
+            });
+
+
+        </script>
+    </main>
+
+</body>
+
+</html>
