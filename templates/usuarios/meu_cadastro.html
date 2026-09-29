@@ -1,0 +1,549 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Meu Cadastro - Inova-TEP</title>
+</head>
+<body>
+    <main>
+        <h1>Meu cadastro</h1>
+        <p>Consulte e atualize suas informações de professor.</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+
+            <fieldset>
+                <legend>Dados pessoais</legend>
+
+                <div>
+                    <label for="nome_completo">Nome completo</label>
+                    <input
+                        type="text"
+                        id="nome_completo"
+                        name="nome_completo"
+                        autocomplete="name"
+                    >
+                </div>
+
+                <div>
+                    <label for="nome_social">Nome social (opcional)</label>
+                    <input
+                        type="text"
+                        id="nome_social"
+                        name="nome_social"
+                    >
+                </div>
+
+                <div>
+                    <label for="data_nascimento">Data de nascimento</label>
+                    <input
+                        type="date"
+                        id="data_nascimento"
+                        name="data_nascimento"
+                    >
+                </div>
+
+                <div>
+                    <label for="genero">Gênero</label>
+                    <select id="genero" name="genero">
+                        <option value="">Selecione uma opção</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="nao_binario">Não binário</option>
+                        <option value="outra_identidade">Outra identidade de gênero</option>
+                        <option value="nao_informar">Prefiro não informar</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="possui_deficiencia">
+                        Você é uma pessoa com deficiência? (opcional)
+                    </label>
+
+                    <select id="possui_deficiencia" name="possui_deficiencia">
+                        <option value="">Selecione uma opção</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="necessidades_acessibilidade">
+                        Necessidade de acessibilidade (opcional)
+                    </label>
+
+                    <textarea
+                        id="necessidades_acessibilidade"
+                        name="necessidades_acessibilidade"
+                        rows="4"
+                        aria-describedby="ajuda_acessibilidade"
+                    ></textarea>
+
+                    <p id="ajuda_acessibilidade">
+                        Informe recursos ou adaptações necessárias para o trabalho, se desejar. Não é necessário informar diagnóstico nem enviar seu laudo.
+                    </p>
+                </div>
+
+            </fieldset>
+
+            <fieldset>
+                <legend>Contato</legend>
+
+                <div>
+                    <label for="email">E-mail</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div>
+                    <label for="telefone">Telefone</label>
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        autocomplete="tel"
+                        placeholder="(11) 99999-9999"
+                    >
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Endereço</legend>
+
+                <div>
+                    <label for="cep">CEP</label>
+                    <input
+                        type="test"
+                        id="cep"
+                        name="cep"
+                        autocoplete="postal-code"
+                        inputmode="numeric"
+                        placeholder="00000-000"
+                        maxlegth="9"
+                    >
+                </div>
+
+                <div>
+                    <label for="logradouro">Logradouro</label>
+                    <input
+                        type="text"
+                        id="logradouro"
+                        name="logradouro"
+                        placeholfer="Ex.: Rua das Flores"
+                    >
+                </div>
+
+                <div>
+                    <label for="numero">Número</label>
+                    <input
+                        type="text"
+                        id="numero"
+                        name="numero"
+                        placeholder="Ex.: 123, 123A ou S/N"
+                    >
+                </div>
+
+                <div>
+                    <label for="complemento">Complemento (opcional)</label>
+                    <input
+                        type="text"
+                        id="complemento"
+                        name="complemento"
+                        placeholder="Ex.: Apartamento 12, bloco B"
+                    >
+                </div>
+
+                <div>
+                    <label for="bairro">Bairro</label>
+                    <input
+                        type="text"
+                        id="bairro"
+                        name="bairro"
+                        placeholder="Ex.: Centro"
+                    >
+                </div>
+
+                <div>
+                    <label for="municipio">Município</label>
+                    <input
+                        type="text"
+                        id="municipio"
+                        name="municipio"
+                        autocomplete="address-level12"
+                        placerholder="Ex.: São Paulo"
+                    >
+                </div>
+
+                <div>
+                    <label for="uf">Estado / Distrito Federal</label>
+                    <select id="uf" name="uf" autocomplete="address-level1">
+                        <option value="">Selecione uma opção</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                 </select>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                    <legend>Documentos</legend>
+
+                    <div>
+                        <label for="tipo_documento">Forma de identificação</label>
+                        <select id="tipo_documento" name="tipo_documento">
+                            <option value="">Selecione uma opção</option>
+                            <option value="rg_cpf">RG e CPF</option>
+                            <option value="cin">CIN</option>
+                        </select>
+                    </div>
+
+                    <div id="campo_rg">
+                        <label for="rg">Número do RG</label>
+                        <input
+                            type="text"
+                            id="rg"
+                            name="rg"
+                            placeholder="Digite o número do RG"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="cpf">CPF</label>
+                        <input
+                            type="text"
+                            id="cpf"
+                            name="cpf"
+                            inputmode="numeric"
+                            placeholder="000.000.000-00"
+                            maxlength="14"
+                        >
+                    </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Dados profissionais</legend>
+
+                <div>
+                    <label for="formacao">Formação acadêmica</label>
+                    <textarea
+                        id="formacao"
+                        name="formacao"
+                        rows="3"
+                        placeholder="Ex.: Licenciatura em Matemática"
+                    ></textarea>
+                </div>
+
+                <fieldset>
+                    <legend>Disciplinas que leciona</legend>
+                    <p>Selecione todas as opções que se aplicam.</p>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="lingua_portuguesa">
+                            Língua Portuguesa
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="matematica">
+                            Matemática
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="ciencias">
+                            Ciências
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="historia">
+                            História
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="geografia">
+                            Geografia
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="biologia">
+                            Biologia
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="fisica">
+                            Física
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="quimica">
+                            Química
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="lingua_inglesa">
+                            Língua Inglesa
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="lingua_espanhola">
+                            Língua Espanhola
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="arte">
+                            Arte
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="educacao_fisica">
+                            Educação Física
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="educacao_musical">
+                            Educação Musical
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="filosofia">
+                            Filosofia
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="sociologia">
+                            Sociologia
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="disciplinas" value="outra">
+                            Outra
+                        </label>
+                    </div>
+
+                    <div>
+                        <label for="outra_disciplina">
+                            Se marcou “Outra”, especifique:
+                        </label>
+                        <input
+                            type="text"
+                            id="outra_disciplina"
+                            name="outra_disciplina"
+                            placeholder="Informe a disciplina"
+                        >
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Níveis de ensino em que leciona</legend>
+                    <p>Selecione todas as opções que se aplicam.</p>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="niveis_ensino" value="educacao_infantil">
+                            Educação Infantil
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="niveis_ensino" value="fundamental_anos_iniciais">
+                            Ensino Fundamental — anos iniciais
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="niveis_ensino" value="fundamental_anos_finais">
+                            Ensino Fundamental — anos finais
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="niveis_ensino" value="ensino_medio">
+                            Ensino Médio
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="niveis_ensino" value="ensino_superior">
+                            Ensino Superior
+                        </label>
+                    </div>
+                </fieldset>
+
+            </fieldset>
+
+            <fieldset>
+                <legend>Disponibilidade</legend>
+
+                <fieldset>
+                    <legend>Dias disponíveis</legend>
+                    <p>Selecione os dias em que pode dar aulas.</p>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="dias_disponiveis" value="segunda">
+                            Segunda-feira
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="dias_disponiveis" value="terca">
+                            Terça-feira
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="dias_disponiveis" value="quarta">
+                            Quarta-feira
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="dias_disponiveis" value="quinta">
+                            Quinta-feira
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="dias_disponiveis" value="sexta">
+                            Sexta-feira
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="dias_disponiveis" value="sabado">
+                            Sábado
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="dias_disponiveis" value="domingo">
+                            Domingo
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Turnos disponíveis</legend>
+                    <p>Selecione os turnos em que pode dar aulas nos dias marcados.</p>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="turnos_disponiveis" value="manha">
+                            Manhã
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="turnos_disponiveis" value="tarde">
+                            Tarde
+                        </label>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="turnos_disponiveis" value="noite">
+                            Noite
+                        </label>
+                    </div>
+                </fieldset>
+            </fieldset>
+        </form>
+    </main>
+    
+    <script>
+        const tipoDocumento = document.getElementById("tipo_documento")
+        const campoRg = document.getElementById("campo_rg")
+        const numeroRg = document.getElementById("rg")
+        const rotuloCpf = document.querySelector('label[for="cpf"]')
+
+        function atualizarDocumentos() {
+            const usaRg = tipoDocumento.value === "rg_cpf"
+
+            campoRg.hidden = !usaRg;
+            numeroRg.disabled = !usaRg;
+
+            if (tipoDocumento.value === "cin") {
+                rotuloCpf.textContent = "Número da CIN (CPF)"
+            } else {
+                rotuloCpf.textContent = "CPF";
+            }
+        }
+
+        tipoDocumento.addEventListener("change", atualizarDocumentos);
+
+        atualizarDocumentos();
+    </script>
+</body>
+</html>
