@@ -443,3 +443,16 @@
         width: 250px;
     }
 }
+/* =====================================================
+   CONVOCADO - SEM ANIMAÇÃO
+===================================================== */
+
+.opcao-convocado {
+    transform: none !important;
+    transition: none !important;
+}
+
+.opcao-convocado:hover {
+    transform: none !important;
+    background: transparent !important;
+}

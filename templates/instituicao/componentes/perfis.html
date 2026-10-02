@@ -4,11 +4,7 @@
          COLABORADOR
     ====================================================== -->
 
-    <button
-        class="perfil-card perfil-colaborador"
-        type="button"
-        onclick="avisarColaborador()"
-    >
+    <button class="perfil-card perfil-colaborador" type="button" onclick="avisarColaborador()">
         <div class="perfil-icone">
             <span>👤</span>
         </div>
@@ -28,11 +24,7 @@
          INSTITUIÇÃO
     ====================================================== -->
 
-    <button
-        class="perfil-card perfil-instituicao"
-        type="button"
-        onclick="abrirMenuInstituicao()"
-    >
+    <button class="perfil-card perfil-instituicao" type="button" onclick="abrirMenuInstituicao()">
         <div class="perfil-icone">
             <span>🏫</span>
         </div>
@@ -54,10 +46,7 @@
      MENU DA INSTITUIÇÃO
 ===================================================== -->
 
-<div
-    id="menu-instituicao"
-    class="menu-instituicao"
->
+<div id="menu-instituicao" class="menu-instituicao">
 
     <div class="menu-instituicao-titulo">
 
@@ -72,10 +61,7 @@
 
     <!-- ADICIONAR INSTITUIÇÃO -->
 
-    <a
-        href="{% url 'adicionar_instituicao' %}"
-        class="opcao-instituicao"
-    >
+    <a href="{% url 'adicionar_instituicao' %}" class="opcao-instituicao">
         <span>➕</span>
 
         <span>
@@ -86,10 +72,7 @@
 
     <!-- MINHA INSTITUIÇÃO -->
 
-    <button
-        type="button"
-        class="opcao-instituicao"
-    >
+    <button type="button" class="opcao-instituicao">
         <span>🏫</span>
 
         <span>
@@ -97,13 +80,23 @@
         </span>
     </button>
 
+    <!-- CONVOCADO -->
+    <button class="opcao-instituicao opcao-convocado" type="button" onclick="abrirConvocado()">
+        <div class="perfil-icone">
+            <span>📋</span>
+        </div>
+        <span>
+            Convocado
+        </span>
+
+        <div class="perfil-seta">
+
+    </button>
+
 
     <!-- LOCALIZAR NO MAPA -->
 
-    <button
-        type="button"
-        class="opcao-instituicao"
-    >
+    <button type="button" class="opcao-instituicao">
         <span>📍</span>
 
         <span>
@@ -120,14 +113,14 @@
 
 <script>
 
-function abrirMenuInstituicao() {
+    function abrirMenuInstituicao() {
 
-    const menu = document.getElementById(
-        "menu-instituicao"
-    );
+        const menu = document.getElementById(
+            "menu-instituicao"
+        );
 
-    menu.classList.toggle("mostrar");
+        menu.classList.toggle("mostrar");
 
-}
+    }
 
 </script>
