@@ -1,15 +1,19 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Cadastro de professor - Inova-TEP</title>
 
     <link rel="stylesheet" href="{% static 'usuarios/css/cadastro.css' %}">
+
 </head>
 
 <body>
@@ -21,7 +25,9 @@
             <h1>Cadastro de professor</h1>
 
             <p class="subtitulo">
+
                 Crie sua conta de professor para acessar o Inova-TEP
+
             </p>
 
             <form method="POST">
@@ -33,26 +39,41 @@
                 {% for campo in form %}
 
                 <div class="campo">
+
                     {{ campo.label_tag }}
+
                     {{ campo }}
+
                     {{ campo.errors }}
 
                     {% if campo.help_text %}
+
                         <div class="ajuda">
+
                             {{ campo.help_text }}
+
                         </div>
+
                     {% endif %}
+
                 </div>
+
             {% endfor %}
 
             <button type="submit">Criar conta</button>
+
         </form>
 
          <p class="login-link">
+
                 Já possui uma conta?
-                <a href="/usuario/login/colaborador/">
+
+                <a href="{% url 'login_colaborador' %}">
+
                     Fazer login
+
                 </a>
+
             </p>
 
         </div>
@@ -60,4 +81,5 @@
     </div>
 
 </body>
-</html>
+
+</html> 

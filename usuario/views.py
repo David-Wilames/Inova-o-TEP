@@ -1,37 +1,40 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
+
 from .forms import CadastroProfessorForm, LoginProfessorForm
-from django.contrib.auth import login
 
 
 def escolha(request):
-    return render(request, 'escolha.html')
+
+    return render(
+        request,
+        "escolha.html"
+    )
 
 
 def login_colaborador(request):
 
-    if request.method == 'POST':
+    if request.method == "POST":
 
-        form = LoginProfessorForm(
-            request=request,
-            data=request.POST
-        )
+        form = LoginProfessorForm(request.POST)
 
         if form.is_valid():
 
-            login(request, form.get_user())
+            # Usuário encontrado pelo username ou e-mail
+            usuario = form.usuario
 
-            return redirect('colaborador')
+            # Guarda o ID do usuário na sessão
+            request.session["usuario_id"] = usuario.id
+
+            return redirect("colaborador")
 
     else:
 
-        form = LoginProfessorForm(
-            request=request
-        )
+        form = LoginProfessorForm()
 
     return render(
         request,
-        'usuarios/login_colaborador.html',
-        {'form': form},
+        "usuarios/login_colaborador.html",
+        {"form": form}
     )
 
 
@@ -39,7 +42,7 @@ def colaborador(request):
 
     return render(
         request,
-        'usuarios/colaborador.html'
+        "usuarios/colaborador.html"
     )
 
 
@@ -47,13 +50,13 @@ def login_estituiçao(request):
 
     return render(
         request,
-        'login_estituiçao.html'
+        "login_estituiçao.html"
     )
 
 
 def cadastro_colaborador(request):
 
-    if request.method == 'POST':
+    if request.method == "POST":
 
         form = CadastroProfessorForm(request.POST)
 
@@ -61,7 +64,9 @@ def cadastro_colaborador(request):
 
             form.save()
 
-            return redirect('login_colaborador')
+            return redirect(
+                "login_colaborador"
+            )
 
     else:
 
@@ -69,18 +74,22 @@ def cadastro_colaborador(request):
 
     return render(
         request,
-        'usuarios/cadastro.html',
-        {'form': form}
+        "usuarios/cadastro.html",
+        {"form": form}
     )
 
-def adicionar_informacoes (request):
+
+def adicionar_informacoes(request):
+
     return render(
         request,
-        'usuarios/adicionar_informacoes.html'
+        "usuarios/adicionar_informacoes.html"
     )
+
 
 def avaliacoes(request):
+
     return render(
         request,
-        'usuarios/avaliacoes.html'
+        "usuarios/avaliacoes.html"
     )

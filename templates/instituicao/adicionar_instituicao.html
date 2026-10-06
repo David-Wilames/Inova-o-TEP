@@ -77,7 +77,8 @@
 
                             <option value="{{ escola.id }}" data-nome="{{ escola.nome_unidade_escolar }}"
                                 data-telefone="{{ escola.telefone }}" data-endereco="{{ escola.endereco }}"
-                                data-municipio="{{ escola.municipio }}" data-bairro="{{ escola.bairro_localidade }}">
+                                data-municipio="{{ escola.municipio }}" data-bairro="{{ escola.bairro_localidade }}"
+                                data-cep="{{ escola.cep }}">
                                 {{ escola.nome_unidade_escolar }}
 
                             </option>
@@ -108,10 +109,10 @@
                         <div class="campo">
 
                             <label for="numero_escola">
-                                Número da escola
+                                CEP
                             </label>
 
-                            <input type="text" id="numero_escola" name="numero_escola" placeholder="Ex.: 123">
+                            <input type="text" id="numero_escola" name="numero_escola" placeholder="CEP" readonly>
 
                         </div>
 
@@ -292,6 +293,7 @@
         const endereco = document.getElementById("endereco");
         const municipio = document.getElementById("municipio");
         const bairro = document.getElementById("bairro");
+        const cep = document.getElementById("numero_escola");
 
         escolaSelect.addEventListener("change", function () {
 
@@ -302,6 +304,7 @@
                 endereco.value = "";
                 municipio.value = "";
                 bairro.value = "";
+                cep.value = "";
                 return;
             }
 
@@ -309,6 +312,7 @@
             endereco.value = opcaoSelecionada.dataset.endereco || "";
             municipio.value = opcaoSelecionada.dataset.municipio || "";
             bairro.value = opcaoSelecionada.dataset.bairro || "";
+            cep.value = opcaoSelecionada.dataset.cep || "";
         });
     </script>
   
