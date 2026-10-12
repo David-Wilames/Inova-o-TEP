@@ -27,10 +27,10 @@
 
 <div class="menu-colaborador" id="menu-colaborador">
 
-    <button type="button" class="menu-colaborador-item">
+    <button type="button" class="menu-colaborador-item"
+        onclick="abrirInformacoesColaborador()">
 
         <span class="menu-colaborador-icone">👤</span>
-
         <span>Informações do colaborador</span>
 
     </button>
@@ -80,6 +80,10 @@
 </div>
 
 <script>
+    
+    function abrirInformacoesColaborador() {
+    window.location.href = "/usuario/colaborador/informacoes/";
+    }
 
     function abrirMenuColaborador() {
 

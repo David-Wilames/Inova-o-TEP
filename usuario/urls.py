@@ -10,4 +10,5 @@ urlpatterns = [
     path('colaborador/', views.colaborador, name='colaborador'),
     path('adicionar-informacoes/',views.adicionar_informacoes,name='adicionar_informacoes'),
     path('avaliacoes/', views.avaliacoes, name='avaliacoes'),
+    path('colaborador/informacoes/', views.informacoes_colaborador, name='informacoes_colaborador'),
 ]

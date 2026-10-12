@@ -1,7 +1,37 @@
 from django.shortcuts import redirect, render
 
 from .forms import CadastroProfessorForm, LoginProfessorForm
+from .models import InformacoesColaborador, Usuarios
 
+
+ # MOSTRA AS INFORMAÇÕES DO COLABORADOR CADASTRADO
+def informacoes_colaborador(request):
+    usuario_id = request.session.get("usuario_id")
+
+    if not usuario_id:
+        return redirect("login_colaborador")
+
+    try:
+        usuario = Usuarios.objects.get(pk=usuario_id)
+    except Usuarios.DoesNotExist:
+        request.session.flush()
+        return redirect("login_colaborador")
+
+    try:
+        informacoes = InformacoesColaborador.objects.get(
+            usuario_id=usuario.pk
+        )
+    except InformacoesColaborador.DoesNotExist:
+        informacoes = None
+
+    return render(
+        request,
+        "usuarios/informacoes_colaborador.html",
+        {
+            "usuario": usuario,
+            "informacoes": informacoes,
+        },
+    )
 
 def escolha(request):
 
