@@ -102,3 +102,39 @@ def adicionar_instituicao(request):
         "instituicao/adicionar_instituicao.html",
         {"escolas": escolas},
     )
+
+def selecionar_escola(request):
+    escolas = Escolas.objects.all().order_by("nome_unidade_escolar")
+
+    escola_id = request.session.get("escola_id")
+
+    return render(
+        request,
+        "instituicao/selecionar_escola.html",
+        {
+            "escolas": escolas,
+            "escola_id_selecionada": escola_id,
+        }
+    )
+
+
+def confirmar_escola(request):
+    if request.method == "POST":
+        escola_id = request.POST.get("escola_id")
+
+        if escola_id and Escolas.objects.filter(pk=escola_id).exists():
+            request.session["escola_id"] = int(escola_id)
+
+            messages.success(
+                request,
+                "Instituição selecionada com sucesso!"
+            )
+
+            return redirect("selecionar_escola")
+
+        messages.error(
+            request,
+            "Selecione uma instituição válida."
+        )
+
+    return redirect("selecionar_escola")

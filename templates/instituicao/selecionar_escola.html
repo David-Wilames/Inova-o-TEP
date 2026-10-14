@@ -1,0 +1,226 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Adicionar instituição | Inovação TEP</title>
+
+    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/selecionar_escola.css' %}">
+</head>
+
+<body>
+
+    <main class="pagina">
+
+        <section class="cartao">
+
+            <!-- PAINEL ESQUERDO -->
+            <div class="painel-esquerdo">
+
+                <!-- LOGOTIPO -->
+                <header class="cabecalho">
+
+                    <div class="logo">
+                        <span>TEP</span>
+                    </div>
+
+                    <div class="marca">
+                        <h2>INOVAÇÃO TEP</h2>
+                        <p>Conectando educação e oportunidades</p>
+                    </div>
+
+                </header>
+
+                <!-- FORMULÁRIO -->
+                <div class="formulario-container">
+
+                    <div class="titulo-container">
+
+                        <div class="icone-instituicao">
+                            <span>♙</span>
+                        </div>
+
+                        <div class="titulo-texto">
+                            <h1>ADICIONAR INSTITUIÇÃO</h1>
+
+                            <p class="descricao">
+                                Acesse o ambiente da sua instituição.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- MENSAGENS DO DJANGO -->
+                    {% if messages %}
+                        <div class="mensagens">
+
+                            {% for message in messages %}
+                                <p class="mensagem">
+                                    {{ message }}
+                                </p>
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+
+                    <!-- FORMULÁRIO ORIGINAL PRESERVADO -->
+                    <form action="" method="post" class="formulario">
+
+                        {% csrf_token %}
+
+                        <!-- SELEÇÃO DA INSTITUIÇÃO -->
+                        <div class="campo">
+
+                            <label for="escola">
+                                <span class="icone-campo">▦</span>
+                                Selecione sua instituição
+                            </label>
+
+                            <div class="campo-input">
+
+                                <select id="escola" name="escola_id" required>
+
+                                    <option value="" disabled selected>
+                                        Selecione sua instituição
+                                    </option>
+
+                                    {% for escola in escolas %}
+                                        <option value="{{ escola.id }}">
+                                            {{ escola.nome_unidade_escolar }}
+                                        </option>
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <!-- SENHA DA INSTITUIÇÃO: MANTIDA -->
+                        <div class="campo">
+
+                            <label for="senha">
+                                <span class="icone-campo">♙</span>
+                                Senha da instituição
+                            </label>
+
+                            <div class="campo-input">
+
+                                <input
+                                    type="password"
+                                    id="senha"
+                                    name="senha"
+                                    placeholder="Senha da instituição"
+                                    autocomplete="off"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <!-- BOTÃO -->
+                        
+                    </form>
+
+                </div>
+
+                <!-- RODAPÉ -->
+                <footer class="rodape">
+
+                    <span class="icone-seguranca">♡</span>
+
+                    <p>Juntos por uma educação mais forte.</p>
+
+                    <span class="linha-rodape"></span>
+
+                </footer>
+
+            </div>
+
+            <!-- PAINEL DIREITO -->
+            <aside class="painel-direito">
+
+                <div class="conteudo-direito">
+
+                    <h2>
+                        Mais conexão<br>
+                        entre escolas,<br>
+                        <span>professores e<br>alunos.</span>
+                    </h2>
+
+                    <p class="descricao-direita">
+                        Educação, colaboração e oportunidades
+                        para transformar o futuro.
+                    </p>
+
+                </div>
+
+                <!-- ILUSTRAÇÃO DA ESCOLA -->
+                <div class="ilustracao-escola">
+
+                    <div class="circulo circulo-1"></div>
+                    <div class="circulo circulo-2"></div>
+
+                    <div class="marcador-localizacao">
+                        <span></span>
+                    </div>
+
+                    <div class="escola">
+
+                        <div class="telhado"></div>
+
+                        <div class="predio">
+
+                            <div class="relogio">
+                                <span></span>
+                            </div>
+
+                            <div class="janelas">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="janelas janelas-inferiores">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="porta"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="arvore arvore-esquerda">
+                        <span></span>
+                    </div>
+
+                    <div class="arvore arvore-direita">
+                        <span></span>
+                    </div>
+
+                    <div class="chao"></div>
+
+                </div>
+
+                <div class="texto-painel">
+                    INOVAÇÃO TEP
+                    <span>Conectando pessoas. Transformando a educação.</span>
+                </div>
+
+            </aside>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
