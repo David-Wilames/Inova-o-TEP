@@ -1,6 +1,10 @@
+import json
+
 from django.contrib import messages
 from django.db import connection
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.http import require_POST
 
 from .models import Escolas
 
@@ -138,3 +142,102 @@ def confirmar_escola(request):
         )
 
     return redirect("selecionar_escola")
+
+@require_POST
+def verificar_instituicao(request):
+    """
+    Confere a instituição e a senha e retorna as informações
+    cadastradas em informacoes_instituicao.
+    """
+
+    escola_id = request.POST.get("escola_id", "").strip()
+    senha = request.POST.get("senha", "").strip()
+
+    if not escola_id or not senha:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "Selecione uma instituição e informe a senha.",
+            },
+            status=400,
+        )
+
+    try:
+        escola = Escolas.objects.get(pk=escola_id)
+    except (Escolas.DoesNotExist, ValueError, TypeError):
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "A instituição selecionada não foi encontrada.",
+            },
+            status=404,
+        )
+
+    # A senha precisa corresponder ao telefone cadastrado da instituição.
+    telefone_cadastrado = str(escola.telefone or "").strip()
+
+    if senha != telefone_cadastrado:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "Senha incorreta. Confira os dados e tente novamente.",
+            },
+            status=403,
+        )
+
+    # Busca somente os registros que correspondem à escola selecionada.
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT
+                "Escola",
+                "Telefone",
+                "CEP",
+                "Endereço",
+                "Municipio",
+                "Bairro",
+                "Materia",
+                "Tipo",
+                "Quantidade",
+                "Nome do responsavel",
+                "Observacoes"
+            FROM "informacoes_instituicao"
+            WHERE TRIM("Escola") = %s
+            ORDER BY "Materia"
+            """,
+            [str(escola.nome_unidade_escolar).strip()],
+        )
+
+        colunas = [
+            "escola",
+            "telefone",
+            "cep",
+            "endereco",
+            "municipio",
+            "bairro",
+            "materia",
+            "tipo",
+            "quantidade",
+            "responsavel",
+            "observacoes",
+        ]
+
+        registros = [
+            dict(zip(colunas, linha))
+            for linha in cursor.fetchall()
+        ]
+
+    # Não enviamos o telefone da instituição na resposta.
+    for registro in registros:
+        registro.pop("telefone", None)
+
+    request.session["escola_id"] = escola.pk
+
+    return JsonResponse(
+        {
+            "sucesso": True,
+            "mensagem": "Instituição verificada com sucesso!",
+            "nome_escola": escola.nome_unidade_escolar,
+            "registros": registros,
+        }
+    )

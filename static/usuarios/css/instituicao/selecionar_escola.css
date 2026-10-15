@@ -41,8 +41,8 @@ body {
     isolation: isolate;
     overflow: hidden;
     background:
-        radial-gradient(ellipse at 15% 12%, rgba(255,255,255,.65), transparent 27%),
-        radial-gradient(ellipse at 92% 80%, rgba(0,100,235,.35), transparent 32%),
+        radial-gradient(ellipse at 15% 12%, rgba(255, 255, 255, .65), transparent 27%),
+        radial-gradient(ellipse at 92% 80%, rgba(0, 100, 235, .35), transparent 32%),
         linear-gradient(135deg, #71c5ff 0%, #1685ef 48%, #a2e0ff 100%);
 }
 
@@ -53,7 +53,7 @@ body {
     z-index: -1;
     pointer-events: none;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,.18);
+    border: 1px solid rgba(255, 255, 255, .18);
 }
 
 .pagina::before {
@@ -61,8 +61,8 @@ body {
     height: 780px;
     top: -490px;
     left: -150px;
-    box-shadow: 0 0 0 35px rgba(255,255,255,.035),
-                0 0 0 75px rgba(255,255,255,.025);
+    box-shadow: 0 0 0 35px rgba(255, 255, 255, .035),
+        0 0 0 75px rgba(255, 255, 255, .025);
 }
 
 .pagina::after {
@@ -70,7 +70,7 @@ body {
     height: 720px;
     right: -320px;
     bottom: -430px;
-    box-shadow: 0 0 0 45px rgba(255,255,255,.04);
+    box-shadow: 0 0 0 45px rgba(255, 255, 255, .04);
 }
 
 .cartao {
@@ -82,15 +82,22 @@ body {
     z-index: 1;
     overflow: hidden;
     background: var(--branco);
-    border: 1px solid rgba(255,255,255,.75);
+    border: 1px solid rgba(255, 255, 255, .75);
     border-radius: 34px;
     box-shadow: 0 30px 85px rgba(5, 49, 115, .24);
     animation: aparecer .55s ease both;
 }
 
 @keyframes aparecer {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* PAINEL ESQUERDO */
@@ -102,7 +109,7 @@ body {
     display: flex;
     flex-direction: column;
     background:
-        radial-gradient(ellipse at 0% 100%, rgba(213,235,255,.45), transparent 30%),
+        radial-gradient(ellipse at 0% 100%, rgba(213, 235, 255, .45), transparent 30%),
         #fff;
     position: relative;
     overflow: hidden;
@@ -115,7 +122,7 @@ body {
     height: 180px;
     left: -125px;
     bottom: -112px;
-    border: 18px solid rgba(0,111,232,.08);
+    border: 18px solid rgba(0, 111, 232, .08);
     border-radius: 50%;
     pointer-events: none;
 }
@@ -549,7 +556,7 @@ body {
     border-radius: 50%;
     background: #f8fdff;
     border: 4px solid #65bfff;
-    box-shadow: 0 0 0 3px rgba(255,255,255,.6);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .6);
     z-index: 3;
 }
 
@@ -591,7 +598,7 @@ body {
     height: 32px;
     background: linear-gradient(135deg, #1688ed, #0756b9);
     border: 3px solid #b4eaff;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22);
 }
 
 .janelas-inferiores {
@@ -675,7 +682,7 @@ body {
     right: 8%;
     bottom: 3%;
     z-index: 4;
-    color: rgba(255,255,255,.72);
+    color: rgba(255, 255, 255, .72);
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -684,7 +691,7 @@ body {
 .texto-painel span {
     display: block;
     margin-top: 6px;
-    color: rgba(225,244,255,.7);
+    color: rgba(225, 244, 255, .7);
     font-size: 11px;
     font-weight: 400;
     letter-spacing: .2px;
@@ -900,11 +907,399 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
         scroll-behavior: auto !important;
+    }
+
+    /* ==========================================
+   INOVAÇÃO TEP — PAINEL DINÂMICO
+   Animações e resultados das instituições
+   ========================================== */
+
+    /* Área dinâmica do painel direito */
+    .painel-direito .conteudo-dinamico {
+        position: relative;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        min-height: 740px;
+        padding: 65px 8% 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        text-align: center;
+        animation: painelEntrada .55s ease both;
+    }
+
+    @keyframes painelEntrada {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Ícone principal */
+    .icone-painel {
+        width: 88px;
+        height: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+        color: #ffffff;
+        background: rgba(255, 255, 255, .13);
+        border: 1px solid rgba(255, 255, 255, .25);
+        border-radius: 26px;
+        font-size: 42px;
+        box-shadow: 0 15px 35px rgba(0, 25, 80, .15);
+        backdrop-filter: blur(10px);
+        animation: iconeFlutuante 3s ease-in-out infinite;
+    }
+
+    @keyframes iconeFlutuante {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-7px);
+        }
+    }
+
+    /* Títulos e textos */
+    .conteudo-dinamico h2,
+    .resultado-painel h2,
+    .carregamento-painel h2 {
+        margin-bottom: 14px;
+        color: #ffffff;
+        font-size: clamp(25px, 2.4vw, 35px);
+        font-weight: 800;
+        line-height: 1.25;
+    }
+
+    .conteudo-dinamico>p,
+    .resultado-painel>p,
+    .carregamento-painel>p {
+        max-width: 400px;
+        color: rgba(235, 246, 255, .85);
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    /* ==========================================
+   CARREGAMENTO
+   ========================================== */
+
+    .carregamento-painel {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: painelEntrada .3s ease both;
+    }
+
+    .spinner-instituicao {
+        width: 68px;
+        height: 68px;
+        margin-bottom: 28px;
+        border: 5px solid rgba(255, 255, 255, .2);
+        border-top-color: #64d7ff;
+        border-right-color: #ffffff;
+        border-radius: 50%;
+        animation: girarSpinner .8s linear infinite;
+    }
+
+    @keyframes girarSpinner {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .carregamento-painel h2 {
+        font-size: 27px;
+    }
+
+    .carregamento-painel p {
+        max-width: 360px;
+        color: rgba(235, 246, 255, .8);
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* ==========================================
+   RESULTADO DA CONSULTA
+   ========================================== */
+
+    .resultado-painel {
+        width: 100%;
+        animation: painelEntrada .45s ease both;
+    }
+
+    .resultado-painel>.icone-painel {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .resultado-painel.resultado-erro .icone-painel {
+        background: rgba(255, 95, 95, .16);
+        border-color: rgba(255, 190, 190, .35);
+    }
+
+    .resultado-sucesso .cabecalho-resultado {
+        margin-bottom: 25px;
+    }
+
+    .cabecalho-resultado .icone-painel {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 16px;
+        border-radius: 50%;
+        color: #ffffff;
+        background: linear-gradient(135deg, #20c997, #08a879);
+        font-size: 34px;
+        font-weight: 800;
+        animation: sucessoEntrada .5s ease both;
+    }
+
+    @keyframes sucessoEntrada {
+        from {
+            opacity: 0;
+            transform: scale(.65);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .cabecalho-resultado h2 {
+        font-size: clamp(24px, 2.2vw, 32px);
+    }
+
+    .cabecalho-resultado>p {
+        margin-top: 8px;
+        color: #c9eaff;
+        font-size: 14px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    .contador-registros {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        padding: 8px 15px;
+        color: #ffffff;
+        background: rgba(255, 255, 255, .13);
+        border: 1px solid rgba(255, 255, 255, .2);
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* ==========================================
+   LISTA DE INFORMAÇÕES
+   ========================================== */
+
+    .lista-informacoes {
+        width: 100%;
+        max-height: 390px;
+        padding: 3px 8px 12px 3px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        text-align: left;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, .6) rgba(255, 255, 255, .1);
+    }
+
+    .lista-informacoes::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .lista-informacoes::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, .1);
+        border-radius: 10px;
+    }
+
+    .lista-informacoes::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, .6);
+        border-radius: 10px;
+    }
+
+    .cartao-informacao {
+        width: 100%;
+        margin-bottom: 14px;
+        padding: 20px;
+        color: #17365f;
+        background: rgba(255, 255, 255, .97);
+        border: 1px solid rgba(255, 255, 255, .7);
+        border-radius: 19px;
+        box-shadow: 0 12px 28px rgba(0, 28, 87, .13);
+        animation: cartaoEntrada .45s ease both;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .cartao-informacao:nth-child(2) {
+        animation-delay: .08s;
+    }
+
+    .cartao-informacao:nth-child(3) {
+        animation-delay: .16s;
+    }
+
+    .cartao-informacao:nth-child(4) {
+        animation-delay: .24s;
+    }
+
+    @keyframes cartaoEntrada {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .cartao-informacao:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 35px rgba(0, 28, 87, .2);
+    }
+
+    .cartao-informacao-cabecalho {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 13px;
+    }
+
+    .etiqueta-materia,
+    .etiqueta-tipo {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 11px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .etiqueta-materia {
+        color: #0756b9;
+        background: #e6f2ff;
+    }
+
+    .etiqueta-tipo {
+        color: #087c65;
+        background: #e0f8ef;
+    }
+
+    .cartao-informacao h3 {
+        margin-bottom: 15px;
+        color: #103c78;
+        font-size: 17px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .cartao-informacao>p {
+        margin-top: 9px;
+        color: #526b8d;
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    .cartao-informacao>p strong {
+        color: #174b88;
+    }
+
+    .observacoes-instituicao {
+        margin-top: 14px !important;
+        padding-top: 12px;
+        border-top: 1px solid #e4edf8;
+    }
+
+    /* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
+    @media (max-width: 1100px) {
+        .painel-direito .conteudo-dinamico {
+            min-height: 680px;
+            padding: 45px 7% 30px;
+        }
+
+        .lista-informacoes {
+            max-height: 350px;
+        }
+
+        .cartao-informacao {
+            padding: 16px;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .painel-direito {
+            display: flex;
+            min-height: 500px;
+        }
+
+        .painel-direito .conteudo-dinamico {
+            min-height: 500px;
+            padding: 35px 22px;
+        }
+
+        .conteudo-dinamico h2,
+        .resultado-painel h2,
+        .carregamento-painel h2 {
+            font-size: 25px;
+        }
+
+        .icone-painel {
+            width: 70px;
+            height: 70px;
+            border-radius: 21px;
+            font-size: 34px;
+        }
+
+        .lista-informacoes {
+            max-height: 400px;
+        }
+
+        .cartao-informacao {
+            padding: 16px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .painel-direito .conteudo-dinamico,
+        .icone-painel,
+        .spinner-instituicao,
+        .cartao-informacao,
+        .cabecalho-resultado .icone-painel {
+            animation: none !important;
+            transition: none !important;
+        }
     }
 }

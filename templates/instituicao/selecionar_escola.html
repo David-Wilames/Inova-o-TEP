@@ -56,15 +56,15 @@
 
                     <!-- MENSAGENS DO DJANGO -->
                     {% if messages %}
-                        <div class="mensagens">
+                    <div class="mensagens">
 
-                            {% for message in messages %}
-                                <p class="mensagem">
-                                    {{ message }}
-                                </p>
-                            {% endfor %}
+                        {% for message in messages %}
+                        <p class="mensagem">
+                            {{ message }}
+                        </p>
+                        {% endfor %}
 
-                        </div>
+                    </div>
                     {% endif %}
 
                     <!-- FORMULÁRIO ORIGINAL PRESERVADO -->
@@ -89,9 +89,9 @@
                                     </option>
 
                                     {% for escola in escolas %}
-                                        <option value="{{ escola.id }}">
-                                            {{ escola.nome_unidade_escolar }}
-                                        </option>
+                                    <option value="{{ escola.id }}">
+                                        {{ escola.nome_unidade_escolar }}
+                                    </option>
                                     {% endfor %}
 
                                 </select>
@@ -110,21 +110,15 @@
 
                             <div class="campo-input">
 
-                                <input
-                                    type="password"
-                                    id="senha"
-                                    name="senha"
-                                    placeholder="Senha da instituição"
-                                    autocomplete="off"
-                                    required
-                                >
+                                <input type="password" id="senha" name="senha" placeholder="Senha da instituição"
+                                    autocomplete="off" required>
 
                             </div>
 
                         </div>
 
                         <!-- BOTÃO -->
-                        
+
                     </form>
 
                 </div>
@@ -220,7 +214,10 @@
         </section>
 
     </main>
-
+    <div 
+        id="configuracao-instituicao" data-url-verificacao="{% url 'verificar_instituicao' %}" hidden>
+    </div>
+    <script src="{% static 'usuarios/js/selecionar_escola.js' %}"></script>
 </body>
 
 </html>
