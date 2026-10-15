@@ -11,4 +11,5 @@ urlpatterns = [
     path('adicionar-informacoes/',views.adicionar_informacoes,name='adicionar_informacoes'),
     path('avaliacoes/', views.avaliacoes, name='avaliacoes'),
     path('colaborador/informacoes/', views.informacoes_colaborador, name='informacoes_colaborador'),
+    path('api/oportunidades/mapa/', views.api_oportunidades_mapa, name='api_oportunidades_mapa'),
 ]

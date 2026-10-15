@@ -1,10 +1,13 @@
+from django.db import connection
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.http import require_GET
 
 from .forms import CadastroProfessorForm, LoginProfessorForm
 from .models import InformacoesColaborador, Usuarios
 
 
- # MOSTRA AS INFORMAÇÕES DO COLABORADOR CADASTRADO
+# MOSTRA AS INFORMAÇÕES DO COLABORADOR CADASTRADO
 def informacoes_colaborador(request):
     usuario_id = request.session.get("usuario_id")
 
@@ -18,9 +21,7 @@ def informacoes_colaborador(request):
         return redirect("login_colaborador")
 
     try:
-        informacoes = InformacoesColaborador.objects.get(
-            usuario_id=usuario.pk
-        )
+        informacoes = InformacoesColaborador.objects.get(usuario_id=usuario.pk)
     except InformacoesColaborador.DoesNotExist:
         informacoes = None
 
@@ -33,22 +34,18 @@ def informacoes_colaborador(request):
         },
     )
 
+
 def escolha(request):
 
-    return render(
-        request,
-        "escolha.html"
-    )
+    return render(request, "escolha.html")
 
 
 def login_colaborador(request):
 
     if request.method == "POST":
-
         form = LoginProfessorForm(request.POST)
 
         if form.is_valid():
-
             # Usuário encontrado pelo username ou e-mail
             usuario = form.usuario
 
@@ -58,55 +55,123 @@ def login_colaborador(request):
             return redirect("colaborador")
 
     else:
-
         form = LoginProfessorForm()
 
-    return render(
-        request,
-        "usuarios/login_colaborador.html",
-        {"form": form}
-    )
+    return render(request, "usuarios/login_colaborador.html", {"form": form})
 
 
 def colaborador(request):
+    oportunidades = []
+
+    with connection.cursor() as cursor:
+        # Verifica se a tabela existe no banco SQLite.
+        cursor.execute("""
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'table'
+              AND name = 'informacoes_instituicao'
+        """)
+
+        tabela_existe = cursor.fetchone()
+
+        if tabela_existe:
+            # Descobre os nomes reais das colunas.
+            cursor.execute('PRAGMA table_info("informacoes_instituicao")')
+
+            colunas = [coluna[1] for coluna in cursor.fetchall()]
+
+            # Relaciona os nomes possíveis das colunas.
+            aliases = {
+                "escola": ["Escola", "escola", "nome_escola"],
+                "materia": ["Materia", "materia", "matéria"],
+                "tipo": ["Tipo", "tipo"],
+                "municipio": [
+                    "Municipio",
+                    "municipio",
+                    "Município",
+                    "municipio_escola",
+                ],
+                "telefone": ["Telefone", "telefone"],
+                "cep": ["CEP", "cep"],
+                "endereco": [
+                    "Endereço",
+                    "Endereco",
+                    "endereco",
+                    "logradouro",
+                ],
+                "bairro": ["Bairro", "bairro"],
+                "quantidade": ["Quantidade", "quantidade"],
+                "responsavel": [
+                    "Nome do responsavel",
+                    "Nome do responsável",
+                    "nome_responsavel",
+                    "responsavel",
+                ],
+                "observacoes": [
+                    "Observacoes",
+                    "Observações",
+                    "observacoes",
+                    "observacoes_escola",
+                ],
+            }
+
+            # Escolhe apenas colunas que realmente existem.
+            selecionadas = {}
+
+            for destino, possibilidades in aliases.items():
+                for nome in possibilidades:
+                    if nome in colunas:
+                        selecionadas[destino] = nome
+                        break
+
+            if "escola" in selecionadas:
+                # Monta uma consulta usando os nomes reais.
+                campos_sql = []
+
+                for destino, coluna in selecionadas.items():
+                    coluna_segura = '"' + coluna.replace('"', '""') + '"'
+                    campos_sql.append(f"{coluna_segura} AS {destino}")
+
+                sql = (
+                    "SELECT "
+                    + ", ".join(campos_sql)
+                    + ' FROM "informacoes_instituicao"'
+                )
+
+                cursor.execute(sql)
+
+                nomes = [descricao[0] for descricao in cursor.description]
+
+                oportunidades = [dict(zip(nomes, linha)) for linha in cursor.fetchall()]
 
     return render(
         request,
-        "usuarios/colaborador.html"
+        "usuarios/colaborador.html",
+        {
+            "oportunidades": oportunidades,
+        },
     )
 
 
 def login_estituiçao(request):
 
-    return render(
-        request,
-        "login_estituiçao.html"
-    )
+    return render(request, "login_estituiçao.html")
 
 
 def cadastro_colaborador(request):
 
     if request.method == "POST":
-
         form = CadastroProfessorForm(request.POST)
 
         if form.is_valid():
-
             form.save()
 
-            return redirect(
-                "login_colaborador"
-            )
+            return redirect("login_colaborador")
 
     else:
-
         form = CadastroProfessorForm()
 
-    return render(
-        request,
-        "usuarios/cadastro.html",
-        {"form": form}
-    )
+    return render(request, "usuarios/cadastro.html", {"form": form})
 
 
 def adicionar_informacoes(request):
@@ -129,9 +194,7 @@ def adicionar_informacoes(request):
         return redirect("login_colaborador")
 
     # Procura informações já cadastradas para esse usuário
-    informacoes, _criada = InformacoesColaborador.objects.get_or_create(
-        usuario=usuario
-    )
+    informacoes, _criada = InformacoesColaborador.objects.get_or_create(usuario=usuario)
 
     if request.method == "POST":
         dados = request.POST
@@ -171,9 +234,7 @@ def adicionar_informacoes(request):
         informacoes.materia = dados.get("materia", "").strip()
 
         # Disponibilidade
-        informacoes.tempo_integral = (
-            dados.get("tempo_integral") == "sim"
-        )
+        informacoes.tempo_integral = dados.get("tempo_integral") == "sim"
 
         horario_inicio = dados.get("horario_inicio", "")
         horario_fim = dados.get("horario_fim", "")
@@ -208,7 +269,54 @@ def adicionar_informacoes(request):
 
 def avaliacoes(request):
 
-    return render(
-        request,
-        "usuarios/avaliacoes.html"
-    )
+    return render(request, "usuarios/avaliacoes.html")
+
+@require_GET
+def api_oportunidades_mapa(request):
+    from django.db import connection
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                "Escola",
+                "CEP",
+                "Endereço",
+                "Municipio",
+                "Bairro",
+                "Materia",
+                "Tipo",
+                "Telefone",
+                "Quantidade",
+                "Observacoes"
+            FROM "informacoes_instituicao"
+        """)
+
+        colunas = [
+            coluna[0]
+            for coluna in cursor.description
+        ]
+
+        escolas = [
+            dict(zip(colunas, linha))
+            for linha in cursor.fetchall()
+        ]
+
+    oportunidades = []
+
+    for escola in escolas:
+        oportunidades.append({
+            "escola": escola.get("Escola") or "",
+            "cep": escola.get("CEP") or "",
+            "endereco": escola.get("Endereço") or "",
+            "municipio": escola.get("Municipio") or "",
+            "bairro": escola.get("Bairro") or "",
+            "materia": escola.get("Materia") or "",
+            "tipo": escola.get("Tipo") or "",
+            "telefone": escola.get("Telefone") or "",
+            "quantidade": escola.get("Quantidade") or "",
+            "observacoes": escola.get("Observacoes") or "",
+        })
+
+    return JsonResponse({
+        "oportunidades": oportunidades
+    })

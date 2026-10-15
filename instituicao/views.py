@@ -1,5 +1,3 @@
-import json
-
 from django.contrib import messages
 from django.db import connection
 from django.http import JsonResponse

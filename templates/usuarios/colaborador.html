@@ -223,23 +223,21 @@
 
 
             <!-- =================================================
-                 OPORTUNIDADES
+             OPORTUNIDADES
             ================================================== -->
 
             <div class="results-title">
-
                 <strong>
                     Oportunidades encontradas
                 </strong>
 
                 <span>
-                    Ordenadas por proximidade
+                    Instituições cadastradas
                 </span>
-
             </div>
 
+            {% for oportunidade in oportunidades %}
 
-            <!-- OPORTUNIDADE 1 -->
             <article class="teacher-card">
 
                 <div class="teacher-photo">
@@ -249,38 +247,77 @@
                 <div class="teacher-info">
 
                     <div class="teacher-name">
-
                         <h3>
-                            Escola Municipal de Cajamar
+                            {{ oportunidade.escola|default:"Instituição sem nome" }}
                         </h3>
-
                     </div>
 
                     <p class="subject">
-                        Matemática • Ensino Médio
+                        {{ oportunidade.materia|default:"Matéria não informada" }}
+                        •
+                        {{ oportunidade.tipo|default:"Tipo não informado" }}
                     </p>
 
                     <div class="teacher-details">
 
                         <span>
-                            📍 2,4 km
+                            📍 {{ oportunidade.municipio|default:"Município não informado" }}
                         </span>
 
                         <span class="available">
-                            ● Aula disponível
+                            ● Oportunidade cadastrada
                         </span>
 
                     </div>
 
                     <div class="teacher-actions">
 
-                        <button class="profile-btn" type="button">
+                        <button class="profile-btn" type="button" onclick="mostrarDetalhes(this)">
                             Ver oportunidade
                         </button>
 
-                        <button class="request-btn" type="button">
+                        <button class="request-btn" type="button" onclick="demonstrarInteresse()">
                             Tenho interesse
                         </button>
+
+                    </div>
+
+                    <div class="oportunidade-detalhes" hidden>
+
+                        <p>
+                            <strong>Telefone:</strong>
+                            {{ oportunidade.telefone|default:"Não informado" }}
+                        </p>
+
+                        <p>
+                            <strong>CEP:</strong>
+                            {{ oportunidade.cep|default:"Não informado" }}
+                        </p>
+
+                        <p>
+                            <strong>Endereço:</strong>
+                            {{ oportunidade.endereco|default:"Não informado" }}
+                        </p>
+
+                        <p>
+                            <strong>Bairro:</strong>
+                            {{ oportunidade.bairro|default:"Não informado" }}
+                        </p>
+
+                        <p>
+                            <strong>Quantidade:</strong>
+                            {{ oportunidade.quantidade|default:"Não informada" }}
+                        </p>
+
+                        <p>
+                            <strong>Responsável:</strong>
+                            {{ oportunidade.responsavel|default:"Não informado" }}
+                        </p>
+
+                        <p>
+                            <strong>Observações:</strong>
+                            {{ oportunidade.observacoes|default:"Nenhuma observação" }}
+                        </p>
 
                     </div>
 
@@ -288,105 +325,36 @@
 
             </article>
 
+            {% empty %}
 
-            <!-- OPORTUNIDADE 2 -->
-            <article class="teacher-card">
+            <div class="empty-results">
+                <h3>Nenhuma oportunidade encontrada</h3>
 
-                <div class="teacher-photo female">
-                    🏫
-                </div>
+                <p>
+                    Ainda não existem instituições cadastradas para exibição.
+                </p>
+            </div>
 
-                <div class="teacher-info">
+            {% endfor %}
 
-                    <div class="teacher-name">
+            <script>
+                function mostrarDetalhes(botao) {
+                    const card = botao.closest(".teacher-card");
+                    const detalhes = card.querySelector(".oportunidade-detalhes");
 
-                        <h3>
-                            Colégio Nova Geração
-                        </h3>
+                    detalhes.hidden = !detalhes.hidden;
 
-                    </div>
+                    botao.textContent = detalhes.hidden
+                        ? "Ver oportunidade"
+                        : "Ocultar detalhes";
+                }
 
-                    <p class="subject">
-                        Português • Ensino Fundamental
-                    </p>
-
-                    <div class="teacher-details">
-
-                        <span>
-                            📍 4,1 km
-                        </span>
-
-                        <span class="available">
-                            ● Aula disponível hoje
-                        </span>
-
-                    </div>
-
-                    <div class="teacher-actions">
-
-                        <button class="profile-btn" type="button">
-                            Ver oportunidade
-                        </button>
-
-                        <button class="request-btn" type="button">
-                            Tenho interesse
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- OPORTUNIDADE 3 -->
-            <article class="teacher-card">
-
-                <div class="teacher-photo">
-                    🏫
-                </div>
-
-                <div class="teacher-info">
-
-                    <div class="teacher-name">
-
-                        <h3>
-                            Escola Estadual Professor Santos
-                        </h3>
-
-                    </div>
-
-                    <p class="subject">
-                        História • Ensino Médio
-                    </p>
-
-                    <div class="teacher-details">
-
-                        <span>
-                            📍 5,2 km
-                        </span>
-
-                        <span class="available">
-                            ● Aula disponível hoje
-                        </span>
-
-                    </div>
-
-                    <div class="teacher-actions">
-
-                        <button class="profile-btn" type="button">
-                            Ver oportunidade
-                        </button>
-
-                        <button class="request-btn" type="button">
-                            Tenho interesse
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
+                function demonstrarInteresse() {
+                    alert(
+                        "A funcionalidade de demonstrar interesse ainda será implementada."
+                    );
+                }
+            </script>
 
         </section>
 

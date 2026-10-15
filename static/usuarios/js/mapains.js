@@ -393,20 +393,20 @@ function localizarUsuario() {
 
                 })
 
-                .setLngLat([
-                    longitude,
-                    latitude
-                ])
+                    .setLngLat([
+                        longitude,
+                        latitude
+                    ])
 
-                .setPopup(
+                    .setPopup(
 
-                    new mapboxgl.Popup()
-                        .setHTML(
-                            "<strong>Você está aqui</strong>"
-                        )
-                )
+                        new mapboxgl.Popup()
+                            .setHTML(
+                                "<strong>Você está aqui</strong>"
+                            )
+                    )
 
-                .addTo(mapa);
+                    .addTo(mapa);
 
 
             // =========================================
@@ -640,21 +640,21 @@ async function pesquisarEndereco() {
 
             })
 
-            .setLngLat([
-                longitude,
-                latitude
-            ])
+                .setLngLat([
+                    longitude,
+                    latitude
+                ])
 
-            .setPopup(
+                .setPopup(
 
-                new mapboxgl.Popup()
-                    .setHTML(
-                        "<strong>Destino</strong><br>" +
-                        dados[0].display_name
-                    )
-            )
+                    new mapboxgl.Popup()
+                        .setHTML(
+                            "<strong>Destino</strong><br>" +
+                            dados[0].display_name
+                        )
+                )
 
-            .addTo(mapa);
+                .addTo(mapa);
 
 
         marcadorDestino.togglePopup();
@@ -858,3 +858,208 @@ setTimeout(function () {
 
 }, 500);
 
+
+// =====================================================
+// LOCALIZAR ESCOLA E ADICIONAR AO MAPA
+// =====================================================
+
+async function localizarEscolaPorCEP(oportunidade) {
+    const cep = String(oportunidade.cep || "").replace(/\D/g, "");
+
+    if (cep.length !== 8) {
+        console.warn("CEP inválido:", oportunidade.escola, cep);
+        return;
+    }
+
+    const endereco = [
+        oportunidade.endereco,
+        oportunidade.bairro,
+        oportunidade.municipio,
+        "São Paulo",
+        "Brasil"
+    ].filter(Boolean).join(", ");
+
+    const consultas = [
+        `${endereco}, CEP ${cep}, Cajamar, São Paulo, Brasil`,
+        `${cep}, Cajamar, São Paulo, Brasil`
+
+    ];
+
+    for (const consulta of consultas) {
+        try {
+            const url = new URL(
+                "https://api.mapbox.com/search/geocode/v6/forward"
+            );
+
+            url.searchParams.set("q", consulta);
+            url.searchParams.set("country", "BR");
+            url.searchParams.set("language", "pt");
+            url.searchParams.set("limit", "1");
+            url.searchParams.set(
+                "proximity",
+                `${INSTITUICAO[0]},${INSTITUICAO[1]}`
+            );
+            url.searchParams.set("access_token", mapboxgl.accessToken);
+
+            const resposta = await fetch(url);
+
+            if (!resposta.ok) {
+                console.error(
+                    "Erro na geocodificação:",
+                    resposta.status,
+                    await resposta.text()
+                );
+                continue;
+            }
+
+            const dados = await resposta.json();
+            const local = dados.features?.[0];
+
+            if (!local) {
+                console.warn("Endereço não encontrado:", consulta);
+                continue;
+            }
+
+            const [longitude, latitude] = local.geometry.coordinates;
+
+            if (!pontoDentroDeCajamar(longitude, latitude)) {
+                console.warn(
+                    "Localização fora dos limites definidos:",
+                    consulta,
+                    longitude,
+                    latitude
+                );
+                continue;
+            }
+
+            const conteudo = document.createElement("div");
+
+            const titulo = document.createElement("strong");
+            titulo.textContent = oportunidade.escola || "Escola";
+            conteudo.appendChild(titulo);
+
+            const enderecoTexto = document.createElement("p");
+            enderecoTexto.textContent = endereco;
+            conteudo.appendChild(enderecoTexto);
+
+            const botao = document.createElement("button");
+            botao.type = "button";
+            botao.textContent = "Traçar rota até esta escola";
+            botao.style.padding = "8px";
+            botao.style.marginTop = "8px";
+
+            botao.addEventListener("click", () => {
+                if (!navigator.geolocation) {
+                    alert("Seu navegador não oferece suporte à localização.");
+                    return;
+                }
+
+                botao.disabled = true;
+                botao.textContent = "Obtendo localização...";
+
+                navigator.geolocation.getCurrentPosition(
+                    async (posicao) => {
+                        try {
+                            const origemLng = posicao.coords.longitude;
+                            const origemLat = posicao.coords.latitude;
+
+                            await criarRota(
+                                origemLng,
+                                origemLat,
+                                longitude,
+                                latitude
+                            );
+                        } finally {
+                            botao.disabled = false;
+                            botao.textContent = "Traçar rota até esta escola";
+                        }
+                    },
+                    (erro) => {
+                        console.error("Erro de localização:", erro);
+
+                        alert(
+                            "Não foi possível obter sua localização. " +
+                            "Verifique a permissão do navegador."
+                        );
+
+                        botao.disabled = false;
+                        botao.textContent = "Traçar rota até esta escola";
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            });
+
+            conteudo.appendChild(botao);
+
+            new mapboxgl.Marker({ color: "#16803c" })
+                .setLngLat([longitude, latitude])
+                .setPopup(
+                    new mapboxgl.Popup({ offset: 25 })
+                        .setDOMContent(conteudo)
+                )
+                .addTo(mapa);
+
+            console.log(
+                "Escola adicionada:",
+                oportunidade.escola,
+                consulta,
+                [longitude, latitude]
+            );
+
+            return;
+        } catch (erro) {
+            console.error("Erro ao localizar escola:", consulta, erro);
+        }
+    }
+
+    console.warn(
+        "Não foi possível adicionar a escola:",
+        oportunidade.escola,
+        cep
+    );
+}
+
+
+// =====================================================
+// CARREGAR OPORTUNIDADES DO DJANGO
+// =====================================================
+
+async function carregarEscolasNoMapa() {
+    console.log("Buscando oportunidades no Django...");
+
+    try {
+        const resposta = await fetch(
+            "/usuario/api/oportunidades/mapa/"
+        );
+
+        if (!resposta.ok) {
+            throw new Error(`Erro HTTP ${resposta.status}`);
+        }
+
+        const dados = await resposta.json();
+        const oportunidades = dados.oportunidades || [];
+
+        console.log("Oportunidades recebidas:", oportunidades);
+
+        if (oportunidades.length === 0) {
+            console.warn("A API não retornou oportunidades.");
+            return;
+        }
+
+        for (const oportunidade of oportunidades) {
+            await localizarEscolaPorCEP(oportunidade);
+        }
+
+        console.log("Finalizado o carregamento das escolas.");
+    } catch (erro) {
+        console.error("Erro ao carregar escolas:", erro);
+    }
+}
+
+
+// Executar somente uma vez, quando o mapa estiver pronto.
+mapa.once("load", carregarEscolasNoMapa);
