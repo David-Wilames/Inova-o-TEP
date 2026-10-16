@@ -934,19 +934,50 @@ async function localizarEscolaPorCEP(oportunidade) {
 
             const conteudo = document.createElement("div");
 
-            const titulo = document.createElement("strong");
+            conteudo.style.minWidth = "220px";
+            conteudo.style.maxWidth = "280px";
+            conteudo.style.fontFamily = "Arial, sans-serif";
+
+            const titulo = document.createElement("h3");
             titulo.textContent = oportunidade.escola || "Escola";
+            titulo.style.margin = "0 0 10px";
+            titulo.style.fontSize = "16px";
+
             conteudo.appendChild(titulo);
 
             const enderecoTexto = document.createElement("p");
-            enderecoTexto.textContent = endereco;
+            enderecoTexto.textContent =
+                oportunidade.endereco || "Endereço não informado";
+
+            enderecoTexto.style.margin = "5px 0";
+
             conteudo.appendChild(enderecoTexto);
 
+            const bairroTexto = document.createElement("p");
+            bairroTexto.textContent =
+                "Bairro: " + (oportunidade.bairro || "Não informado");
+
+            bairroTexto.style.margin = "5px 0";
+
+            conteudo.appendChild(bairroTexto);
+
+            const cepTexto = document.createElement("p");
+            cepTexto.textContent =
+                "CEP: " + (oportunidade.cep || "Não informado");
+
+            cepTexto.style.margin = "5px 0";
+
+            conteudo.appendChild(cepTexto);
+
             const botao = document.createElement("button");
+
             botao.type = "button";
             botao.textContent = "Traçar rota até esta escola";
-            botao.style.padding = "8px";
-            botao.style.marginTop = "8px";
+
+            botao.style.padding = "10px";
+            botao.style.marginTop = "10px";
+            botao.style.width = "100%";
+            botao.style.cursor = "pointer";
 
             botao.addEventListener("click", () => {
                 if (!navigator.geolocation) {
@@ -960,15 +991,15 @@ async function localizarEscolaPorCEP(oportunidade) {
                 navigator.geolocation.getCurrentPosition(
                     async (posicao) => {
                         try {
-                            const origemLng = posicao.coords.longitude;
-                            const origemLat = posicao.coords.latitude;
-
                             await criarRota(
-                                origemLng,
-                                origemLat,
+                                posicao.coords.longitude,
+                                posicao.coords.latitude,
                                 longitude,
                                 latitude
                             );
+                        } catch (erro) {
+                            console.error("Erro ao traçar rota:", erro);
+                            alert("Não foi possível traçar a rota.");
                         } finally {
                             botao.disabled = false;
                             botao.textContent = "Traçar rota até esta escola";
@@ -992,6 +1023,8 @@ async function localizarEscolaPorCEP(oportunidade) {
                     }
                 );
             });
+
+            conteudo.appendChild(botao);
 
             conteudo.appendChild(botao);
 
