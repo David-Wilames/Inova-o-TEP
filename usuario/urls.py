@@ -12,4 +12,6 @@ urlpatterns = [
     path('avaliacoes/', views.avaliacoes, name='avaliacoes'),
     path('colaborador/informacoes/', views.informacoes_colaborador, name='informacoes_colaborador'),
     path('api/oportunidades/mapa/', views.api_oportunidades_mapa, name='api_oportunidades_mapa'),
+    path('api/localizacao-colaborador/',views.api_localizacao_colaborador,name='api_localizacao_colaborador'),
+
 ]

@@ -271,6 +271,7 @@ def avaliacoes(request):
 
     return render(request, "usuarios/avaliacoes.html")
 
+
 @require_GET
 def api_oportunidades_mapa(request):
     from django.db import connection
@@ -291,32 +292,53 @@ def api_oportunidades_mapa(request):
             FROM "informacoes_instituicao"
         """)
 
-        colunas = [
-            coluna[0]
-            for coluna in cursor.description
-        ]
+        colunas = [coluna[0] for coluna in cursor.description]
 
-        escolas = [
-            dict(zip(colunas, linha))
-            for linha in cursor.fetchall()
-        ]
+        escolas = [dict(zip(colunas, linha)) for linha in cursor.fetchall()]
 
     oportunidades = []
 
     for escola in escolas:
-        oportunidades.append({
-            "escola": escola.get("Escola") or "",
-            "cep": escola.get("CEP") or "",
-            "endereco": escola.get("Endereço") or "",
-            "municipio": escola.get("Municipio") or "",
-            "bairro": escola.get("Bairro") or "",
-            "materia": escola.get("Materia") or "",
-            "tipo": escola.get("Tipo") or "",
-            "telefone": escola.get("Telefone") or "",
-            "quantidade": escola.get("Quantidade") or "",
-            "observacoes": escola.get("Observacoes") or "",
-        })
+        oportunidades.append(
+            {
+                "escola": escola.get("Escola") or "",
+                "cep": escola.get("CEP") or "",
+                "endereco": escola.get("Endereço") or "",
+                "municipio": escola.get("Municipio") or "",
+                "bairro": escola.get("Bairro") or "",
+                "materia": escola.get("Materia") or "",
+                "tipo": escola.get("Tipo") or "",
+                "telefone": escola.get("Telefone") or "",
+                "quantidade": escola.get("Quantidade") or "",
+                "observacoes": escola.get("Observacoes") or "",
+            }
+        )
 
-    return JsonResponse({
-        "oportunidades": oportunidades
-    })
+    return JsonResponse({"oportunidades": oportunidades})
+
+
+@require_GET
+def api_localizacao_colaborador(request):
+    usuario_id = request.session.get("usuario_id")
+
+    if not usuario_id:
+        return JsonResponse({"erro": "Usuário não autenticado."}, status=401)
+
+    try:
+        informacoes = InformacoesColaborador.objects.get(usuario_id=usuario_id)
+    except InformacoesColaborador.DoesNotExist:
+        return JsonResponse(
+            {"erro": ("O colaborador ainda não cadastrou suas informações.")},
+            status=404,
+        )
+
+    return JsonResponse(
+        {
+            "cep": informacoes.cep or "",
+            "logradouro": informacoes.logradouro or "",
+            "numero": informacoes.numero or "",
+            "bairro": informacoes.bairro or "",
+            "municipio": informacoes.municipio or "",
+            "uf": informacoes.uf or "",
+        }
+    )

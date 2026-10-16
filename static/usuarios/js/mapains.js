@@ -24,6 +24,7 @@ const LIMITES_CAJAMAR = [
 // =====================================================
 
 let marcadorUsuario = null;
+let marcadorColaboradorCEP = null;
 
 // =====================================================
 // CRIAR MAPA
@@ -600,3 +601,144 @@ async function carregarEscolasNoMapa() {
 // =====================================================
 
 mapa.once("load", carregarEscolasNoMapa);
+
+// =====================================================
+// LOCALIZAÇÃO INDIVIDUAL DO COLABORADOR PELO CEP
+// =====================================================
+
+async function carregarLocalizacaoColaborador() {
+    try {
+        const resposta = await fetch(
+            "/usuario/api/localizacao-colaborador/"
+        );
+
+        if (!resposta.ok) {
+            if (resposta.status === 401) {
+                console.warn("Colaborador não autenticado.");
+                return;
+            }
+
+            if (resposta.status === 404) {
+                console.warn(
+                    "O colaborador ainda não cadastrou suas informações."
+                );
+                return;
+            }
+
+            throw new Error(
+                "Erro ao consultar o CEP: " + resposta.status
+            );
+        }
+
+        const dados = await resposta.json();
+
+        const cep = String(dados.cep || "").replace(/\D/g, "");
+
+        if (cep.length !== 8) {
+            console.warn(
+                "O colaborador não possui um CEP válido cadastrado."
+            );
+            return;
+        }
+
+        const endereco = [
+            dados.logradouro,
+            dados.numero,
+            dados.bairro,
+            dados.municipio,
+            dados.uf,
+            cep,
+            "Brasil"
+        ]
+            .filter(Boolean)
+            .join(", ");
+
+        const url = new URL(
+            "https://api.mapbox.com/search/geocode/v6/forward"
+        );
+
+        url.searchParams.set("q", endereco);
+        url.searchParams.set("country", "BR");
+        url.searchParams.set("language", "pt");
+        url.searchParams.set("limit", "1");
+        url.searchParams.set(
+            "proximity",
+            `${INSTITUICAO[0]},${INSTITUICAO[1]}`
+        );
+        url.searchParams.set(
+            "access_token",
+            mapboxgl.accessToken
+        );
+
+        const respostaMapa = await fetch(url);
+
+        if (!respostaMapa.ok) {
+            throw new Error(
+                "Erro do Mapbox: " + respostaMapa.status
+            );
+        }
+
+        const resultado = await respostaMapa.json();
+
+        const local = resultado.features?.[0];
+
+        if (!local) {
+            console.warn(
+                "Não foi possível encontrar o CEP do colaborador."
+            );
+            return;
+        }
+
+        const [longitude, latitude] =
+            local.geometry.coordinates;
+
+        if (marcadorColaboradorCEP) {
+            marcadorColaboradorCEP.remove();
+        }
+
+        const popup = document.createElement("div");
+
+        const titulo = document.createElement("strong");
+        titulo.textContent = "Sua localização cadastrada";
+
+        const enderecoTexto = document.createElement("p");
+        enderecoTexto.textContent = endereco;
+
+        popup.appendChild(titulo);
+        popup.appendChild(enderecoTexto);
+
+        marcadorColaboradorCEP = new mapboxgl.Marker({
+            color: "#1473e6"
+        })
+            .setLngLat([longitude, latitude])
+            .setPopup(
+                new mapboxgl.Popup({ offset: 25 })
+                    .setDOMContent(popup)
+            )
+            .addTo(mapa);
+
+        mapa.flyTo({
+            center: [longitude, latitude],
+            zoom: 14,
+            duration: 1200
+        });
+
+        console.log(
+            "Localização do colaborador carregada:",
+            cep,
+            [longitude, latitude]
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao carregar localização do colaborador:",
+            erro
+        );
+    }
+}
+
+// =====================================================
+// CARREGAR A LOCALIZAÇÃO DO COLABORADOR
+// =====================================================
+
+mapa.once("load", carregarLocalizacaoColaborador);
