@@ -77,12 +77,27 @@
                         </div>
 
                         <div class="campo">
-                            <label for="nome_social">Nome social (opcional)</label>
-                            <input
-                                type="text"
-                                id="nome_social"
-                                name="nome_social"
-                            >
+                            <label for="informar_nome_social">
+                                <input
+                                    type="checkbox"
+                                    id="informar_nome_social"
+                                    name="informar_nome_social"
+                                    value="sim"
+                                    aria-controls="campo_nome_social"
+                                >
+                                Quero informar meu nome social
+                            </label>
+
+                            <div id="campo_nome_social" hidden>
+                                <label for="nome_social">Nome social</label>
+                                <input
+                                    type="text"
+                                    id="nome_social"
+                                    name="nome_social"
+                                    placeholder="Digite seu nome social"
+                                    disabled
+                                >
+                            </div>
                         </div>
 
                         <div class="campos-grid">
@@ -806,6 +821,25 @@
 
         tipoDocumento.addEventListener("change", atualizarDocumentos);
         atualizarDocumentos();
+
+        // ===============================
+        // NOME SOCIAL
+        // ===============================
+        const informarNomeSocial =
+            document.getElementById("informar_nome_social");
+
+        const nomeSocial =
+            document.getElementById("nome_social");
+
+        function atualizarNomeSocial() {
+            const selecionado = informarNomeSocial.checked;
+
+            document.getElementById("campo_nome_social").hidden = !selecionado;
+            nomeSocial.disabled = !selecionado;
+        }
+
+        informarNomeSocial.addEventListener("change", atualizarNomeSocial);
+        atualizarNomeSocial();
     </script>
 
 </body>

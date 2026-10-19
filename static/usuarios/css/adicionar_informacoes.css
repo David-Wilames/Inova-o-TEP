@@ -606,5 +606,10 @@ body {
     .botao-salvar {
         width: 100%;
     }
+
+    #campo_nome_social {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    }
 }
 
