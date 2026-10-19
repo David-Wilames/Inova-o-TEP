@@ -26,6 +26,9 @@ const LIMITES_CAJAMAR = [
 let marcadorUsuario = null;
 let marcadorColaboradorCEP = null;
 
+// Guarda as coordenadas do colaborador
+let localizacaoColaborador = null;
+
 // =====================================================
 // CRIAR MAPA
 // =====================================================
@@ -84,9 +87,14 @@ async function criarRota(
     inicioLng,
     inicioLat,
     destinoLng,
-    destinoLat
+    destinoLat,
+    nomeDestino = "Escola selecionada"
 ) {
-    atualizarCard("Calculando rota...", "--", "--");
+    atualizarCard(
+        "Rota até " + nomeDestino,
+        distanciaKm + " km",
+        tempoMin + " min"
+    );
 
     try {
         const url =
@@ -155,8 +163,8 @@ async function criarRota(
                 "line-cap": "round"
             },
             paint: {
-                "line-color": "#111111",
-                "line-width": 7,
+                "line-color": "#1769d2",
+                "line-width": 6,
                 "line-opacity": 0.9
             }
         });
@@ -401,77 +409,95 @@ async function localizarEscolaPorCEP(oportunidade) {
 
             conteudo.appendChild(cepTexto);
 
+
             // BOTÃO DE ROTA
             const botao = document.createElement("button");
 
             botao.type = "button";
             botao.textContent = "Traçar rota até esta escola";
+
             botao.style.padding = "10px";
             botao.style.marginTop = "10px";
             botao.style.width = "100%";
             botao.style.cursor = "pointer";
 
-            botao.addEventListener("click", function () {
-                if (!navigator.geolocation) {
-                    alert(
-                        "Seu navegador não oferece suporte à localização."
-                    );
-                    return;
-                }
+            botao.addEventListener("click", async function () {
 
                 botao.disabled = true;
-                botao.textContent = "Obtendo localização...";
+                botao.textContent = "Calculando rota...";
 
-                navigator.geolocation.getCurrentPosition(
-                    async function (posicao) {
-                        try {
-                            await criarRota(
-                                posicao.coords.longitude,
-                                posicao.coords.latitude,
-                                longitude,
-                                latitude
-                            );
-                        } catch (erro) {
-                            console.error(
-                                "Erro ao traçar rota:",
-                                erro
-                            );
+                try {
 
-                            alert(
-                                "Não foi possível traçar a rota."
+                    let origem = localizacaoColaborador;
+
+                    // Se não houver localização cadastrada,
+                    // solicitar a localização atual do navegador.
+                    if (!origem) {
+
+                        if (!navigator.geolocation) {
+                            throw new Error(
+                                "Seu navegador não suporta localização."
                             );
-                        } finally {
-                            botao.disabled = false;
-                            botao.textContent =
-                                "Traçar rota até esta escola";
                         }
-                    },
 
-                    function (erro) {
-                        console.error(
-                            "Erro de localização:",
-                            erro
-                        );
+                        origem = await new Promise((resolve, reject) => {
 
-                        alert(
-                            "Não foi possível obter sua localização. " +
-                            "Verifique a permissão do navegador."
-                        );
+                            navigator.geolocation.getCurrentPosition(
 
-                        botao.disabled = false;
-                        botao.textContent =
-                            "Traçar rota até esta escola";
-                    },
+                                function (posicao) {
+                                    resolve({
+                                        longitude: posicao.coords.longitude,
+                                        latitude: posicao.coords.latitude
+                                    });
+                                },
 
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
+                                function (erro) {
+                                    reject(erro);
+                                },
+
+                                {
+                                    enableHighAccuracy: true,
+                                    timeout: 10000,
+                                    maximumAge: 0
+                                }
+                            );
+
+                        });
+
                     }
-                );
+
+                    // Traçar a rota até a escola selecionada.
+                    await criarRota(
+                        origem.longitude,
+                        origem.latitude,
+                        longitude,
+                        latitude,
+                        oportunidade.escola || "Escola selecionada"
+                    );
+
+                } catch (erro) {
+
+                    console.error(
+                        "Erro ao traçar rota:",
+                        erro
+                    );
+
+                    alert(
+                        "Não foi possível traçar a rota. " +
+                        "Verifique a localização do colaborador."
+                    );
+
+                } finally {
+
+                    botao.disabled = false;
+                    botao.textContent = "Traçar rota até esta escola";
+
+                }
+
             });
 
             conteudo.appendChild(botao);
+
 
             // MARCADOR VERDE DA ESCOLA
             new mapboxgl.Marker({
@@ -813,6 +839,13 @@ async function carregarLocalizacaoColaborador() {
 
         const [longitude, latitude] =
             local.geometry.coordinates;
+
+        // Guardar a localização para utilizá-la nas rotas.
+        localizacaoColaborador = {
+            longitude: longitude,
+            latitude: latitude
+        };
+
 
         // 7. Criar o conteúdo do marcador.
 
