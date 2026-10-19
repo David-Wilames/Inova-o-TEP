@@ -53,14 +53,6 @@ mapa.addControl(
 // MARCADOR DA INSTITUIÇÃO
 // =====================================================
 
-new mapboxgl.Marker()
-    .setLngLat(INSTITUICAO)
-    .setPopup(
-        new mapboxgl.Popup().setHTML(
-            "<strong>Sua instituição</strong><br>Cajamar - SP"
-        )
-    )
-    .addTo(mapa);
 
 // =====================================================
 // ATUALIZAR CARD DE ROTA
@@ -211,23 +203,6 @@ function localizarUsuario() {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
-            // REMOVER MARCADOR ANTIGO
-            if (marcadorUsuario) {
-                marcadorUsuario.remove();
-            }
-
-            // CRIAR MARCADOR DO USUÁRIO
-            marcadorUsuario = new mapboxgl.Marker({
-                color: "#1473e6"
-            })
-                .setLngLat([longitude, latitude])
-                .setPopup(
-                    new mapboxgl.Popup().setHTML(
-                        "<strong>Você está aqui</strong>"
-                    )
-                )
-                .addTo(mapa);
-
             // CENTRALIZAR NO USUÁRIO
             mapa.flyTo({
                 center: [longitude, latitude],
@@ -258,19 +233,6 @@ function localizarUsuario() {
             timeout: 10000,
             maximumAge: 0
         }
-    );
-}
-
-// =====================================================
-// BOTÃO MINHA LOCALIZAÇÃO
-// =====================================================
-
-const botaoLocalizacao = document.getElementById("location-button");
-
-if (botaoLocalizacao) {
-    botaoLocalizacao.addEventListener(
-        "click",
-        localizarUsuario
     );
 }
 
@@ -691,37 +653,6 @@ async function carregarLocalizacaoColaborador() {
 
         const [longitude, latitude] =
             local.geometry.coordinates;
-
-        if (marcadorColaboradorCEP) {
-            marcadorColaboradorCEP.remove();
-        }
-
-        const popup = document.createElement("div");
-
-        const titulo = document.createElement("strong");
-        titulo.textContent = "Sua localização cadastrada";
-
-        const enderecoTexto = document.createElement("p");
-        enderecoTexto.textContent = endereco;
-
-        popup.appendChild(titulo);
-        popup.appendChild(enderecoTexto);
-
-        marcadorColaboradorCEP = new mapboxgl.Marker({
-            color: "#1473e6"
-        })
-            .setLngLat([longitude, latitude])
-            .setPopup(
-                new mapboxgl.Popup({ offset: 25 })
-                    .setDOMContent(popup)
-            )
-            .addTo(mapa);
-
-        mapa.flyTo({
-            center: [longitude, latitude],
-            zoom: 14,
-            duration: 1200
-        });
 
         console.log(
             "Localização do colaborador carregada:",
