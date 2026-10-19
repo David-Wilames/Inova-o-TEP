@@ -559,117 +559,344 @@ async function carregarEscolasNoMapa() {
 }
 
 // =====================================================
-// CARREGAR AS ESCOLAS QUANDO O MAPA ESTIVER PRONTO
+// CARREGAR ESCOLAS E COLABORADOR QUANDO O MAPA ESTIVER PRONTO
 // =====================================================
 
-mapa.once("load", carregarEscolasNoMapa);
+mapa.once("load", async function () {
+    console.log("Mapa carregado. Iniciando carregamento...");
+
+    // 1. Adiciona os marcadores verdes das escolas.
+    await carregarEscolasNoMapa();
+
+    console.log("Escolas carregadas. Buscando colaborador...");
+
+    // 2. Adiciona o marcador azul do colaborador.
+    await carregarLocalizacaoColaborador();
+
+    console.log("Carregamento concluído.");
+});
 
 // =====================================================
-// LOCALIZAÇÃO INDIVIDUAL DO COLABORADOR PELO CEP
+// LOCALIZAÇÃO DO COLABORADOR PELO ENDEREÇO CADASTRADO
 // =====================================================
 
 async function carregarLocalizacaoColaborador() {
+
     try {
+
+        // 1. Buscar o endereço cadastrado no Django.
+
         const resposta = await fetch(
             "/usuario/api/localizacao-colaborador/"
         );
 
         if (!resposta.ok) {
+
             if (resposta.status === 401) {
-                console.warn("Colaborador não autenticado.");
+
+                console.warn(
+                    "Colaborador não autenticado."
+                );
+
                 return;
             }
 
             if (resposta.status === 404) {
+
                 console.warn(
                     "O colaborador ainda não cadastrou suas informações."
                 );
+
                 return;
             }
 
             throw new Error(
-                "Erro ao consultar o CEP: " + resposta.status
+                "Erro ao consultar endereço: " +
+                resposta.status
             );
+
         }
 
         const dados = await resposta.json();
 
-        const cep = String(dados.cep || "").replace(/\D/g, "");
+        // 2. Validar o CEP.
+
+        const cep = String(
+            dados.cep || ""
+        ).replace(/\D/g, "");
 
         if (cep.length !== 8) {
+
             console.warn(
-                "O colaborador não possui um CEP válido cadastrado."
+                "O colaborador não possui um CEP válido."
             );
+
             return;
         }
 
-        const endereco = [
-            dados.logradouro,
-            dados.numero,
-            dados.bairro,
-            dados.municipio,
-            dados.uf,
-            cep,
-            "Brasil"
-        ]
-            .filter(Boolean)
-            .join(", ");
+        // 3. Montar o endereço.
+        // O número da casa é opcional.
 
-        const url = new URL(
-            "https://api.mapbox.com/search/geocode/v6/forward"
-        );
+        const numero = String(
+            dados.numero || ""
+        ).trim();
 
-        url.searchParams.set("q", endereco);
-        url.searchParams.set("country", "BR");
-        url.searchParams.set("language", "pt");
-        url.searchParams.set("limit", "1");
-        url.searchParams.set(
-            "proximity",
-            `${INSTITUICAO[0]},${INSTITUICAO[1]}`
-        );
-        url.searchParams.set(
-            "access_token",
-            mapboxgl.accessToken
-        );
+        const logradouro = String(
+            dados.logradouro || ""
+        ).trim();
 
-        const respostaMapa = await fetch(url);
+        const bairro = String(
+            dados.bairro || ""
+        ).trim();
 
-        if (!respostaMapa.ok) {
-            throw new Error(
-                "Erro do Mapbox: " + respostaMapa.status
+        const municipio = String(
+            dados.municipio || ""
+        ).trim();
+
+        const uf = String(
+            dados.uf || ""
+        ).trim();
+
+        // Não é possível pesquisar adequadamente
+        // o endereço se a rua estiver vazia.
+
+        if (!logradouro) {
+
+            console.warn(
+                "O colaborador precisa cadastrar o logradouro."
             );
+
+            return;
         }
 
-        const resultado = await respostaMapa.json();
+        const enderecoCompleto = [
 
-        const local = resultado.features?.[0];
+            logradouro,
+
+            numero,
+
+            bairro,
+
+            municipio,
+
+            uf,
+
+            cep,
+
+            "Brasil"
+
+        ]
+
+            .filter(valor =>
+                valor !== null &&
+                String(valor).trim() !== ""
+            )
+
+            .join(", ");
+
+        // Consulta alternativa caso o endereço completo
+        // não seja encontrado.
+
+        const enderecoSemNumero = [
+
+            logradouro,
+
+            bairro,
+
+            municipio,
+
+            uf,
+
+            cep,
+
+            "Brasil"
+
+        ]
+
+            .filter(valor =>
+                valor !== null &&
+                String(valor).trim() !== ""
+            )
+
+            .join(", ");
+
+        console.log(
+            "Endereço completo:",
+            enderecoCompleto
+        );
+
+        // 4. Preparar as consultas ao Mapbox.
+
+        const consultas = [
+
+            enderecoCompleto,
+
+            enderecoSemNumero,
+
+            `${cep}, ${municipio}, ${uf}, Brasil`
+
+        ];
+
+        let local = null;
+
+        // 5. Tentar encontrar a localização.
+
+        for (const consulta of consultas) {
+
+            const url = new URL(
+                "https://api.mapbox.com/search/geocode/v6/forward"
+            );
+
+            url.searchParams.set(
+                "q",
+                consulta
+            );
+
+            url.searchParams.set(
+                "country",
+                "BR"
+            );
+
+            url.searchParams.set(
+                "language",
+                "pt"
+            );
+
+            url.searchParams.set(
+                "limit",
+                "1"
+            );
+
+            url.searchParams.set(
+                "access_token",
+                mapboxgl.accessToken
+            );
+
+            const respostaMapa = await fetch(url);
+
+            if (!respostaMapa.ok) {
+
+                console.error(
+                    "Erro na consulta ao Mapbox:",
+                    respostaMapa.status
+                );
+
+                continue;
+            }
+
+            const resultado = await respostaMapa.json();
+
+            local = resultado.features?.[0];
+
+            if (local) {
+
+                console.log(
+                    "Endereço encontrado:",
+                    consulta
+                );
+
+                break;
+            }
+
+        }
+
+        // 6. Verificar se o endereço foi encontrado.
 
         if (!local) {
+
             console.warn(
-                "Não foi possível encontrar o CEP do colaborador."
+                "Não foi possível encontrar o endereço cadastrado."
             );
+
             return;
         }
 
         const [longitude, latitude] =
             local.geometry.coordinates;
 
+        // 7. Criar o conteúdo do marcador.
+
+        const popupConteudo =
+            document.createElement("div");
+
+        popupConteudo.style.minWidth = "220px";
+
+        const titulo =
+            document.createElement("strong");
+
+        titulo.textContent =
+            "Localização do colaborador";
+
+        const enderecoTexto =
+            document.createElement("p");
+
+        enderecoTexto.textContent =
+            enderecoCompleto;
+
+        enderecoTexto.style.marginTop = "8px";
+
+        popupConteudo.appendChild(titulo);
+
+        popupConteudo.appendChild(enderecoTexto);
+
+        // 8. Remover o marcador anterior.
+
+        if (marcadorColaboradorCEP) {
+
+            marcadorColaboradorCEP.remove();
+
+        }
+
+        // 9. Criar o marcador azul.
+
+        marcadorColaboradorCEP =
+            new mapboxgl.Marker({
+                color: "#1473e6"
+            })
+
+                .setLngLat([
+                    longitude,
+                    latitude
+                ])
+
+                .setPopup(
+                    new mapboxgl.Popup({
+                        offset: 25
+                    }).setDOMContent(
+                        popupConteudo
+                    )
+                )
+
+                .addTo(mapa);
+
+        // 10. Centralizar no endereço sem aproximar demais.
+        mapa.flyTo({
+            center: [
+                longitude,
+                latitude
+            ],
+            zoom: 12,
+            duration: 1200
+        });
+
+        // 11. Mostrar o endereço no console.
+
         console.log(
-            "Localização do colaborador carregada:",
-            cep,
-            [longitude, latitude]
+            "Localização do colaborador:",
+            {
+                endereco: enderecoCompleto,
+                longitude: longitude,
+                latitude: latitude
+            }
         );
 
     } catch (erro) {
+
         console.error(
             "Erro ao carregar localização do colaborador:",
             erro
         );
+
     }
+
 }
-
-// =====================================================
-// CARREGAR A LOCALIZAÇÃO DO COLABORADOR
-// =====================================================
-
-mapa.once("load", carregarLocalizacaoColaborador);
