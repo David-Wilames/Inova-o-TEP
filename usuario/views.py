@@ -319,26 +319,54 @@ def api_oportunidades_mapa(request):
 
 @require_GET
 def api_localizacao_colaborador(request):
+
+    # Verificar se existe um colaborador autenticado.
     usuario_id = request.session.get("usuario_id")
 
     if not usuario_id:
         return JsonResponse({"erro": "Usuário não autenticado."}, status=401)
 
+    # Buscar as informações cadastradas pelo colaborador.
     try:
         informacoes = InformacoesColaborador.objects.get(usuario_id=usuario_id)
+
     except InformacoesColaborador.DoesNotExist:
         return JsonResponse(
             {"erro": ("O colaborador ainda não cadastrou suas informações.")},
             status=404,
         )
 
+    # Retornar os dados necessários para o mapa e o perfil profissional.
     return JsonResponse(
         {
+            # Endereço: utilizado internamente para localizar o marcador.
             "cep": informacoes.cep or "",
             "logradouro": informacoes.logradouro or "",
             "numero": informacoes.numero or "",
             "bairro": informacoes.bairro or "",
             "municipio": informacoes.municipio or "",
             "uf": informacoes.uf or "",
+            # Identificação profissional.
+            "nome_completo": informacoes.nome_completo or "",
+            "nome_social": informacoes.nome_social or "",
+            # Informações profissionais.
+            "materia": informacoes.materia or "",
+            "formacao": informacoes.formacao or "",
+            "pos_graduacao": informacoes.pos_graduacao or "",
+            "disciplinas": informacoes.disciplinas or [],
+            # Disponibilidade profissional.
+            "tempo_integral": informacoes.tempo_integral,
+            "horario_inicio": (
+                informacoes.horario_inicio.strftime("%H:%M")
+                if informacoes.horario_inicio
+                else ""
+            ),
+            "horario_fim": (
+                informacoes.horario_fim.strftime("%H:%M")
+                if informacoes.horario_fim
+                else ""
+            ),
+            # Observações profissionais.
+            "observacoes": informacoes.observacoes or "",
         }
     )
