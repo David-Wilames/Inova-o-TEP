@@ -91,9 +91,9 @@ async function criarRota(
     nomeDestino = "Escola selecionada"
 ) {
     atualizarCard(
-        "Rota até " + nomeDestino,
-        distanciaKm + " km",
-        tempoMin + " min"
+        "Calculando rota até " + nomeDestino,
+        "--",
+        "--"
     );
 
     try {
