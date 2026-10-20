@@ -187,7 +187,8 @@ def verificar_instituicao(request):
     with connection.cursor() as cursor:
         cursor.execute(
             """
-            SELECT
+            SELECT 
+                rowid,
                 "Escola",
                 "Telefone",
                 "CEP",
@@ -207,6 +208,7 @@ def verificar_instituicao(request):
         )
 
         colunas = [
+            "id",
             "escola",
             "telefone",
             "cep",
@@ -238,4 +240,59 @@ def verificar_instituicao(request):
             "nome_escola": escola.nome_unidade_escolar,
             "registros": registros,
         }
+    )
+
+@require_POST
+def excluir_registro_instituicao(request):
+    escola_id = request.POST.get("escola_id", "").strip()
+    registro_id = request.POST.get("registro_id", "").strip()
+    senha = request.POST.get("senha", "").strip()
+
+    if not escola_id or not registro_id or not senha:
+        return JsonResponse(
+            {"sucesso": False, "mensagem": "Informe a instituição, o registro e a senha."},
+            status=400,
+        )
+
+    try:
+        registro_id = int(registro_id)
+        escola = Escolas.objects.get(pk=escola_id)
+    except (ValueError, TypeError, Escolas.DoesNotExist):
+        return JsonResponse(
+            {"sucesso": False, "mensagem": "Instituição ou registro inválido."},
+            status=400,
+        )
+
+    # Mantém a verificação usada atualmente no projeto.
+    senha_cadastrada = str(escola.telefone or "").strip()
+
+    if not senha_cadastrada or senha != senha_cadastrada:
+        return JsonResponse(
+            {"sucesso": False, "mensagem": "Senha incorreta."},
+            status=403,
+        )
+
+    # Confere também se o registro pertence à escola selecionada.
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            DELETE FROM "informacoes_instituicao"
+            WHERE rowid = %s
+              AND TRIM("Escola") = %s
+            """,
+            [
+                registro_id,
+                str(escola.nome_unidade_escolar).strip(),
+            ],
+        )
+        quantidade_excluida = cursor.rowcount
+
+    if quantidade_excluida == 0:
+        return JsonResponse(
+            {"sucesso": False, "mensagem": "Registro não encontrado nesta instituição."},
+            status=404,
+        )
+
+    return JsonResponse(
+        {"sucesso": True, "mensagem": "Registro excluído com sucesso!"}
     )

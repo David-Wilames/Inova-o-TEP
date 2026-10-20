@@ -214,9 +214,12 @@
         </section>
 
     </main>
-    <div 
-        id="configuracao-instituicao" data-url-verificacao="{% url 'verificar_instituicao' %}" hidden>
-    </div>
+        <div
+            id="configuracao-instituicao"
+            data-url-verificacao="{% url 'verificar_instituicao' %}"
+            data-url-exclusao="{% url 'excluir_registro_instituicao' %}"
+            hidden
+        ></div>
     <script src="{% static 'usuarios/js/selecionar_escola.js' %}"></script>
 </body>
 

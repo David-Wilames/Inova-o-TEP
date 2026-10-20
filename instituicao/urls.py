@@ -8,4 +8,5 @@ urlpatterns = [
     path("selecionar-escola/",views.selecionar_escola,name="selecionar_escola"),
     path("confirmar-escola/",views.confirmar_escola,name="confirmar_escola"),
     path("verificar-instituicao/",views.verificar_instituicao,name="verificar_instituicao",),
+    path("excluir-registro/",views.excluir_registro_instituicao,name="excluir_registro_instituicao",),
 ]

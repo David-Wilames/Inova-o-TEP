@@ -116,6 +116,13 @@ document.addEventListener("DOMContentLoaded", () => {
                            </p>`
                 : ""
             }
+                            <button
+                    type="button"
+                    class="botao-excluir-registro"
+                    data-registro-id="${escaparHTML(registro.id)}"
+                >
+                    Excluir registro
+                </button>
             </article>
         `).join("");
 
@@ -255,7 +262,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
         temporizador = setTimeout(verificarInstituicao, 500);
     }
+    areaResultado.addEventListener("click", async (evento) => {
+        const botao = evento.target.closest(".botao-excluir-registro");
 
+        if (!botao || botao.disabled) {
+            return;
+        }
+
+        const confirmado = window.confirm(
+            "Excluir este registro definitivamente do banco de dados?"
+        );
+
+        if (!confirmado) {
+            return;
+        }
+
+        const escolaId = escolaSelect.value;
+        const senha = senhaInput.value.trim();
+
+        const configuracao = document.getElementById("configuracao-instituicao");
+        const csrfToken = formulario.querySelector(
+            '[name="csrfmiddlewaretoken"]'
+        )?.value;
+
+        botao.disabled = true;
+        botao.textContent = "Excluindo...";
+
+        try {
+            const resposta = await fetch(configuracao.dataset.urlExclusao, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                    "X-CSRFToken": csrfToken || ""
+                },
+                credentials: "same-origin",
+                body: new URLSearchParams({
+                    escola_id: escolaId,
+                    registro_id: botao.dataset.registroId,
+                    senha: senha
+                }).toString()
+            });
+
+            const dados = await resposta.json();
+
+            if (!resposta.ok || !dados.sucesso) {
+                window.alert(dados.mensagem || "Não foi possível excluir o registro.");
+                return;
+            }
+
+            // Consulta novamente para atualizar os cartões e o contador.
+            await verificarInstituicao();
+        } catch (erro) {
+            console.error("Erro na exclusão:", erro);
+            window.alert(
+                "Não foi possível confirmar o resultado. Consulte novamente os registros antes de tentar excluir outra vez."
+            );
+        } finally {
+            botao.disabled = false;
+            botao.textContent = "Excluir registro";
+        }
+    });
     escolaSelect.addEventListener("change", agendarConsulta);
     senhaInput.addEventListener("input", agendarConsulta);
 
