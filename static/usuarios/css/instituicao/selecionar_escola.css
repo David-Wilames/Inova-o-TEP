@@ -915,6 +915,7 @@ body {
         transition-duration: .01ms !important;
         scroll-behavior: auto !important;
     }
+}
 
     /* ==========================================
    INOVAÇÃO TEP — PAINEL DINÂMICO
@@ -1302,4 +1303,3 @@ body {
             transition: none !important;
         }
     }
-}
