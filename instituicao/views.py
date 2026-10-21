@@ -2,13 +2,27 @@ from django.contrib import messages
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
+
+from usuario.models import InformacoesColaborador
 
 from .models import Escolas
 
 
 def pagina_instituicao(request):
-    return render(request, "instituicao/instituicao.html")
+    colaboradores = (
+        InformacoesColaborador.objects.select_related("usuario")
+        .all()
+        .order_by("nome_completo")
+    )
+
+    return render(
+        request,
+        "instituicao/instituicao.html",
+        {
+            "colaboradores": colaboradores,
+        },
+    )
 
 
 def adicionar_instituicao(request):
@@ -24,16 +38,10 @@ def adicionar_instituicao(request):
 
         # Verifica os campos obrigatórios.
         if not all([escola_id, materia, tipo, quantidade, responsavel]):
-            messages.error(
-                request,
-                "Preencha todos os campos obrigatórios."
-            )
+            messages.error(request, "Preencha todos os campos obrigatórios.")
 
         elif tipo not in ["aula", "horas"]:
-            messages.error(
-                request,
-                "Selecione um tipo válido."
-            )
+            messages.error(request, "Selecione um tipo válido.")
 
         else:
             try:
@@ -80,23 +88,18 @@ def adicionar_instituicao(request):
                     )
 
                 messages.success(
-                    request,
-                    "Informações da instituição salvas com sucesso!"
+                    request, "Informações da instituição salvas com sucesso!"
                 )
 
                 # Evita reenviar o formulário ao atualizar a página.
                 return redirect(request.path)
 
             except Escolas.DoesNotExist:
-                messages.error(
-                    request,
-                    "A escola selecionada não foi encontrada."
-                )
+                messages.error(request, "A escola selecionada não foi encontrada.")
 
             except ValueError:
                 messages.error(
-                    request,
-                    "Informe uma quantidade válida, maior que zero."
+                    request, "Informe uma quantidade válida, maior que zero."
                 )
 
     return render(
@@ -104,6 +107,7 @@ def adicionar_instituicao(request):
         "instituicao/adicionar_instituicao.html",
         {"escolas": escolas},
     )
+
 
 def selecionar_escola(request):
     escolas = Escolas.objects.all().order_by("nome_unidade_escolar")
@@ -116,7 +120,7 @@ def selecionar_escola(request):
         {
             "escolas": escolas,
             "escola_id_selecionada": escola_id,
-        }
+        },
     )
 
 
@@ -127,19 +131,14 @@ def confirmar_escola(request):
         if escola_id and Escolas.objects.filter(pk=escola_id).exists():
             request.session["escola_id"] = int(escola_id)
 
-            messages.success(
-                request,
-                "Instituição selecionada com sucesso!"
-            )
+            messages.success(request, "Instituição selecionada com sucesso!")
 
             return redirect("selecionar_escola")
 
-        messages.error(
-            request,
-            "Selecione uma instituição válida."
-        )
+        messages.error(request, "Selecione uma instituição válida.")
 
     return redirect("selecionar_escola")
+
 
 @require_POST
 def verificar_instituicao(request):
@@ -222,10 +221,7 @@ def verificar_instituicao(request):
             "observacoes",
         ]
 
-        registros = [
-            dict(zip(colunas, linha))
-            for linha in cursor.fetchall()
-        ]
+        registros = [dict(zip(colunas, linha)) for linha in cursor.fetchall()]
 
     # Não enviamos o telefone da instituição na resposta.
     for registro in registros:
@@ -242,6 +238,7 @@ def verificar_instituicao(request):
         }
     )
 
+
 @require_POST
 def excluir_registro_instituicao(request):
     escola_id = request.POST.get("escola_id", "").strip()
@@ -250,7 +247,10 @@ def excluir_registro_instituicao(request):
 
     if not escola_id or not registro_id or not senha:
         return JsonResponse(
-            {"sucesso": False, "mensagem": "Informe a instituição, o registro e a senha."},
+            {
+                "sucesso": False,
+                "mensagem": "Informe a instituição, o registro e a senha.",
+            },
             status=400,
         )
 
@@ -289,10 +289,75 @@ def excluir_registro_instituicao(request):
 
     if quantidade_excluida == 0:
         return JsonResponse(
-            {"sucesso": False, "mensagem": "Registro não encontrado nesta instituição."},
+            {
+                "sucesso": False,
+                "mensagem": "Registro não encontrado nesta instituição.",
+            },
             status=404,
         )
 
+    return JsonResponse({"sucesso": True, "mensagem": "Registro excluído com sucesso!"})
+
+
+@require_GET
+def perfil_colaborador_api(request, colaborador_id):
+    """
+    Retorna os dados do colaborador selecionado para a janela de perfil.
+    """
+
+    try:
+        colaborador = InformacoesColaborador.objects.select_related("usuario").get(
+            pk=colaborador_id
+        )
+    except InformacoesColaborador.DoesNotExist:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "Colaborador não encontrado.",
+            },
+            status=404,
+        )
+
+    dados = {
+        "id": colaborador.pk,
+        "nome_completo": colaborador.nome_completo or "",
+        "nome_social": colaborador.nome_social or "",
+        "genero": colaborador.genero or "",
+        "data_nascimento": (
+            colaborador.data_nascimento.strftime("%d/%m/%Y")
+            if colaborador.data_nascimento
+            else ""
+        ),
+        "email": colaborador.email or "",
+        "telefone": colaborador.telefone or "",
+        "municipio": colaborador.municipio or "",
+        "uf": colaborador.uf or "",
+        "cep": colaborador.cep or "",
+        "logradouro": colaborador.logradouro or "",
+        "numero": colaborador.numero or "",
+        "complemento": colaborador.complemento or "",
+        "bairro": colaborador.bairro or "",
+        "materia": colaborador.materia or "",
+        "formacao": colaborador.formacao or "",
+        "pos_graduacao": colaborador.pos_graduacao or "",
+        "disciplinas": colaborador.disciplinas or [],
+        "tempo_integral": colaborador.tempo_integral,
+        "horario_inicio": (
+            colaborador.horario_inicio.strftime("%H:%M")
+            if colaborador.horario_inicio
+            else ""
+        ),
+        "horario_fim": (
+            colaborador.horario_fim.strftime("%H:%M") if colaborador.horario_fim else ""
+        ),
+        "possui_deficiencia": colaborador.possui_deficiencia or "",
+        "necessidades_acessibilidade": (colaborador.necessidades_acessibilidade or ""),
+        "observacoes": colaborador.observacoes or "",
+    }
+
     return JsonResponse(
-        {"sucesso": True, "mensagem": "Registro excluído com sucesso!"}
+        {
+            "sucesso": True,
+            "colaborador": dados,
+        }
     )

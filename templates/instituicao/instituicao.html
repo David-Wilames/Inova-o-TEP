@@ -1,5 +1,5 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -45,7 +45,7 @@
             {% include 'instituicao/componentes/perfis.html' %}
 
             <!-- NOTIFICAÇÕES -->
-            <button class="notification" type="button">
+            <button class="notification" type="button" aria-label="Notificações">
                 🔔
             </button>
 
@@ -53,12 +53,9 @@
 
     </header>
 
-        </div>
-
-    </header>
-
     <main class="container">
 
+        <!-- APRESENTAÇÃO -->
         <section class="welcome">
 
             <p class="small-title">
@@ -77,7 +74,7 @@
 
         </section>
 
-
+        <!-- LOCALIZAÇÃO -->
         <section class="location-card">
 
             <div class="location-icon">
@@ -104,7 +101,7 @@
 
         </section>
 
-
+        <!-- ESTATÍSTICAS -->
         <section class="statistics">
 
             <div class="stat-card">
@@ -114,17 +111,11 @@
                 </div>
 
                 <div>
-
                     <strong>3</strong>
-
-                    <p>
-                        Aulas disponíveis
-                    </p>
-
+                    <p>Aulas disponíveis</p>
                 </div>
 
             </div>
-
 
             <div class="stat-card">
 
@@ -133,17 +124,11 @@
                 </div>
 
                 <div>
-
                     <strong>12</strong>
-
-                    <p>
-                        Professores disponíveis
-                    </p>
-
+                    <p>Professores disponíveis</p>
                 </div>
 
             </div>
-
 
             <div class="stat-card">
 
@@ -152,35 +137,25 @@
                 </div>
 
                 <div>
-
                     <strong>8</strong>
-
-                    <p>
-                        Substituições realizadas
-                    </p>
-
+                    <p>Substituições realizadas</p>
                 </div>
 
             </div>
 
         </section>
 
-
+        <!-- BUSCA E RESULTADOS -->
         <section class="search-section">
-
 
             <div class="section-header">
 
                 <div>
-
-                    <h2>
-                        Professores disponíveis
-                    </h2>
+                    <h2>Professores disponíveis</h2>
 
                     <p>
                         Profissionais próximos e disponíveis para sua instituição.
                     </p>
-
                 </div>
 
                 <button class="filter-button" type="button">
@@ -189,35 +164,23 @@
 
             </div>
 
-
-            <!-- ============================= -->
             <!-- MAPA -->
-            <!-- ============================= -->
-
             <div class="uber-map-container">
 
-
                 <!-- MAPA MAPBOX -->
-
                 <div id="map"></div>
 
-
                 <!-- CARTÃO DA ROTA -->
-
                 <div class="uber-route-card">
 
                     <div class="route-card-top">
 
                         <div>
-
-                            <span class="route-label">
-                                ROTA
-                            </span>
+                            <span class="route-label">ROTA</span>
 
                             <strong id="route-title">
                                 Sua instituição
                             </strong>
-
                         </div>
 
                         <div class="route-icon">
@@ -226,12 +189,9 @@
 
                     </div>
 
-
                     <div class="route-line"></div>
 
-
                     <div class="route-details">
-
 
                         <div class="route-detail">
 
@@ -240,19 +200,14 @@
                             </span>
 
                             <div>
-
-                                <small>
-                                    Distância
-                                </small>
+                                <small>Distância</small>
 
                                 <strong id="route-distance">
                                     --
                                 </strong>
-
                             </div>
 
                         </div>
-
 
                         <div class="route-detail">
 
@@ -261,247 +216,401 @@
                             </span>
 
                             <div>
-
-                                <small>
-                                    Tempo estimado
-                                </small>
+                                <small>Tempo estimado</small>
 
                                 <strong id="route-time">
                                     --
                                 </strong>
-
                             </div>
 
                         </div>
 
-
                     </div>
 
                 </div>
 
             </div>
 
-
-            <!-- RESULTADOS -->
-
+            <!-- RESULTADOS DOS COLABORADORES -->
             <div class="results-title">
 
                 <strong>
-                    12 professores encontrados
+                    {{ colaboradores|length }}
+                    professores encontrados
                 </strong>
 
                 <span>
-                    Ordenados por proximidade
+                    Profissionais cadastrados na plataforma
                 </span>
 
             </div>
 
+            <!-- LISTA DE PROFESSORES -->
+            {% for colaborador in colaboradores %}
 
-            <!-- PROFESSOR 1 -->
+                <article class="teacher-card">
 
-            <article class="teacher-card">
+                    <div class="teacher-photo">
 
-                <div class="teacher-photo">
-                    👨‍🏫
-                </div>
-
-                <div class="teacher-info">
-
-                    <div class="teacher-name">
-
-                        <h3>
-                            Carlos Silva
-                        </h3>
-
-                        <span class="rating">
-                            ⭐ 4,9
-                        </span>
+                        {% if colaborador.genero == "Feminino" %}
+                            👩‍🏫
+                        {% else %}
+                            👨‍🏫
+                        {% endif %}
 
                     </div>
 
-                    <p class="subject">
-                        Matemática • Ensino Médio
-                    </p>
+                    <div class="teacher-info">
 
-                    <div class="teacher-details">
+                        <div class="teacher-name">
 
-                        <span>
-                            📍 2,4 km
-                        </span>
+                            <h3>
+                                {% if colaborador.nome_social %}
+                                    {{ colaborador.nome_social }}
+                                {% else %}
+                                    {{ colaborador.nome_completo }}
+                                {% endif %}
+                            </h3>
 
-                        <span class="available">
-                            ● Disponível agora
-                        </span>
+                        </div>
 
-                    </div>
+                        <p class="subject">
+                            {{ colaborador.materia|default:"Matéria não informada" }}
+                        </p>
 
-                    <div class="teacher-actions">
+                        <div class="teacher-details">
 
-                        <button class="profile-btn" type="button">
-                            Ver perfil
-                        </button>
+                            <span>
+                                📍
+                                {{ colaborador.municipio|default:"Município não informado" }}
 
-                        <button class="request-btn" type="button">
-                            Solicitar professor
-                        </button>
+                                {% if colaborador.uf %}
+                                    - {{ colaborador.uf }}
+                                {% endif %}
+                            </span>
 
-                    </div>
+                            <span class="available">
+                                ● Cadastrado na plataforma
+                            </span>
 
-                </div>
+                        </div>
 
-            </article>
+                        <div class="teacher-actions">
 
+                            <!-- BOTÃO VER PERFIL -->
+                            <button
+                                class="profile-btn"
+                                type="button"
+                                data-colaborador-id="{{ colaborador.pk }}"
+                            >
+                                Ver perfil
+                            </button>
 
-            <!-- PROFESSOR 2 -->
+                            <!-- BOTÃO SOLICITAR PROFESSOR -->
+                            <button
+                                class="request-btn"
+                                type="button"
+                            >
+                                Solicitar professor
+                            </button>
 
-            <article class="teacher-card">
-
-                <div class="teacher-photo female">
-                    👩‍🏫
-                </div>
-
-                <div class="teacher-info">
-
-                    <div class="teacher-name">
-
-                        <h3>
-                            Ana Oliveira
-                        </h3>
-
-                        <span class="rating">
-                            ⭐ 4,8
-                        </span>
-
-                    </div>
-
-                    <p class="subject">
-                        Português • Ensino Fundamental
-                    </p>
-
-                    <div class="teacher-details">
-
-                        <span>
-                            📍 4,1 km
-                        </span>
-
-                        <span class="available">
-                            ● Disponível hoje
-                        </span>
+                        </div>
 
                     </div>
 
-                    <div class="teacher-actions">
+                </article>
 
-                        <button class="profile-btn" type="button">
-                            Ver perfil
-                        </button>
-
-                        <button class="request-btn" type="button">
-                            Solicitar professor
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- PROFESSOR 3 -->
-
-            <article class="teacher-card">
-
-                <div class="teacher-photo">
-                    👨‍🏫
-                </div>
-
-                <div class="teacher-info">
-
-                    <div class="teacher-name">
-
-                        <h3>
-                            João Santos
-                        </h3>
-
-                        <span class="rating">
-                            ⭐ 4,7
-                        </span>
-
-                    </div>
-
-                    <p class="subject">
-                        História • Ensino Médio
-                    </p>
-
-                    <div class="teacher-details">
-
-                        <span>
-                            📍 5,2 km
-                        </span>
-
-                        <span class="available">
-                            ● Disponível hoje
-                        </span>
-
-                    </div>
-
-                    <div class="teacher-actions">
-
-                        <button class="profile-btn" type="button">
-                            Ver perfil
-                        </button>
-
-                        <button class="request-btn" type="button">
-                            Solicitar professor
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-        </section>
-
-
-        <!-- PUBLICAR AULA -->
-
-        <section class="publish-card">
-
-            <div class="publish-icon">
-                +
-            </div>
-
-            <div class="publish-text">
-
-                <h2>
-                    Não encontrou o professor?
-                </h2>
+            {% empty %}
 
                 <p>
-                    Publique a aula e deixe professores disponíveis
-                    enviarem interesse na substituição.
+                    Nenhum colaborador foi cadastrado até o momento.
                 </p>
 
-            </div>
+            {% endfor %}
 
-            <button class="publish-button" type="button">
-                Publicar aula
-            </button>
+            <!-- PUBLICAR AULA -->
+            <section class="publish-card">
+
+                <div class="publish-icon">
+                    +
+                </div>
+
+                <div class="publish-text">
+
+                    <h2>
+                        Não encontrou o professor?
+                    </h2>
+
+                    <p>
+                        Publique a aula e deixe professores disponíveis
+                        enviarem interesse na substituição.
+                    </p>
+
+                </div>
+
+                <button class="publish-button" type="button">
+                    Publicar aula
+                </button>
+
+            </section>
 
         </section>
 
     </main>
 
-    <!-- JavaScript do Mapbox -->
+    <!-- ================================================== -->
+    <!-- MODAL DE PERFIL DO COLABORADOR                     -->
+    <!-- Permanece nesta página, sem criar outro HTML       -->
+    <!-- ================================================== -->
 
+    <div
+        id="perfil-modal"
+        class="perfil-modal"
+        aria-hidden="true"
+    >
+
+        <section
+            class="perfil-janela"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="perfil-nome"
+        >
+
+            <!-- CABEÇALHO DO PERFIL -->
+            <header class="perfil-cabecalho">
+
+                <div class="perfil-identificacao">
+
+                    <div class="perfil-avatar" id="perfil-avatar">
+                        👨‍🏫
+                    </div>
+
+                    <div>
+
+                        <span class="perfil-etiqueta">
+                            PERFIL DO COLABORADOR
+                        </span>
+
+                        <h2 id="perfil-nome">
+                            Carregando perfil...
+                        </h2>
+
+                        <p id="perfil-materia">
+                            Carregando informações profissionais
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="perfil-fechar"
+                    class="perfil-fechar"
+                    aria-label="Fechar perfil"
+                >
+                    &times;
+                </button>
+
+            </header>
+
+            <!-- CARREGAMENTO -->
+            <div
+                id="perfil-carregamento"
+                class="perfil-carregamento"
+            >
+                Carregando informações...
+            </div>
+
+            <!-- CONTEÚDO DO PERFIL -->
+            <div
+                id="perfil-conteudo"
+                class="perfil-conteudo"
+                hidden
+            >
+
+                <!-- COLUNA ESQUERDA -->
+                <div class="perfil-coluna">
+
+                    <!-- DADOS PESSOAIS -->
+                    <section class="perfil-grupo">
+
+                        <h3>Dados pessoais</h3>
+
+                        <div class="perfil-campo">
+                            <span>Nome completo</span>
+                            <strong data-campo="nome_completo"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Nome social</span>
+                            <strong data-campo="nome_social"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Gênero</span>
+                            <strong data-campo="genero"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Data de nascimento</span>
+                            <strong data-campo="data_nascimento"></strong>
+                        </div>
+
+                    </section>
+
+                    <!-- CONTATO -->
+                    <section class="perfil-grupo">
+
+                        <h3>Contato</h3>
+
+                        <div class="perfil-campo">
+                            <span>E-mail</span>
+                            <strong data-campo="email"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Telefone</span>
+                            <strong data-campo="telefone"></strong>
+                        </div>
+
+                    </section>
+
+                    <!-- LOCALIZAÇÃO -->
+                    <section class="perfil-grupo">
+
+                        <h3>Localização</h3>
+
+                        <div class="perfil-campo">
+                            <span>Município</span>
+                            <strong data-campo="municipio"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Estado</span>
+                            <strong data-campo="uf"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>CEP</span>
+                            <strong data-campo="cep"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Endereço</span>
+                            <strong data-campo="endereco"></strong>
+                        </div>
+
+                    </section>
+
+                </div>
+
+                <!-- COLUNA DIREITA -->
+                <div class="perfil-coluna">
+
+                    <!-- INFORMAÇÕES PROFISSIONAIS -->
+                    <section class="perfil-grupo">
+
+                        <h3>Informações profissionais</h3>
+
+                        <div class="perfil-campo">
+                            <span>Matéria</span>
+                            <strong data-campo="materia"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Formação</span>
+                            <strong data-campo="formacao"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Pós-graduação</span>
+                            <strong data-campo="pos_graduacao"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Disciplinas</span>
+                            <strong data-campo="disciplinas"></strong>
+                        </div>
+
+                    </section>
+
+                    <!-- DISPONIBILIDADE -->
+                    <section class="perfil-grupo">
+
+                        <h3>Disponibilidade</h3>
+
+                        <div class="perfil-campo">
+                            <span>Disponibilidade integral</span>
+                            <strong data-campo="tempo_integral"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Horário de início</span>
+                            <strong data-campo="horario_inicio"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Horário de término</span>
+                            <strong data-campo="horario_fim"></strong>
+                        </div>
+
+                    </section>
+
+                    <!-- ACESSIBILIDADE -->
+                    <section class="perfil-grupo">
+
+                        <h3>Acessibilidade</h3>
+
+                        <div class="perfil-campo">
+                            <span>Possui deficiência</span>
+                            <strong data-campo="possui_deficiencia"></strong>
+                        </div>
+
+                        <div class="perfil-campo">
+                            <span>Necessidades de acessibilidade</span>
+                            <strong data-campo="necessidades_acessibilidade"></strong>
+                        </div>
+
+                    </section>
+
+                    <!-- OBSERVAÇÕES -->
+                    <section class="perfil-grupo">
+
+                        <h3>Observações</h3>
+
+                        <p
+                            class="perfil-observacoes"
+                            data-campo="observacoes"
+                        ></p>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+            <!-- ERRO AO CARREGAR -->
+            <div
+                id="perfil-erro"
+                class="perfil-erro"
+                hidden
+            >
+                Não foi possível carregar o perfil deste colaborador.
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- JAVASCRIPT DO MAPBOX -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.js"></script>
 
-    <!-- Seu JavaScript -->
-
+    <!-- JAVASCRIPT DO MAPA -->
     <script src="{% static 'usuarios/js/mapa_instituição.js' %}"></script>
 
-</body>
+    <!-- JAVASCRIPT DO PERFIL -->
+    <script src="{% static 'usuarios/js/perfil_colaborador.js' %}"></script>
 
+</body>
 </html>

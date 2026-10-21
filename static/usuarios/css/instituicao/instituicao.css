@@ -886,5 +886,294 @@ RESPONSIVO
         transform: translateX(4px);
     }
 
+}
 
+/* ==========================================
+   MODAL DO PERFIL DO COLABORADOR
+========================================== */
+
+.perfil-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    background: rgba(15, 23, 42, 0.65);
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.perfil-modal.aberto {
+    display: flex;
+}
+
+/* JANELA PRINCIPAL */
+
+.perfil-janela {
+    position: relative;
+
+    width: 100%;
+    max-width: 1000px;
+    max-height: 88vh;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+    color: #1e293b;
+
+    border-radius: 20px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+
+    animation: perfilEntrada 0.25s ease;
+}
+
+/* CABEÇALHO */
+
+.perfil-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 28px 32px;
+
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.perfil-identificacao {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-width: 0;
+}
+
+.perfil-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 76px;
+    height: 76px;
+
+    border-radius: 50%;
+    background: #e2e8f0;
+
+    font-size: 38px;
+}
+
+.perfil-etiqueta {
+    display: block;
+    margin-bottom: 8px;
+
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.perfil-cabecalho h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 26px;
+}
+
+.perfil-cabecalho p {
+    margin: 7px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* BOTÃO FECHAR */
+
+.perfil-fechar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #e2e8f0;
+    color: #334155;
+
+    font-size: 28px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.perfil-fechar:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* CONTEÚDO EM DUAS COLUNAS */
+
+.perfil-conteudo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+
+    padding: 28px 32px;
+}
+
+.perfil-conteudo[hidden],
+.perfil-carregamento[hidden],
+.perfil-erro[hidden] {
+    display: none !important;
+}
+
+.perfil-coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+}
+
+/* GRUPOS DE INFORMAÇÕES */
+
+.perfil-grupo {
+    padding: 20px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    background: #ffffff;
+}
+
+.perfil-grupo h3 {
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    color: #1d4ed8;
+    font-size: 16px;
+}
+
+.perfil-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    margin-bottom: 16px;
+    overflow-wrap: anywhere;
+}
+
+.perfil-campo span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.perfil-campo strong {
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.perfil-observacoes {
+    margin: 0;
+
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+/* CARREGAMENTO E ERRO */
+
+.perfil-carregamento,
+.perfil-erro {
+    padding: 40px 24px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.perfil-carregamento {
+    color: #64748b;
+}
+
+.perfil-erro {
+    color: #dc2626;
+}
+
+/* ANIMAÇÃO */
+
+@keyframes perfilEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* RESPONSIVIDADE DO MODAL */
+
+@media (max-width: 700px) {
+    .perfil-modal {
+        padding: 10px;
+    }
+
+    .perfil-janela {
+        max-height: 94vh;
+        border-radius: 14px;
+    }
+
+    .perfil-cabecalho {
+        padding: 20px 16px;
+        gap: 10px;
+    }
+
+    .perfil-identificacao {
+        gap: 12px;
+    }
+
+    .perfil-avatar {
+        width: 54px;
+        height: 54px;
+        font-size: 28px;
+    }
+
+    .perfil-cabecalho h2 {
+        font-size: 20px;
+        overflow-wrap: anywhere;
+    }
+
+    .perfil-cabecalho p {
+        font-size: 12px;
+    }
+
+    .perfil-etiqueta {
+        font-size: 9px;
+    }
+
+    .perfil-conteudo {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .perfil-grupo {
+        padding: 16px;
+    }
 }
