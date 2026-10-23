@@ -10,4 +10,5 @@ urlpatterns = [
     path("verificar-instituicao/",views.verificar_instituicao,name="verificar_instituicao",),
     path("excluir-registro/",views.excluir_registro_instituicao,name="excluir_registro_instituicao",),
     path("api/colaborador/<int:colaborador_id>/perfil/",views.perfil_colaborador_api,name="perfil_colaborador_api",),
+    path("api/escolas/",views.listar_escolas,name="listar_escolas",),
 ]

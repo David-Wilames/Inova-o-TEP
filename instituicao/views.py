@@ -361,3 +361,25 @@ def perfil_colaborador_api(request, colaborador_id):
             "colaborador": dados,
         }
     )
+@require_GET
+def listar_escolas(request):
+    escolas = Escolas.objects.all().order_by("nome_unidade_escolar")
+
+    dados = []
+
+    for escola in escolas:
+        nome = escola.nome_unidade_escolar
+
+        # Corrige nomes armazenados ou retornados como bytes.
+        if isinstance(nome, bytes):
+            nome = nome.decode("utf-8", errors="replace")
+
+        dados.append({
+            "id": escola.pk,
+            "nome": nome,
+        })
+
+    return JsonResponse({
+        "escolas": dados,
+        "total": len(dados),
+    })
