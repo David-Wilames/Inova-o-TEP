@@ -25,6 +25,8 @@
     <!-- CSS principal da página -->
     <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}">
 
+    <link rel="stylesheet" href="{% static 'usuarios/css/componentes/painel_lateral.css' %}">
+
     <!-- CSS do Mapbox -->
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css">
 </head>
@@ -47,11 +49,11 @@
             {% include 'instituicao/componentes/perfis.html' %}
 
             <!-- NOTIFICAÇÕES -->
-            <button class="notification" type="button" aria-label="Notificações" title="Notificações">
+            <button id="abrir-painel-notificacoes" class="notification" type="button" aria-label="Abrir configurações"
+                title="Configurações" aria-controls="painel-notificacoes" aria-expanded="false">
                 <span aria-hidden="true">🔔</span>
                 <i aria-hidden="true"></i>
             </button>
-
         </div>
 
     </header>
@@ -120,10 +122,6 @@
                             <strong id="route-title">
                                 Sua instituição
                             </strong>
-                        </div>
-
-                        <div class="route-icon">
-                            📍
                         </div>
 
                     </div>
@@ -473,16 +471,113 @@
 
             </div>
 
-            <!-- ERRO AO CARREGAR -->
+            <!-- ========================================= -->
+            <!-- ERRO AO CARREGAR O PERFIL                 -->
+            <!-- ========================================= -->
+
             <div id="perfil-erro" class="perfil-erro" hidden>
                 Não foi possível carregar o perfil deste colaborador.
             </div>
 
         </section>
-
     </div>
 
-    <!-- JAVASCRIPT DO MAPBOX -->
+    <!-- ========================================= -->
+    <!-- PAINEL LATERAL DE CONFIGURAÇÕES           -->
+    <!-- ========================================= -->
+
+    <!-- Fundo escuro ao abrir o painel -->
+    <div id="painel-notificacoes-overlay" class="painel-lateral-overlay" aria-hidden="true"></div>
+
+    <!-- Painel que entra pela direita -->
+    <aside id="painel-notificacoes" class="painel-lateral" role="dialog" aria-modal="true"
+        aria-labelledby="painel-notificacoes-titulo" aria-hidden="true">
+
+        <!-- Cabeçalho -->
+        <header class="painel-lateral-cabecalho">
+
+            <div>
+                <span class="painel-lateral-subtitulo">
+                    CONFIGURAÇÕES DA CONTA
+                </span>
+
+                <h2 id="painel-notificacoes-titulo">
+                    Minha conta
+                </h2>
+            </div>
+
+            <!-- Botão para fechar -->
+            <button type="button" id="fechar-painel-notificacoes" class="painel-lateral-fechar"
+                aria-label="Fechar painel" title="Fechar">
+                &times;
+            </button>
+
+        </header>
+
+        <!-- Descrição -->
+        <p class="painel-lateral-descricao">
+            Acesse as opções relacionadas à sua conta e à sua instituição.
+        </p>
+
+        <!-- Opções do painel -->
+        <div class="painel-lateral-opcoes">
+
+            <!-- ================================= -->
+            <!-- OPÇÃO: SENHA                     -->
+            <!-- ================================= -->
+
+            <section class="painel-lateral-card">
+
+                <div class="painel-lateral-icone senha-icone">
+                    <span aria-hidden="true">🔐</span>
+                </div>
+
+                <div class="painel-lateral-conteudo">
+                    <h3>Senha</h3>
+
+                    <p>
+                        Gerencie as configurações da sua senha de acesso.
+                    </p>
+                </div>
+
+                <span class="painel-lateral-seta" aria-hidden="true">
+                    ›
+                </span>
+
+            </section>
+
+            <!-- ================================= -->
+            <!-- OPÇÃO: INSTITUIÇÃO                -->
+            <!-- ================================= -->
+
+            <section class="painel-lateral-card">
+
+                <div class="painel-lateral-icone instituicao-icone">
+                    <span aria-hidden="true">🏫</span>
+                </div>
+
+                <div class="painel-lateral-conteudo">
+                    <h3>Instituição</h3>
+
+                    <p>
+                        Consulte as informações relacionadas à sua instituição.
+                    </p>
+                </div>
+
+                <span class="painel-lateral-seta" aria-hidden="true">
+                    ›
+                </span>
+
+            </section>
+
+        </div>
+
+    </aside>
+
+    <!-- ========================================= -->
+    <!-- JAVASCRIPT DO MAPBOX                     -->
+    <!-- ========================================= -->
+
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.js"></script>
 
     <!-- JAVASCRIPT DO MAPA -->
@@ -490,6 +585,93 @@
 
     <!-- JAVASCRIPT DO PERFIL -->
     <script src="{% static 'usuarios/js/perfil_colaborador.js' %}"></script>
+
+    <!-- ========================================= -->
+    <!-- JAVASCRIPT DO PAINEL LATERAL              -->
+    <!-- ========================================= -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const botaoAbrir = document.getElementById(
+                "abrir-painel-notificacoes"
+            );
+
+            const botaoFechar = document.getElementById(
+                "fechar-painel-notificacoes"
+            );
+
+            const painel = document.getElementById(
+                "painel-notificacoes"
+            );
+
+            const overlay = document.getElementById(
+                "painel-notificacoes-overlay"
+            );
+
+            // Verifica se todos os elementos existem.
+            if (!botaoAbrir || !botaoFechar || !painel || !overlay) {
+                console.error(
+                    "Não foi possível encontrar todos os elementos do painel lateral."
+                );
+                return;
+            }
+
+            // Abre o painel.
+            function abrirPainel() {
+
+                painel.classList.add("aberto");
+                overlay.classList.add("aberto");
+
+                document.body.classList.add("painel-lateral-aberto");
+
+                painel.setAttribute("aria-hidden", "false");
+                overlay.setAttribute("aria-hidden", "false");
+
+                botaoAbrir.setAttribute("aria-expanded", "true");
+
+                botaoFechar.focus();
+            }
+
+            // Fecha o painel.
+            function fecharPainel() {
+
+                painel.classList.remove("aberto");
+                overlay.classList.remove("aberto");
+
+                document.body.classList.remove("painel-lateral-aberto");
+
+                painel.setAttribute("aria-hidden", "true");
+                overlay.setAttribute("aria-hidden", "true");
+
+                botaoAbrir.setAttribute("aria-expanded", "false");
+
+                botaoAbrir.focus();
+            }
+
+            // Clique no sino: abre o painel.
+            botaoAbrir.addEventListener("click", abrirPainel);
+
+            // Clique no X: fecha o painel.
+            botaoFechar.addEventListener("click", fecharPainel);
+
+            // Clique fora do painel: fecha o painel.
+            overlay.addEventListener("click", fecharPainel);
+
+            // Tecla Escape: fecha o painel.
+            document.addEventListener("keydown", function (evento) {
+
+                if (
+                    evento.key === "Escape" &&
+                    painel.classList.contains("aberto")
+                ) {
+                    fecharPainel();
+                }
+
+            });
+
+        });
+    </script>
 
 </body>
 

@@ -1,0 +1,324 @@
+/* ========================================= */
+/* PAINEL LATERAL DE CONFIGURAÇÕES           */
+/* ========================================= */
+
+/* Fundo escuro atrás do painel */
+
+.painel-lateral-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.48);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    z-index: 9998;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0s linear 0.32s;
+}
+
+/* Fundo visível */
+
+.painel-lateral-overlay.aberto {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0s;
+}
+
+
+/* ========================================= */
+/* PAINEL PRINCIPAL                          */
+/* ========================================= */
+
+.painel-lateral {
+    position: fixed;
+
+    top: 0;
+    right: 0;
+
+    width: min(420px, 92vw);
+    height: 100vh;
+    height: 100dvh;
+
+    padding: 30px 25px;
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    box-shadow: -12px 0 40px rgba(15, 23, 42, 0.16);
+
+    overflow-y: auto;
+
+    z-index: 9999;
+
+    /* Começa escondido, fora da tela */
+    transform: translateX(105%);
+
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0.32s;
+}
+
+/* Quando o painel estiver aberto */
+
+.painel-lateral.aberto {
+    transform: translateX(0);
+
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s;
+}
+
+
+/* Impede a rolagem da página de fundo */
+
+body.painel-lateral-aberto {
+    overflow: hidden;
+}
+
+
+/* ========================================= */
+/* CABEÇALHO                                 */
+/* ========================================= */
+
+.painel-lateral-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 18px;
+
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.painel-lateral-subtitulo {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+.painel-lateral-cabecalho h2 {
+    margin: 0;
+
+    color: #172554;
+
+    font-size: 27px;
+    font-weight: 700;
+}
+
+
+/* ========================================= */
+/* BOTÃO FECHAR                              */
+/* ========================================= */
+
+.painel-lateral-fechar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #f1f5f9;
+    color: #334155;
+
+    font-size: 30px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.painel-lateral-fechar:hover {
+    background: #dbeafe;
+    color: #1d4ed8;
+
+    transform: rotate(90deg);
+}
+
+.painel-lateral-fechar:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 3px;
+}
+
+
+/* ========================================= */
+/* DESCRIÇÃO                                 */
+/* ========================================= */
+
+.painel-lateral-descricao {
+    margin: 24px 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* ========================================= */
+/* OPÇÕES                                    */
+/* ========================================= */
+
+.painel-lateral-opcoes {
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+/* Cartões de Senha e Instituição */
+
+.painel-lateral-card {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 20px 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.painel-lateral-card:hover {
+    border-color: #bfdbfe;
+
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.08);
+
+    transform: translateY(-2px);
+}
+
+
+/* Ícones */
+
+.painel-lateral-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+
+    font-size: 22px;
+}
+
+.senha-icone {
+    background: #eff6ff;
+}
+
+.instituicao-icone {
+    background: #f0fdf4;
+}
+
+
+/* Textos */
+
+.painel-lateral-conteudo {
+    flex: 1;
+    min-width: 0;
+}
+
+.painel-lateral-conteudo h3 {
+    margin: 0 0 6px;
+
+    color: #172554;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.painel-lateral-conteudo p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* Setas */
+
+.painel-lateral-seta {
+    flex-shrink: 0;
+
+    color: #94a3b8;
+
+    font-size: 28px;
+    line-height: 1;
+}
+
+
+/* ========================================= */
+/* TELAS MENORES                             */
+/* ========================================= */
+
+@media (max-width: 480px) {
+
+    .painel-lateral {
+        padding: 24px 18px;
+    }
+
+    .painel-lateral-cabecalho h2 {
+        font-size: 24px;
+    }
+
+    .painel-lateral-card {
+        gap: 12px;
+        padding: 16px 12px;
+    }
+
+    .painel-lateral-icone {
+        width: 42px;
+        height: 42px;
+
+        font-size: 20px;
+    }
+
+}
