@@ -1303,3 +1303,42 @@ body {
             transition: none !important;
         }
     }
+    
+    /* ==========================================
+    BOTÃO DE EXCLUSÃO 
+    ========================================== */
+.botao-excluir-registro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 18px;
+    padding: 10px 16px;
+    min-height: 44px;
+
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    background: #fff1f2;
+    color: #b91c1c;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.botao-excluir-registro:hover:not(:disabled) {
+    background: #fee2e2;
+    border-color: #f87171;
+}
+
+.botao-excluir-registro:focus-visible {
+    outline: 3px solid #b91c1c;
+    outline-offset: 3px;
+}
+
+.botao-excluir-registro:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
