@@ -13,7 +13,8 @@
     <title>Adicionar Instituição | Inovação TEP</title>
 
     <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/adicionar_instituicao.css' %}">
-
+    <link rel="stylesheet" href="{% static 'usuarios/css/validacao.css' %}">
+    
 </head>
 
 <body>
@@ -47,7 +48,7 @@
             </div>
 
 
-            <form method="post">
+            <form method="post" data-validar>
 
                 {% csrf_token %}
 
@@ -316,7 +317,7 @@
         });
     </script>
   
-
+    <script src="{% static 'usuarios/js/validacao.js' %}"></script>
 
 </body>
 

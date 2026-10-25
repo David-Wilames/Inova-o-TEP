@@ -13,6 +13,7 @@
     <title>Cadastro de professor - Inova-TEP</title>
 
     <link rel="stylesheet" href="{% static 'usuarios/css/cadastro.css' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/css/validacao.css' %}">
 
 </head>
 
@@ -30,7 +31,7 @@
 
             </p>
 
-            <form method="POST">
+            <form method="POST" data-validar>
 
                 {% csrf_token %}
 
@@ -79,6 +80,8 @@
         </div>
 
     </div>
+    
+    <script src="{% static 'usuarios/js/validacao.js' %}"></script>
 
 </body>
 

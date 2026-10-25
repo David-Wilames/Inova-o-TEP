@@ -11,7 +11,7 @@
 
     <title>Adicionar informações | Inovação TEP</title>
 
-    <link rel="stylesheet" href="{% static 'usuarios/css/adicionar_informacoes.css' %}">
+    <link rel="stylesheet" href="{% static 'usuarios/css/validacao.css' %}">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
         <main class="conteudo">
 
             <div class="formulario-container">
-                <form method="POST" action="{% url 'adicionar_informacoes' %}">
+                <form method="POST" action="{% url 'adicionar_informacoes' %}" data-validar>
                     {% csrf_token %}
 
                     <div class="formulario-cabecalho">
@@ -668,6 +668,8 @@
         informarNomeSocial.addEventListener("change", atualizarNomeSocial);
         atualizarNomeSocial();
     </script>
+
+    <script src="{% static 'usuarios/js/validacao.js' %}"></script>
 
 </body>
 
