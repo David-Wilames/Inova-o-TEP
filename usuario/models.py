@@ -20,7 +20,7 @@ class InformacoesColaborador(models.Model):
     usuario = models.OneToOneField(
         Usuarios, on_delete=models.CASCADE, related_name="informacoes_colaborador"
     )
-    
+
     # DADOS PESSOAIS
     nome_completo = models.CharField(max_length=255, blank=True)
     nome_social = models.CharField(max_length=255, blank=True)
@@ -72,3 +72,7 @@ class InformacoesColaborador(models.Model):
 
     def __str__(self):
         return f"Informações de {self.usuario.username}"
+
+    perfil_ativo = models.BooleanField(
+        default=True, verbose_name="Perfil visível para instituições"
+    )

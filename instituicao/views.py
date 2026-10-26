@@ -14,8 +14,8 @@ from .models import Escolas, InteresseOportunidade
 
 def pagina_instituicao(request):
     colaboradores = (
-        InformacoesColaborador.objects.select_related("usuario")
-        .all()
+        InformacoesColaborador.objects.filter(perfil_ativo=True)
+        .select_related("usuario")
         .order_by("nome_completo")
     )
 
@@ -313,7 +313,8 @@ def perfil_colaborador_api(request, colaborador_id):
 
     try:
         colaborador = InformacoesColaborador.objects.select_related("usuario").get(
-            pk=colaborador_id
+            pk=colaborador_id,
+            perfil_ativo=True,
         )
     except InformacoesColaborador.DoesNotExist:
         return JsonResponse(
@@ -395,6 +396,7 @@ def listar_escolas(request):
             "total": len(dados),
         }
     )
+
 
 @require_POST
 def registrar_interesse(request):
@@ -504,8 +506,7 @@ def registrar_interesse(request):
 
     # Localiza o perfil ligado à conta que está logada.
     colaborador = (
-        InformacoesColaborador.objects
-        .select_related("usuario")
+        InformacoesColaborador.objects.select_related("usuario")
         .filter(usuario_id=usuario_id)
         .first()
     )
@@ -558,14 +559,13 @@ def registrar_interesse(request):
     return JsonResponse(
         {
             "sucesso": True,
-            "mensagem": (
-                "Seu interesse foi enviado à instituição com sucesso!"
-            ),
+            "mensagem": ("Seu interesse foi enviado à instituição com sucesso!"),
             "notificacao_id": notificacao.pk,
             "expira_em": notificacao.expira_em.isoformat(),
         },
         status=201,
     )
+
 
 @require_GET
 def listar_notificacoes_interesse(request):
@@ -611,14 +611,11 @@ def listar_notificacoes_interesse(request):
     agora = timezone.now()
 
     # Exclui notificações expiradas.
-    InteresseOportunidade.objects.filter(
-        expira_em__lte=agora
-    ).delete()
+    InteresseOportunidade.objects.filter(expira_em__lte=agora).delete()
 
     # Consulta exclusivamente as notificações desta instituição.
     notificacoes_db = (
-        InteresseOportunidade.objects
-        .filter(
+        InteresseOportunidade.objects.filter(
             escola=escola,
             expira_em__gt=agora,
         )
@@ -631,11 +628,7 @@ def listar_notificacoes_interesse(request):
     for notificacao in notificacoes_db:
         colaborador = notificacao.colaborador
 
-        nome = (
-            colaborador.nome_social
-            or colaborador.nome_completo
-            or "Colaborador"
-        )
+        nome = colaborador.nome_social or colaborador.nome_completo or "Colaborador"
 
         notificacoes.append(
             {
@@ -643,16 +636,12 @@ def listar_notificacoes_interesse(request):
                 "nome_colaborador": nome,
                 "materia": notificacao.materia or "Não informada",
                 "tipo": notificacao.tipo or "Não informado",
-                "recebida_em": timezone.localtime(
-                    notificacao.criado_em
-                ).strftime("%d/%m/%Y às %H:%M"),
+                "recebida_em": timezone.localtime(notificacao.criado_em).strftime(
+                    "%d/%m/%Y às %H:%M"
+                ),
                 "segundos_restantes": max(
                     0,
-                    int(
-                        (
-                            notificacao.expira_em - agora
-                        ).total_seconds()
-                    ),
+                    int((notificacao.expira_em - agora).total_seconds()),
                 ),
             }
         )
@@ -665,6 +654,3 @@ def listar_notificacoes_interesse(request):
             "total": len(notificacoes),
         }
     )
-
-
-    

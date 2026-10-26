@@ -1,7 +1,7 @@
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 
 from .forms import CadastroProfessorForm, LoginProfessorForm
 from .models import InformacoesColaborador, Usuarios
@@ -399,3 +399,34 @@ def api_localizacao_colaborador(request):
             "observacoes": informacoes.observacoes or "",
         }
     )
+
+@require_POST
+def alternar_visibilidade_perfil(request):
+    """
+    Ativa ou desativa a visibilidade do perfil do colaborador
+    para as instituições.
+    """
+
+    # Verifica qual usuário está conectado.
+    usuario_id = request.session.get("usuario_id")
+
+    if not usuario_id:
+        return redirect("login_colaborador")
+
+    # Busca somente o perfil do usuário conectado.
+    try:
+        informacoes = InformacoesColaborador.objects.get(
+            usuario_id=usuario_id
+        )
+
+    except InformacoesColaborador.DoesNotExist:
+        return redirect("adicionar_informacoes")
+
+    # Inverte o estado atual.
+    informacoes.perfil_ativo = not informacoes.perfil_ativo
+
+    # Salva a alteração no banco de dados.
+    informacoes.save(update_fields=["perfil_ativo"])
+
+    # Retorna à página do perfil.
+    return redirect("informacoes_colaborador")

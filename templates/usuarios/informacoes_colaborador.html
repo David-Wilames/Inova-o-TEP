@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -148,6 +149,10 @@
             }
         }
 
+        /* =========================================
+   IMPRESSÃO
+========================================= */
+
         @media print {
             body {
                 padding: 0;
@@ -163,244 +168,338 @@
                 display: none;
             }
         }
+
+        /* =========================================
+   CONTROLE DE VISIBILIDADE DO PERFIL
+========================================= */
+
+        .controle-visibilidade {
+            flex-basis: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .controle-visibilidade form {
+            margin: 0;
+        }
+
+        .status-perfil {
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .status-ativo {
+            color: #16803d;
+        }
+
+        .status-inativo {
+            color: #b42318;
+        }
+
+        /* BOTÃO DESATIVAR */
+
+        .botao-desativar {
+            background: #b42318;
+            color: #ffffff;
+        }
+
+        .botao-desativar:hover {
+            background: #8f1c13;
+        }
+
+        /* BOTÃO ATIVAR */
+
+        .botao-ativar {
+            background: #16803d;
+            color: #ffffff;
+        }
+
+        .botao-ativar:hover {
+            background: #116530;
+        }
     </style>
 </head>
 
 <body>
 
-<div class="curriculo">
+    <div class="curriculo">
 
-    <header class="cabecalho">
-        <h1>{{ informacoes.nome_completo|default:"Currículo do colaborador" }}</h1>
+        <header class="cabecalho">
+            <h1>{{ informacoes.nome_completo|default:"Currículo do colaborador" }}</h1>
 
-        {% if informacoes.nome_social %}
+            {% if informacoes.nome_social %}
             <p>Nome social: {{ informacoes.nome_social }}</p>
-        {% endif %}
+            {% endif %}
 
-        <p>Perfil profissional · Inovação TEP</p>
-    </header>
+            <p>Perfil profissional · Inovação TEP</p>
+        </header>
 
-    <main class="conteudo">
+        <main class="conteudo">
 
-        <!-- DADOS PESSOAIS -->
-        <section class="secao">
-            <h2>Dados pessoais</h2>
+            <!-- DADOS PESSOAIS -->
+            <section class="secao">
+                <h2>Dados pessoais</h2>
 
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">Nome completo</span>
-                    <div class="valor">{{ informacoes.nome_completo|default:"Não informado" }}</div>
-                </div>
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">Nome completo</span>
+                        <div class="valor">{{ informacoes.nome_completo|default:"Não informado" }}</div>
+                    </div>
 
-                <div class="campo">
-                    <span class="rotulo">Nome social</span>
-                    <div class="valor">{{ informacoes.nome_social|default:"Não informado" }}</div>
-                </div>
+                    <div class="campo">
+                        <span class="rotulo">Nome social</span>
+                        <div class="valor">{{ informacoes.nome_social|default:"Não informado" }}</div>
+                    </div>
 
-                <div class="campo">
-                    <span class="rotulo">Data de nascimento</span>
-                    <div class="valor">{{ informacoes.data_nascimento|date:"d/m/Y"|default:"Não informado" }}</div>
-                </div>
+                    <div class="campo">
+                        <span class="rotulo">Data de nascimento</span>
+                        <div class="valor">{{ informacoes.data_nascimento|date:"d/m/Y"|default:"Não informado" }}</div>
+                    </div>
 
-                <div class="campo">
-                    <span class="rotulo">Gênero</span>
-                    <div class="valor">{{ informacoes.genero|default:"Não informado" }}</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTATO -->
-        <section class="secao">
-            <h2>Contato</h2>
-
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">E-mail</span>
-                    <div class="valor">{{ informacoes.email|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Telefone</span>
-                    <div class="valor">{{ informacoes.telefone|default:"Não informado" }}</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ENDEREÇO -->
-        <section class="secao">
-            <h2>Endereço</h2>
-
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">CEP</span>
-                    <div class="valor">{{ informacoes.cep|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Estado</span>
-                    <div class="valor">{{ informacoes.uf|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo campo-completo">
-                    <span class="rotulo">Logradouro</span>
-                    <div class="valor">{{ informacoes.logradouro|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Número</span>
-                    <div class="valor">{{ informacoes.numero|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Complemento</span>
-                    <div class="valor">{{ informacoes.complemento|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Bairro</span>
-                    <div class="valor">{{ informacoes.bairro|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Município</span>
-                    <div class="valor">{{ informacoes.municipio|default:"Não informado" }}</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FORMAÇÃO -->
-        <section class="secao">
-            <h2>Formação acadêmica</h2>
-
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">Formação</span>
-                    <div class="valor">{{ informacoes.formacao|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Pós-graduação</span>
-                    <div class="valor">{{ informacoes.pos_graduacao|default:"Não informado" }}</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- EXPERIÊNCIA PROFISSIONAL -->
-        <section class="secao">
-            <h2>Informações profissionais</h2>
-
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">Matéria de atuação</span>
-                    <div class="valor">{{ informacoes.materia|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">Disciplinas</span>
-                    <div class="valor">{{ informacoes.disciplinas|default:"Não informado" }}</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- DISPONIBILIDADE -->
-        <section class="secao">
-            <h2>Disponibilidade</h2>
-
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">Tempo integral</span>
-                    <div class="valor">
-                        {% if informacoes.tempo_integral == True %}
-                            Sim
-                        {% elif informacoes.tempo_integral == False %}
-                            Não
-                        {% else %}
-                            Não informado
-                        {% endif %}
+                    <div class="campo">
+                        <span class="rotulo">Gênero</span>
+                        <div class="valor">{{ informacoes.genero|default:"Não informado" }}</div>
                     </div>
                 </div>
+            </section>
 
-                <div class="campo">
-                    <span class="rotulo">Horário de início</span>
-                    <div class="valor">{{ informacoes.horario_inicio|default:"Não informado" }}</div>
-                </div>
+            <!-- CONTATO -->
+            <section class="secao">
+                <h2>Contato</h2>
 
-                <div class="campo">
-                    <span class="rotulo">Horário de término</span>
-                    <div class="valor">{{ informacoes.horario_fim|default:"Não informado" }}</div>
-                </div>
-            </div>
-        </section>
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">E-mail</span>
+                        <div class="valor">{{ informacoes.email|default:"Não informado" }}</div>
+                    </div>
 
-        <!-- ACESSIBILIDADE -->
-        <section class="secao">
-            <h2>Acessibilidade</h2>
-
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">Possui deficiência</span>
-                    <div class="valor">
-                        {% if informacoes.possui_deficiencia == True %}
-                            Sim
-                        {% elif informacoes.possui_deficiencia == False %}
-                            Não
-                        {% else %}
-                            Não informado
-                        {% endif %}
+                    <div class="campo">
+                        <span class="rotulo">Telefone</span>
+                        <div class="valor">{{ informacoes.telefone|default:"Não informado" }}</div>
                     </div>
                 </div>
+            </section>
 
-                <div class="campo">
-                    <span class="rotulo">Necessidades de acessibilidade</span>
-                    <div class="valor">{{ informacoes.necessidades_acessibilidade|default:"Não informado" }}</div>
+            <!-- ENDEREÇO -->
+            <section class="secao">
+                <h2>Endereço</h2>
+
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">CEP</span>
+                        <div class="valor">{{ informacoes.cep|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Estado</span>
+                        <div class="valor">{{ informacoes.uf|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo campo-completo">
+                        <span class="rotulo">Logradouro</span>
+                        <div class="valor">{{ informacoes.logradouro|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Número</span>
+                        <div class="valor">{{ informacoes.numero|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Complemento</span>
+                        <div class="valor">{{ informacoes.complemento|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Bairro</span>
+                        <div class="valor">{{ informacoes.bairro|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Município</span>
+                        <div class="valor">{{ informacoes.municipio|default:"Não informado" }}</div>
+                    </div>
                 </div>
+            </section>
+
+            <!-- FORMAÇÃO -->
+            <section class="secao">
+                <h2>Formação acadêmica</h2>
+
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">Formação</span>
+                        <div class="valor">{{ informacoes.formacao|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Pós-graduação</span>
+                        <div class="valor">{{ informacoes.pos_graduacao|default:"Não informado" }}</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXPERIÊNCIA PROFISSIONAL -->
+            <section class="secao">
+                <h2>Informações profissionais</h2>
+
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">Matéria de atuação</span>
+                        <div class="valor">{{ informacoes.materia|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Disciplinas</span>
+                        <div class="valor">{{ informacoes.disciplinas|default:"Não informado" }}</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DISPONIBILIDADE -->
+            <section class="secao">
+                <h2>Disponibilidade</h2>
+
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">Tempo integral</span>
+                        <div class="valor">
+                            {% if informacoes.tempo_integral == True %}
+                            Sim
+                            {% elif informacoes.tempo_integral == False %}
+                            Não
+                            {% else %}
+                            Não informado
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Horário de início</span>
+                        <div class="valor">{{ informacoes.horario_inicio|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Horário de término</span>
+                        <div class="valor">{{ informacoes.horario_fim|default:"Não informado" }}</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ACESSIBILIDADE -->
+            <section class="secao">
+                <h2>Acessibilidade</h2>
+
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">Possui deficiência</span>
+                        <div class="valor">
+                            {% if informacoes.possui_deficiencia == True %}
+                            Sim
+                            {% elif informacoes.possui_deficiencia == False %}
+                            Não
+                            {% else %}
+                            Não informado
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">Necessidades de acessibilidade</span>
+                        <div class="valor">{{ informacoes.necessidades_acessibilidade|default:"Não informado" }}</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOCUMENTAÇÃO -->
+            <section class="secao">
+                <h2>Documentação</h2>
+
+                <div class="grade">
+                    <div class="campo">
+                        <span class="rotulo">Tipo de documento</span>
+                        <div class="valor">{{ informacoes.tipo_documento|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">RG</span>
+                        <div class="valor">{{ informacoes.rg|default:"Não informado" }}</div>
+                    </div>
+
+                    <div class="campo">
+                        <span class="rotulo">CPF</span>
+                        <div class="valor">{{ informacoes.cpf|default:"Não informado" }}</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OBSERVAÇÕES -->
+            <section class="secao">
+                <h2>Observações adicionais</h2>
+
+                <div class="valor">
+                    {{ informacoes.observacoes|default:"Nenhuma observação cadastrada." }}
+                </div>
+            </section>
+
+        </main>
+
+        <div class="acoes">
+            <a href="/usuario/colaborador/" class="botao botao-voltar">
+                Voltar ao perfil
+            </a>
+
+            <!-- CONTROLE DE VISIBILIDADE DO PERFIL -->
+
+            {% if informacoes %}
+
+            <div class="controle-visibilidade">
+
+                {% if informacoes.perfil_ativo %}
+
+                <p class="status-perfil status-ativo">
+                    ● Seu perfil está ativado e visível para as instituições.
+                </p>
+
+                {% else %}
+
+                <p class="status-perfil status-inativo">
+                    ● Seu perfil está desativado e oculto das instituições.
+                </p>
+
+                {% endif %}
+
+                <form method="POST" action="{% url 'alternar_visibilidade_perfil' %}">
+
+                    {% csrf_token %}
+
+                    {% if informacoes.perfil_ativo %}
+
+                    <button type="submit" class="botao botao-desativar">
+                        Desativar perfil
+                    </button>
+
+                    {% else %}
+
+                    <button type="submit" class="botao botao-ativar">
+                        Ativar perfil
+                    </button>
+
+                    {% endif %}
+
+                </form>
+
             </div>
-        </section>
 
-        <!-- DOCUMENTAÇÃO -->
-        <section class="secao">
-            <h2>Documentação</h2>
+            {% endif %}
+        </div>
 
-            <div class="grade">
-                <div class="campo">
-                    <span class="rotulo">Tipo de documento</span>
-                    <div class="valor">{{ informacoes.tipo_documento|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">RG</span>
-                    <div class="valor">{{ informacoes.rg|default:"Não informado" }}</div>
-                </div>
-
-                <div class="campo">
-                    <span class="rotulo">CPF</span>
-                    <div class="valor">{{ informacoes.cpf|default:"Não informado" }}</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- OBSERVAÇÕES -->
-        <section class="secao">
-            <h2>Observações adicionais</h2>
-
-            <div class="valor">
-                {{ informacoes.observacoes|default:"Nenhuma observação cadastrada." }}
-            </div>
-        </section>
-
-    </main>
-
-    <div class="acoes">
-        <a href="/usuario/colaborador/" class="botao botao-voltar">
-            Voltar ao perfil
-        </a>
-
-        <button class="botao botao-imprimir" onclick="window.print()">
-            Imprimir / Salvar PDF
-        </button>
     </div>
 
-</div>
-
 </body>
+
 </html>
