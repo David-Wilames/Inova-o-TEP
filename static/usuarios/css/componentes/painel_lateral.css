@@ -587,3 +587,140 @@ body.painel-lateral-aberto {
         padding: 12px 8px;
     }
 }
+
+/* =====================================================
+   NOTIFICAÇÕES DE INTERESSE
+===================================================== */
+
+.painel-notificacoes-interesse {
+    margin: 18px 0 22px;
+    padding: 0 0 20px;
+    border-bottom: 1px solid #e5eaf2;
+}
+
+.painel-notificacoes-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.painel-notificacoes-etiqueta {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+}
+
+.painel-notificacoes-cabecalho h3 {
+    margin: 0;
+    color: #172b4d;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.painel-notificacoes-descricao {
+    margin: 8px 0 14px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.lista-notificacoes-interesse {
+    display: grid;
+    gap: 12px;
+}
+
+.interesse-notificacao {
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(23, 43, 77, 0.04);
+}
+
+.interesse-notificacao-topo {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.interesse-notificacao-icone {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #eff6ff;
+    font-size: 20px;
+}
+
+.interesse-notificacao-identificacao {
+    min-width: 0;
+}
+
+.interesse-notificacao-identificacao h4 {
+    margin: 0 0 5px;
+    color: #172b4d;
+    font-size: 13px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.interesse-notificacao-assunto {
+    margin: 0;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.interesse-notificacao-detalhe {
+    margin: 7px 0;
+    color: #334155;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.interesse-notificacao-data {
+    display: block;
+    margin-top: 12px;
+    color: #64748b;
+    font-size: 10px;
+}
+
+.interesse-notificacao-validade {
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid #edf1f6;
+    color: #b45309;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.notificacao-contador {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-width: 23px;
+    height: 23px;
+    padding: 0 6px;
+    border-radius: 20px;
+    background: #1746a2;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* Oculta as notificações até a instituição validar o acesso. */
+.painel-notificacoes-interesse[hidden] {
+    display: none !important;
+}

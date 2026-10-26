@@ -1,12 +1,15 @@
+from datetime import timedelta
+
 from django.contrib import messages
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views.decorators.http import require_GET, require_POST
 
 from usuario.models import InformacoesColaborador
 
-from .models import Escolas
+from .models import Escolas, InteresseOportunidade
 
 
 def pagina_instituicao(request):
@@ -146,6 +149,8 @@ def verificar_instituicao(request):
     Confere a instituição e a senha e retorna as informações
     cadastradas em informacoes_instituicao.
     """
+    # Uma nova tentativa de validação precisa confirmar novamente o acesso.
+    request.session.pop("escola_autenticada_id", None)
 
     escola_id = request.POST.get("escola_id", "").strip()
     senha = request.POST.get("senha", "").strip()
@@ -228,6 +233,7 @@ def verificar_instituicao(request):
         registro.pop("telefone", None)
 
     request.session["escola_id"] = escola.pk
+    request.session["escola_autenticada_id"] = escola.pk
 
     return JsonResponse(
         {
@@ -361,6 +367,8 @@ def perfil_colaborador_api(request, colaborador_id):
             "colaborador": dados,
         }
     )
+
+
 @require_GET
 def listar_escolas(request):
     escolas = Escolas.objects.all().order_by("nome_unidade_escolar")
@@ -374,12 +382,289 @@ def listar_escolas(request):
         if isinstance(nome, bytes):
             nome = nome.decode("utf-8", errors="replace")
 
-        dados.append({
-            "id": escola.pk,
-            "nome": nome,
-        })
+        dados.append(
+            {
+                "id": escola.pk,
+                "nome": nome,
+            }
+        )
 
-    return JsonResponse({
-        "escolas": dados,
-        "total": len(dados),
-    })
+    return JsonResponse(
+        {
+            "escolas": dados,
+            "total": len(dados),
+        }
+    )
+
+@require_POST
+def registrar_interesse(request):
+    """
+    Registra o interesse de um colaborador em uma oportunidade.
+
+    A instituição responsável é determinada no servidor,
+    consultando a oportunidade original no banco de dados.
+    """
+
+    # O colaborador precisa estar logado.
+    usuario_id = request.session.get("usuario_id")
+
+    if not usuario_id:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "Entre na sua conta de colaborador para demonstrar interesse.",
+            },
+            status=401,
+        )
+
+    # Valida o ID da oportunidade recebido.
+    oportunidade_id = request.POST.get("oportunidade_id", "").strip()
+
+    try:
+        oportunidade_id = int(oportunidade_id)
+
+        if oportunidade_id < 1:
+            raise ValueError
+
+    except (ValueError, TypeError):
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "A oportunidade selecionada é inválida.",
+            },
+            status=400,
+        )
+
+    # Localiza a oportunidade na tabela já existente.
+    # Utilizamos rowid porque informacoes_instituicao
+    # é uma tabela existente que não possui um ID declarado
+    # explicitamente no modelo Django apresentado.
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT
+                TRIM("Escola"),
+                COALESCE("Materia", ''),
+                COALESCE("Tipo", '')
+            FROM "informacoes_instituicao"
+            WHERE rowid = %s
+            LIMIT 1
+            """,
+            [oportunidade_id],
+        )
+
+        oportunidade = cursor.fetchone()
+
+    if not oportunidade:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "Esta oportunidade não existe mais.",
+            },
+            status=404,
+        )
+
+    nome_escola, materia, tipo = oportunidade
+
+    nome_escola = str(nome_escola or "").strip()
+    materia = str(materia or "").strip()
+    tipo = str(tipo or "").strip()
+
+    # Identifica a escola responsável pela oportunidade.
+    # A escola é descoberta no servidor, não pelo ID
+    # de escola enviado pelo navegador.
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT id
+            FROM "Escolas"
+            WHERE TRIM("nome_unidade_escolar") = %s COLLATE NOCASE
+            LIMIT 1
+            """,
+            [nome_escola],
+        )
+
+        resultado_escola = cursor.fetchone()
+
+    if not resultado_escola:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": (
+                    "Não foi possível localizar a instituição "
+                    "responsável por esta oportunidade."
+                ),
+            },
+            status=404,
+        )
+
+    escola_id = resultado_escola[0]
+
+    # Localiza o perfil ligado à conta que está logada.
+    colaborador = (
+        InformacoesColaborador.objects
+        .select_related("usuario")
+        .filter(usuario_id=usuario_id)
+        .first()
+    )
+
+    if not colaborador:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": (
+                    "Seu perfil de colaborador não foi encontrado. "
+                    "Complete seu cadastro antes de demonstrar interesse."
+                ),
+            },
+            status=400,
+        )
+
+    agora = timezone.now()
+
+    # Impede que o mesmo colaborador envie repetidamente
+    # a mesma notificação enquanto ela ainda estiver válida.
+
+    notificacao_existente = InteresseOportunidade.objects.filter(
+        escola_id=escola_id,
+        colaborador=colaborador,
+        oportunidade_id=oportunidade_id,
+        expira_em__gt=agora,
+    ).first()
+
+    if notificacao_existente:
+        return JsonResponse(
+            {
+                "sucesso": True,
+                "mensagem": (
+                    "Seu interesse já foi enviado. "
+                    "A instituição poderá consultá-lo durante o período válido."
+                ),
+            }
+        )
+
+    # Registra a notificação com validade de 10 horas.
+    notificacao = InteresseOportunidade.objects.create(
+        escola_id=escola_id,
+        colaborador=colaborador,
+        oportunidade_id=oportunidade_id,
+        materia=materia,
+        tipo=tipo,
+        expira_em=agora + timedelta(hours=10),
+    )
+
+    return JsonResponse(
+        {
+            "sucesso": True,
+            "mensagem": (
+                "Seu interesse foi enviado à instituição com sucesso!"
+            ),
+            "notificacao_id": notificacao.pk,
+            "expira_em": notificacao.expira_em.isoformat(),
+        },
+        status=201,
+    )
+
+@require_GET
+def listar_notificacoes_interesse(request):
+    """
+    Lista as notificações ainda válidas
+    da instituição autenticada.
+    """
+
+    # Verifica qual instituição teve o acesso confirmado.
+    escola_id = request.session.get("escola_autenticada_id")
+
+    if not escola_id:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": (
+                    "Selecione sua instituição e confirme a senha "
+                    "para consultar as notificações."
+                ),
+                "notificacoes": [],
+                "total": 0,
+            },
+            status=403,
+        )
+
+    # Confirma que a instituição existe.
+    try:
+        escola = Escolas.objects.get(pk=escola_id)
+
+    except (Escolas.DoesNotExist, ValueError, TypeError):
+        request.session.pop("escola_autenticada_id", None)
+
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "mensagem": "Instituição não encontrada. Valide o acesso novamente.",
+                "notificacoes": [],
+                "total": 0,
+            },
+            status=403,
+        )
+
+    agora = timezone.now()
+
+    # Exclui notificações expiradas.
+    InteresseOportunidade.objects.filter(
+        expira_em__lte=agora
+    ).delete()
+
+    # Consulta exclusivamente as notificações desta instituição.
+    notificacoes_db = (
+        InteresseOportunidade.objects
+        .filter(
+            escola=escola,
+            expira_em__gt=agora,
+        )
+        .select_related("colaborador")
+        .order_by("-criado_em")
+    )
+
+    notificacoes = []
+
+    for notificacao in notificacoes_db:
+        colaborador = notificacao.colaborador
+
+        nome = (
+            colaborador.nome_social
+            or colaborador.nome_completo
+            or "Colaborador"
+        )
+
+        notificacoes.append(
+            {
+                "id": notificacao.pk,
+                "nome_colaborador": nome,
+                "materia": notificacao.materia or "Não informada",
+                "tipo": notificacao.tipo or "Não informado",
+                "recebida_em": timezone.localtime(
+                    notificacao.criado_em
+                ).strftime("%d/%m/%Y às %H:%M"),
+                "segundos_restantes": max(
+                    0,
+                    int(
+                        (
+                            notificacao.expira_em - agora
+                        ).total_seconds()
+                    ),
+                ),
+            }
+        )
+
+    return JsonResponse(
+        {
+            "sucesso": True,
+            "instituicao": escola.nome_unidade_escolar,
+            "notificacoes": notificacoes,
+            "total": len(notificacoes),
+        }
+    )
+
+
+    

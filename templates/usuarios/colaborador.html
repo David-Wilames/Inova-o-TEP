@@ -37,11 +37,6 @@
 
             {% include 'usuarios/componentes/perfil_colaborador.html' %}
 
-            <!-- NOTIFICAÇÕES -->
-            <button class="notification" type="button">
-                🔔
-            </button>
-
         </div>
 
     </header>
@@ -230,7 +225,8 @@
                             Ver oportunidade
                         </button>
 
-                        <button class="request-btn" type="button" onclick="demonstrarInteresse()">
+                        <button class="request-btn" type="button" data-oportunidade-id="{{ oportunidade.id }}"
+                            onclick="demonstrarInteresse(this)">
                             Tenho interesse
                         </button>
 
@@ -303,16 +299,89 @@
                         : "Ocultar detalhes";
                 }
 
-                function demonstrarInteresse() {
-                    alert(
-                        "A funcionalidade de demonstrar interesse ainda será implementada."
+                async function demonstrarInteresse(botao) {
+                    const oportunidadeId = botao.dataset.oportunidadeId;
+
+                    if (!oportunidadeId) {
+                        alert(
+                            "Não foi possível identificar esta oportunidade. " +
+                            "Verifique o carregamento das oportunidades."
+                        );
+                        return;
+                    }
+
+                    if (botao.dataset.enviado === "true") {
+                        return;
+                    }
+
+                    const csrfInput = document.querySelector(
+                        '#csrf-form [name="csrfmiddlewaretoken"]'
                     );
+
+                    if (!csrfInput) {
+                        alert("Não foi possível validar a segurança da requisição.");
+                        return;
+                    }
+
+                    const textoOriginal = botao.textContent.trim();
+
+                    botao.disabled = true;
+                    botao.textContent = "Enviando...";
+
+                    try {
+                        const corpo = new URLSearchParams();
+
+                        corpo.set("oportunidade_id", oportunidadeId);
+
+                        const resposta = await fetch(
+                            "/instituicao/api/interesse/",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded;charset=UTF-8",
+                                    "X-CSRFToken": csrfInput.value,
+                                    "Accept": "application/json"
+                                },
+                                body: corpo.toString(),
+                                credentials: "same-origin"
+                            }
+                        );
+
+                        const dados = await resposta.json();
+
+                        if (!resposta.ok || !dados.sucesso) {
+                            throw new Error(
+                                dados.mensagem || "Não foi possível enviar seu interesse."
+                            );
+                        }
+
+                        botao.dataset.enviado = "true";
+                        botao.textContent = "Interesse enviado";
+
+                        alert(
+                            dados.mensagem ||
+                            "Seu interesse foi enviado à instituição com sucesso!"
+                        );
+
+                    } catch (erro) {
+                        console.error("Erro ao enviar interesse:", erro);
+                        alert(erro.message || "Ocorreu um erro ao enviar o interesse.");
+                        botao.textContent = "Tenho interesse";
+                        botao.disabled = false;
+                        return;
+                    }
                 }
+
             </script>
 
         </section>
 
     </main>
+
+    <form id="csrf-form" hidden>
+        {% csrf_token %}
+    </form>
 
 
     <!-- =====================================================

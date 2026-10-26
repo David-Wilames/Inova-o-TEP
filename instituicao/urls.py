@@ -11,4 +11,6 @@ urlpatterns = [
     path("excluir-registro/",views.excluir_registro_instituicao,name="excluir_registro_instituicao",),
     path("api/colaborador/<int:colaborador_id>/perfil/",views.perfil_colaborador_api,name="perfil_colaborador_api",),
     path("api/escolas/",views.listar_escolas,name="listar_escolas",),
+    path("api/interesse/",views.registrar_interesse,name="registrar_interesse",),
+    path("api/notificacoes-interesse/",views.listar_notificacoes_interesse,name="listar_notificacoes_interesse",),
 ]

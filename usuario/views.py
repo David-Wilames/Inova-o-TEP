@@ -82,25 +82,48 @@ def colaborador(request):
 
             # Relaciona os nomes possíveis das colunas.
             aliases = {
-                "escola": ["Escola", "escola", "nome_escola"],
-                "materia": ["Materia", "materia", "matéria"],
-                "tipo": ["Tipo", "tipo"],
+                "escola": [
+                    "Escola",
+                    "escola",
+                    "nome_escola",
+                ],
+                "materia": [
+                    "Materia",
+                    "materia",
+                    "matéria",
+                ],
+                "tipo": [
+                    "Tipo",
+                    "tipo",
+                ],
                 "municipio": [
                     "Municipio",
                     "municipio",
                     "Município",
                     "municipio_escola",
                 ],
-                "telefone": ["Telefone", "telefone"],
-                "cep": ["CEP", "cep"],
+                "telefone": [
+                    "Telefone",
+                    "telefone",
+                ],
+                "cep": [
+                    "CEP",
+                    "cep",
+                ],
                 "endereco": [
                     "Endereço",
                     "Endereco",
                     "endereco",
                     "logradouro",
                 ],
-                "bairro": ["Bairro", "bairro"],
-                "quantidade": ["Quantidade", "quantidade"],
+                "bairro": [
+                    "Bairro",
+                    "bairro",
+                ],
+                "quantidade": [
+                    "Quantidade",
+                    "quantidade",
+                ],
                 "responsavel": [
                     "Nome do responsavel",
                     "Nome do responsável",
@@ -125,17 +148,23 @@ def colaborador(request):
                         break
 
             if "escola" in selecionadas:
-                # Monta uma consulta usando os nomes reais.
-                campos_sql = []
+                # IMPORTANTE:
+                # O rowid identifica o registro original da oportunidade.
+                # O HTML utilizará esse valor em oportunidade.id.
+                campos_sql = ['rowid AS "id"']
 
+                # Mantém os campos já utilizados no HTML.
                 for destino, coluna in selecionadas.items():
                     coluna_segura = '"' + coluna.replace('"', '""') + '"'
-                    campos_sql.append(f"{coluna_segura} AS {destino}")
 
+                    campos_sql.append(f'{coluna_segura} AS "{destino}"')
+
+                # Monta a consulta incluindo o identificador.
                 sql = (
                     "SELECT "
                     + ", ".join(campos_sql)
                     + ' FROM "informacoes_instituicao"'
+                    + " ORDER BY rowid DESC"
                 )
 
                 cursor.execute(sql)

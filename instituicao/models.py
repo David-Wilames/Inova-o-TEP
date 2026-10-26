@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Escolas(models.Model):
@@ -80,3 +81,53 @@ class InformacoesInstituicao(models.Model):
 
     def __str__(self):
         return f"{self.escola} - {self.materia}"
+
+
+class InteresseOportunidade(models.Model):
+    escola = models.ForeignKey(
+        Escolas,
+        on_delete=models.CASCADE,
+        related_name="notificacoes_interesse",
+    )
+
+    colaborador = models.ForeignKey(
+        "usuario.InformacoesColaborador",
+        on_delete=models.CASCADE,
+        related_name="interesses_enviados",
+    )
+
+    # ID da oportunidade na tabela informacoes_instituicao.
+    # Esse ID corresponde ao rowid do SQLite.
+    oportunidade_id = models.PositiveBigIntegerField(
+        db_index=True,
+    )
+
+    materia = models.CharField(
+        max_length=255,
+        blank=True,
+        default="",
+    )
+
+    tipo = models.CharField(
+        max_length=100,
+        blank=True,
+        default="",
+    )
+
+    criado_em = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True,
+    )
+
+    expira_em = models.DateTimeField(
+        db_index=True,
+    )
+
+    class Meta:
+        db_table = "instituicao_interesse_oportunidade"
+        ordering = ["-criado_em"]
+        verbose_name = "Interesse em oportunidade"
+        verbose_name_plural = "Interesses em oportunidades"
+
+    def __str__(self):
+        return f"{self.colaborador.nome_completo} - {self.escola.nome_unidade_escolar}"
