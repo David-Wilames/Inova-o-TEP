@@ -633,6 +633,8 @@ def listar_notificacoes_interesse(request):
         notificacoes.append(
             {
                 "id": notificacao.pk,
+                # ID do perfil do colaborador.
+                "colaborador_id": colaborador.pk,
                 "nome_colaborador": nome,
                 "materia": notificacao.materia or "Não informada",
                 "tipo": notificacao.tipo or "Não informado",

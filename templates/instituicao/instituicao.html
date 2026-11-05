@@ -16,12 +16,18 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- Componentes e estilos da página -->
+    <!-- COMPONENTES E ESTILOS DA PÁGINA -->
+
     <link rel="stylesheet" href="{% static 'usuarios/css/componentes/perfis.css' %}">
-    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}">
+
+    <!-- ESTILOS DO PAINEL LATERAL -->
     <link rel="stylesheet" href="{% static 'usuarios/css/componentes/painel_lateral.css' %}">
+
+    <!-- ESTILOS PRINCIPAIS DA INSTITUIÇÃO -->
+    <link rel="stylesheet" href="{% static 'usuarios/css/instituicao/instituicao.css' %}?v=3">
+
+    <!-- MAPBOX -->
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.css">
-</head>
 
 <body>
     <!-- CABEÇALHO -->
@@ -306,24 +312,43 @@
                 </p>
             </div>
         </section>
-        <button type="button" class="painel-lateral-card" id="abrir-senha">
-            <div class="painel-lateral-icone senha-icone"><span aria-hidden="true">🔐</span></div>
-            <div class="painel-lateral-conteudo">
-                <h3>Senha</h3>
-                <p>Acesse as configurações de senha da sua instituição.</p>
-            </div>
-            <span class="painel-lateral-seta" aria-hidden="true">›</span>
-        </button>
+        <div class="painel-lateral-opcoes">
 
-        <button type="button" class="painel-lateral-card" id="botao-instituicao" aria-haspopup="dialog"
-            aria-controls="modal-escolas">
-            <div class="painel-lateral-icone instituicao-icone"><span aria-hidden="true">🏫</span></div>
-            <div class="painel-lateral-conteudo">
-                <h3>Instituição</h3>
-                <p id="instituicao-descricao">Consulte as informações relacionadas à sua instituição.</p>
-            </div>
-            <span class="painel-lateral-seta" aria-hidden="true">›</span>
-        </button>
+            <!-- SENHA -->
+
+            <button type="button" class="painel-lateral-card" id="abrir-senha">
+                <div class="painel-lateral-icone senha-icone">
+                    <span>🔐</span>
+                </div>
+
+                <div class="painel-lateral-conteudo">
+                    <h3>Senha</h3>
+                    <p>Acesse as configurações de senha da sua instituição.</p>
+                </div>
+
+                <span class="painel-lateral-seta">›</span>
+            </button>
+
+
+            <!-- INSTITUIÇÃO -->
+
+            <button type="button" class="painel-lateral-card" id="botao-instituicao" aria-haspopup="dialog"
+                aria-controls="modal-escolas">
+                <div class="painel-lateral-icone instituicao-icone">
+                    <span>🏫</span>
+                </div>
+
+                <div class="painel-lateral-conteudo">
+                    <h3>Instituição</h3>
+
+                    <p id="instituicao-descricao">
+                        Consulte as informações relacionadas à sua instituição.
+                    </p>
+                </div>
+
+                <span class="painel-lateral-seta">›</span>
+            </button>
+
         </div>
     </aside>
 
@@ -377,7 +402,8 @@
                 <div class="modal-escolas-pesquisa">
                     <label for="senha-instituicao">Senha da instituição</label>
                     <input type="password" id="senha-instituicao" name="senha"
-                        placeholder="Digite o telefone cadastrado" autocomplete="current-password" required>
+                        placeholder="Digite a senha da instituição. EX: 1234-5678" autocomplete="current-password"
+                        required>
                 </div>
 
                 <p id="mensagem-senha-instituicao" class="escolas-mensagem" role="status" aria-live="polite"></p>
@@ -397,516 +423,89 @@
     <script src="{% static 'usuarios/js/mapa_instituição.js' %}"></script>
     <script src="{% static 'usuarios/js/perfil_colaborador.js' %}"></script>
 
-    <!-- JAVASCRIPT: SELEÇÃO DE INSTITUIÇÃO -->
+    <!-- JAVASCRIPT DO PAINEL LATERAL -->
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const botaoInstituicao = document.getElementById("botao-instituicao");
-            const modal = document.getElementById("modal-escolas");
-            const fecharModal = document.getElementById("fechar-modal-escolas");
-            const cancelar = document.getElementById("cancelar-escola");
-            const confirmar = document.getElementById("confirmar-escola");
-            const pesquisa = document.getElementById("pesquisa-escolas");
-            const lista = document.getElementById("lista-escolas");
-            const contador = document.getElementById("contador-escolas");
-            const descricao = document.getElementById("instituicao-descricao");
-            const modalSenha = document.getElementById("modal-senha-instituicao");
-            const fecharModalSenhaBotao = document.getElementById("fechar-modal-senha");
-            const voltarSelecao = document.getElementById("voltar-selecao-escola");
-            const formularioSenha = document.getElementById("form-senha-instituicao");
-            const campoSenha = document.getElementById("senha-instituicao");
-            const nomeEscolaSenha = document.getElementById("nome-escola-senha");
-            const mensagemSenha = document.getElementById("mensagem-senha-instituicao");
-            const botaoEntrar = document.getElementById("confirmar-senha-instituicao");
-            const registrosContainer = document.getElementById("registros-instituicao");
-            const botaoAbrirSenha = document.getElementById("abrir-senha");
-            const secaoNotificacoes = document.getElementById("secao-notificacoes-interesse");
 
-            let escolas = [];
-            let escolaSelecionada = null;
-            let carregamentoRealizado = false;
+            // =========================================
+            // ELEMENTOS DO PAINEL LATERAL
+            // =========================================
 
-            function atualizarBloqueioPagina() {
-                const algumModalAberto =
-                    modal.classList.contains("aberto") ||
-                    modalSenha.classList.contains("aberto");
-                document.body.style.overflow = algumModalAberto ? "hidden" : "";
-            }
-
-            function abrirModal() {
-                modal.classList.add("aberto");
-                modal.setAttribute("aria-hidden", "false");
-                atualizarBloqueioPagina();
-
-                if (!carregamentoRealizado) {
-                    carregarEscolas();
-                } else {
-                    pesquisa.focus();
-                }
-            }
-
-            function fecharModalEscolas() {
-                modal.classList.remove("aberto");
-                modal.setAttribute("aria-hidden", "true");
-                atualizarBloqueioPagina();
-                botaoInstituicao.focus();
-            }
-
-            function abrirModalSenha() {
-                if (!escolaSelecionada) return;
-
-                modal.classList.remove("aberto");
-                modal.setAttribute("aria-hidden", "true");
-                modalSenha.classList.add("aberto");
-                modalSenha.setAttribute("aria-hidden", "false");
-
-                nomeEscolaSenha.textContent = escolaSelecionada.nome;
-                mensagemSenha.textContent = "";
-                registrosContainer.replaceChildren();
-                registrosContainer.hidden = true;
-                campoSenha.value = "";
-                atualizarBloqueioPagina();
-                campoSenha.focus();
-            }
-
-            function fecharModalSenha() {
-                modalSenha.classList.remove("aberto");
-                modalSenha.setAttribute("aria-hidden", "true");
-                atualizarBloqueioPagina();
-                botaoInstituicao.focus();
-            }
-
-            async function carregarEscolas() {
-                lista.replaceChildren();
-                const carregando = document.createElement("p");
-                carregando.className = "escolas-mensagem";
-                carregando.textContent = "Carregando escolas...";
-                lista.appendChild(carregando);
-                contador.textContent = "Buscando instituições...";
-
-                try {
-                    const resposta = await fetch("/instituicao/api/escolas/", {
-                        headers: { "Accept": "application/json" },
-                        credentials: "same-origin"
-                    });
-
-                    if (!resposta.ok) {
-                        throw new Error("Não foi possível consultar as escolas.");
-                    }
-
-                    const dados = await resposta.json();
-                    escolas = Array.isArray(dados.escolas) ? dados.escolas : [];
-                    carregamentoRealizado = true;
-                    renderizarEscolas(escolas);
-                    pesquisa.focus();
-                } catch (erro) {
-                    console.error("Erro ao carregar escolas:", erro);
-                    lista.replaceChildren();
-                    const mensagem = document.createElement("p");
-                    mensagem.className = "escolas-mensagem";
-                    mensagem.textContent = "Não foi possível carregar as escolas. Verifique a conexão com o servidor.";
-                    lista.appendChild(mensagem);
-                    contador.textContent = "";
-                }
-            }
-
-            function renderizarEscolas(listaEscolas) {
-                lista.replaceChildren();
-                contador.textContent = listaEscolas.length +
-                    (listaEscolas.length === 1 ? " escola encontrada" : " escolas encontradas");
-
-                confirmar.disabled = !escolaSelecionada ||
-                    !listaEscolas.some(escola => String(escola.id) === String(escolaSelecionada.id));
-
-                if (listaEscolas.length === 0) {
-                    const mensagem = document.createElement("p");
-                    mensagem.className = "escolas-mensagem";
-                    mensagem.textContent = "Nenhuma escola encontrada.";
-                    lista.appendChild(mensagem);
-                    return;
-                }
-
-                listaEscolas.forEach(function (escola) {
-                    const opcao = document.createElement("label");
-                    opcao.className = "escola-opcao";
-
-                    const radio = document.createElement("input");
-                    radio.type = "radio";
-                    radio.name = "escola";
-                    radio.value = escola.id;
-                    radio.checked = Boolean(
-                        escolaSelecionada && String(escolaSelecionada.id) === String(escola.id)
-                    );
-
-                    if (radio.checked) opcao.classList.add("selecionada");
-
-                    const nome = document.createElement("span");
-                    nome.className = "escola-opcao-nome";
-                    nome.textContent = escola.nome || "Escola sem nome";
-
-                    radio.addEventListener("change", function () {
-                        escolaSelecionada = escola;
-                        confirmar.disabled = false;
-                        lista.querySelectorAll(".escola-opcao").forEach(item => item.classList.remove("selecionada"));
-                        opcao.classList.add("selecionada");
-                    });
-
-                    opcao.append(radio, nome);
-                    lista.appendChild(opcao);
-                });
-            }
-
-            botaoInstituicao.addEventListener("click", abrirModal);
-            fecharModal.addEventListener("click", fecharModalEscolas);
-            cancelar.addEventListener("click", fecharModalEscolas);
-
-            modal.addEventListener("click", function (evento) {
-                if (evento.target === modal) fecharModalEscolas();
-            });
-
-            pesquisa.addEventListener("input", function () {
-                const termo = pesquisa.value.trim().toLocaleLowerCase("pt-BR");
-                const filtradas = escolas.filter(escola =>
-                    String(escola.nome || "").toLocaleLowerCase("pt-BR").includes(termo)
-                );
-                renderizarEscolas(filtradas);
-            });
-
-            confirmar.addEventListener("click", abrirModalSenha);
-
-            voltarSelecao.addEventListener("click", function () {
-                modalSenha.classList.remove("aberto");
-                modalSenha.setAttribute("aria-hidden", "true");
-                modal.classList.add("aberto");
-                modal.setAttribute("aria-hidden", "false");
-                atualizarBloqueioPagina();
-                pesquisa.focus();
-            });
-
-            fecharModalSenhaBotao.addEventListener("click", fecharModalSenha);
-            modalSenha.addEventListener("click", function (evento) {
-                if (evento.target === modalSenha) fecharModalSenha();
-            });
-
-            formularioSenha.addEventListener("submit", async function (evento) {
-                evento.preventDefault();
-
-                if (!escolaSelecionada) {
-                    mensagemSenha.textContent = "Selecione uma instituição.";
-                    return;
-                }
-                // Esconde as notificações enquanto a senha é verificada.
-                secaoNotificacoes.hidden = true;
-
-                // Remove a seleção salva anteriormente no navegador.
-                // Ela será recriada após a validação bem-sucedida.
-                sessionStorage.removeItem("instituicaoSelecionada");
-
-                const senha = campoSenha.value.trim();
-                if (!senha) {
-                    mensagemSenha.textContent = "Informe a senha da instituição.";
-                    campoSenha.focus();
-                    return;
-                }
-
-                botaoEntrar.disabled = true;
-                botaoEntrar.textContent = "Verificando...";
-                mensagemSenha.textContent = "";
-                registrosContainer.replaceChildren();
-                registrosContainer.hidden = true;
-
-                try {
-                    const corpo = new URLSearchParams();
-                    corpo.set("escola_id", escolaSelecionada.id);
-                    corpo.set("senha", senha);
-
-                    const csrfInput = formularioSenha.querySelector('[name="csrfmiddlewaretoken"]');
-                    const resposta = await fetch("/instituicao/verificar-instituicao/", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-                            "X-CSRFToken": csrfInput ? csrfInput.value : "",
-                            "Accept": "application/json"
-                        },
-                        body: corpo.toString(),
-                        credentials: "same-origin"
-                    });
-
-                    const dados = await resposta.json();
-
-                    if (!resposta.ok || !dados.sucesso) {
-                        mensagemSenha.textContent = dados.mensagem || "Não foi possível validar a instituição.";
-                        return;
-                    }
-
-                    sessionStorage.setItem("instituicaoSelecionada", JSON.stringify({
-                        id: escolaSelecionada.id,
-                        nome: escolaSelecionada.nome
-                    }));
-                    // A senha foi validada com sucesso.
-                    // Agora podemos mostrar a área de notificações.
-                    secaoNotificacoes.hidden = false;
-
-                    descricao.textContent = escolaSelecionada.nome;
-                    const registros = Array.isArray(dados.registros) ? dados.registros : [];
-                    mensagemSenha.textContent =
-                        (dados.mensagem || "Acesso confirmado.") + " Registros encontrados: " + registros.length + ".";
-
-                    if (registros.length === 0) {
-                        const mensagem = document.createElement("p");
-                        mensagem.className = "escolas-mensagem";
-                        mensagem.textContent = "Esta instituição ainda não possui registros cadastrados.";
-                        registrosContainer.appendChild(mensagem);
-                    } else {
-                        registros.forEach(function (registro) {
-                            const cartao = document.createElement("article");
-                            cartao.className = "registro-instituicao";
-
-                            const titulo = document.createElement("h3");
-                            titulo.textContent = registro.materia || "Matéria não informada";
-                            cartao.appendChild(titulo);
-
-                            const campos = [
-                                ["Tipo", registro.tipo],
-                                ["Quantidade", registro.quantidade],
-                                ["Responsável", registro.responsavel],
-                                ["Endereço", registro.endereco],
-                                ["Município", registro.municipio],
-                                ["Bairro", registro.bairro],
-                                ["CEP", registro.cep],
-                                ["Observações", registro.observacoes]
-                            ];
-
-                            campos.forEach(function ([rotulo, valor]) {
-                                if (valor === null || valor === undefined || valor === "") return;
-                                const paragrafo = document.createElement("p");
-                                paragrafo.textContent = rotulo + ": " + valor;
-                                cartao.appendChild(paragrafo);
-                            });
-
-                            registrosContainer.appendChild(cartao);
-                        });
-                    }
-
-                    registrosContainer.hidden = false;
-                    if (
-                        typeof window.carregarNotificacoesInteresse === "function"
-                    ) {
-                        window.carregarNotificacoesInteresse();
-                    }
-
-                    // Fecha a tela de confirmação depois que a senha foi aceita.
-                    // A área de notificações já foi liberada no painel lateral.
-                    fecharModalSenha();
-
-                } catch (erro) {
-                    console.error("Erro ao verificar instituição:", erro);
-                    mensagemSenha.textContent = "Ocorreu um erro ao verificar a senha. Tente novamente.";
-                } finally {
-                    botaoEntrar.disabled = false;
-                    botaoEntrar.textContent = "Entrar";
-                }
-            });
-
-            botaoAbrirSenha.addEventListener("click", function () {
-                // Mantém a opção existente, mas não inventa um fluxo de alteração de senha.
-                mensagemSenha.textContent = "Para acessar os dados da instituição, selecione a opção Instituição.";
-                abrirModal();
-            });
-
-            document.addEventListener("keydown", function (evento) {
-                if (evento.key !== "Escape") return;
-
-                if (modalSenha.classList.contains("aberto")) {
-                    fecharModalSenha();
-                } else if (modal.classList.contains("aberto")) {
-                    fecharModalEscolas();
-                }
-            });
-        });
-    </script>
-
-    <!-- JAVASCRIPT: PAINEL LATERAL -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
             const botaoAbrir = document.getElementById("abrir-painel-notificacoes");
-            const botaoFechar = document.getElementById("fechar-painel-notificacoes");
             const painel = document.getElementById("painel-notificacoes");
             const overlay = document.getElementById("painel-notificacoes-overlay");
+            const botaoFechar = document.getElementById("fechar-painel-notificacoes");
 
-            if (!botaoAbrir || !botaoFechar || !painel || !overlay) {
-                console.error("Não foi possível encontrar todos os elementos do painel lateral.");
-                return;
-            }
+            // =========================================
+            // ELEMENTOS DA SELEÇÃO DE INSTITUIÇÃO
+            // =========================================
 
-            function abrirPainel() {
-                painel.classList.add("aberto");
-                overlay.classList.add("aberto");
-                document.body.classList.add("painel-lateral-aberto");
-                painel.setAttribute("aria-hidden", "false");
-                overlay.setAttribute("aria-hidden", "false");
-                botaoAbrir.setAttribute("aria-expanded", "true");
-                botaoFechar.focus();
-            }
+            const botaoInstituicao = document.getElementById("botao-instituicao");
+            const botaoAbrirSenha = document.getElementById("abrir-senha");
 
-            function fecharPainel() {
-                painel.classList.remove("aberto");
-                overlay.classList.remove("aberto");
-                document.body.classList.remove("painel-lateral-aberto");
-                painel.setAttribute("aria-hidden", "true");
-                overlay.setAttribute("aria-hidden", "true");
-                botaoAbrir.setAttribute("aria-expanded", "false");
-                botaoAbrir.focus();
-            }
+            const modal = document.getElementById("modal-escolas");
+            const modalSenha = document.getElementById("modal-senha-instituicao");
 
-            botaoAbrir.addEventListener("click", abrirPainel);
-            botaoFechar.addEventListener("click", fecharPainel);
-            overlay.addEventListener("click", fecharPainel);
+            const lista = document.getElementById("lista-escolas");
+            const pesquisa = document.getElementById("pesquisa-escolas");
+            const contador = document.getElementById("contador-escolas");
+            const confirmar = document.getElementById("confirmar-escola");
 
-            document.addEventListener("keydown", function (evento) {
-                if (evento.key === "Escape" && painel.classList.contains("aberto")) {
-                    fecharPainel();
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const lista = document.getElementById(
+            const botaoFecharModal = document.getElementById("fechar-modal-escolas");
+            const botaoCancelar = document.getElementById("cancelar-escola");
+
+            // =========================================
+            // ELEMENTOS DO MODAL DE SENHA
+            // =========================================
+
+            const formularioSenha = document.getElementById("form-senha-instituicao");
+            const campoSenha = document.getElementById("senha-instituicao");
+            const mensagemSenha = document.getElementById("mensagem-senha-instituicao");
+
+            const botaoEntrar = document.getElementById("confirmar-senha-instituicao");
+            const botaoFecharSenha = document.getElementById("fechar-modal-senha");
+            const botaoVoltar = document.getElementById("voltar-selecao-escola");
+
+            const nomeEscolaSenha = document.getElementById("nome-escola-senha");
+            const registrosContainer = document.getElementById("registros-instituicao");
+
+            // =========================================
+            // ELEMENTOS DAS NOTIFICAÇÕES
+            // =========================================
+
+            const secaoNotificacoes = document.getElementById("secao-notificacoes-interesse");
+            const descricao = document.getElementById("instituicao-descricao");
+
+            // =========================================
+            // CARREGAR NOTIFICAÇÕES DOS PROFESSORES
+            // =========================================
+
+            const listaNotificacoes = document.getElementById(
                 "lista-notificacoes-interesse"
             );
 
-            const contador = document.getElementById(
+            const contadorNotificacoes = document.getElementById(
                 "contador-notificacoes-interesse"
             );
 
-            const botaoAbrir = document.getElementById(
-                "abrir-painel-notificacoes"
-            );
-            const secaoNotificacoes = document.getElementById(
-                "secao-notificacoes-interesse"
-            );
+            window.carregarNotificacoesInteresse = async function () {
 
-            if (!lista || !contador || !secaoNotificacoes) {
-                console.error(
-                    "Os elementos HTML das notificações não foram encontrados."
-                );
-                return;
-            }
-
-            function formatarPrazo(segundos) {
-                segundos = Math.max(0, Number(segundos) || 0);
-
-                const horas = Math.floor(segundos / 3600);
-
-                const minutos = Math.floor(
-                    (segundos % 3600) / 60
-                );
-
-                if (horas > 0) {
-                    return (
-                        horas +
-                        "h" +
-                        String(minutos).padStart(2, "0") +
-                        "min"
-                    );
-                }
-
-                if (minutos > 0) {
-                    return minutos + "min";
-                }
-
-                return "menos de 1 min";
-            }
-
-            function mostrarMensagem(mensagem) {
-                lista.replaceChildren();
-
-                const paragrafo = document.createElement("p");
-
-                paragrafo.className = "escolas-mensagem";
-
-                paragrafo.textContent = mensagem;
-
-                lista.appendChild(paragrafo);
-            }
-
-            function criarCartao(notificacao) {
-                const cartao = document.createElement("article");
-
-                cartao.className = "interesse-notificacao";
-
-                const topo = document.createElement("div");
-
-                topo.className = "interesse-notificacao-topo";
-
-                const icone = document.createElement("span");
-
-                icone.className = "interesse-notificacao-icone";
-
-                icone.setAttribute("aria-hidden", "true");
-
-                icone.textContent = "👨‍🏫";
-
-                const identificacao = document.createElement("div");
-
-                identificacao.className = "interesse-notificacao-identificacao";
-
-                const titulo = document.createElement("h4");
-
-                titulo.textContent = notificacao.nome_colaborador;
-
-                const assunto = document.createElement("p");
-
-                assunto.className = "interesse-notificacao-assunto";
-
-                assunto.textContent = "Demonstrou interesse em uma oportunidade";
-
-                identificacao.append(titulo, assunto);
-
-                topo.append(icone, identificacao);
-
-                const materia = document.createElement("p");
-
-                materia.className = "interesse-notificacao-detalhe";
-
-                materia.textContent = "Matéria: " + notificacao.materia;
-
-                const tipo = document.createElement("p");
-
-                tipo.className = "interesse-notificacao-detalhe";
-
-                tipo.textContent = "Tipo: " + notificacao.tipo;
-
-                const recebida = document.createElement("small");
-
-                recebida.className = "interesse-notificacao-data";
-
-                recebida.textContent = "Recebida em " + notificacao.recebida_em;
-
-                const validade = document.createElement("p");
-
-                validade.className = "interesse-notificacao-validade";
-
-                validade.textContent =
-                    "Expira em " +
-                    formatarPrazo(notificacao.segundos_restantes);
-
-                cartao.append(
-                    topo,
-                    materia,
-                    tipo,
-                    recebida,
-                    validade
-                );
-
-                return cartao;
-            }
-
-            async function carregarNotificacoesInteresse() {
-                if (!secaoNotificacoes || secaoNotificacoes.hidden) {
+                if (!listaNotificacoes || !contadorNotificacoes) {
+                    console.error("Elementos das notificações não encontrados.");
                     return;
                 }
+
+                listaNotificacoes.replaceChildren();
+
+                const carregando = document.createElement("p");
+                carregando.className = "escolas-mensagem";
+                carregando.textContent = "Carregando notificações...";
+
+                listaNotificacoes.appendChild(carregando);
+
                 try {
+
                     const resposta = await fetch(
                         "/instituicao/api/notificacoes-interesse/",
                         {
@@ -922,75 +521,696 @@
                     const dados = await resposta.json();
 
                     if (!resposta.ok || !dados.sucesso) {
-                        contador.hidden = true;
-
-                        mostrarMensagem(
-                            dados.mensagem ||
-                            "Não foi possível consultar as notificações."
+                        throw new Error(
+                            dados.mensagem || "Não foi possível carregar as notificações."
                         );
-
-                        return;
                     }
 
                     const notificacoes = Array.isArray(dados.notificacoes)
                         ? dados.notificacoes
                         : [];
 
-                    contador.textContent = String(notificacoes.length);
+                    // ATUALIZAR CONTADOR
 
-                    contador.hidden = notificacoes.length === 0;
+                    contadorNotificacoes.textContent = notificacoes.length;
+                    contadorNotificacoes.hidden = notificacoes.length === 0;
 
-                    lista.replaceChildren();
+                    listaNotificacoes.replaceChildren();
+
+                    // NENHUMA NOTIFICAÇÃO
 
                     if (notificacoes.length === 0) {
-                        mostrarMensagem(
-                            "Nenhum colaborador demonstrou interesse nas suas oportunidades nas últimas 10 horas."
-                        );
+
+                        const mensagem = document.createElement("p");
+
+                        mensagem.className = "escolas-mensagem";
+
+                        mensagem.textContent =
+                            "Ainda não existem professores interessados nas oportunidades da sua instituição.";
+
+                        listaNotificacoes.appendChild(mensagem);
 
                         return;
                     }
 
+                    // CRIAR CARTÕES DAS NOTIFICAÇÕES
+
                     notificacoes.forEach(function (notificacao) {
-                        lista.appendChild(
-                            criarCartao(notificacao)
+
+                        const cartao = document.createElement("article");
+
+                        cartao.className = "notificacao-interesse-card";
+
+                        // NOME DO PROFESSOR
+
+                        const nome = document.createElement("h4");
+
+                        nome.textContent =
+                            notificacao.nome_colaborador || "Colaborador";
+
+                        // MATÉRIA
+
+                        const materia = document.createElement("p");
+
+                        materia.textContent =
+                            "Matéria: " + (notificacao.materia || "Não informada");
+
+                        // TIPO DE OPORTUNIDADE
+
+                        const tipo = document.createElement("p");
+
+                        tipo.textContent =
+                            "Tipo: " + (notificacao.tipo || "Não informado");
+
+                        // DATA DO RECEBIMENTO
+
+                        const data = document.createElement("small");
+
+                        data.textContent =
+                            "Recebida em: " + (notificacao.recebida_em || "");
+
+                        // TEMPO RESTANTE
+
+                        const tempo = document.createElement("small");
+
+                        const horas = Math.floor(
+                            notificacao.segundos_restantes / 3600
                         );
+
+                        const minutos = Math.floor(
+                            (notificacao.segundos_restantes % 3600) / 60
+                        );
+
+                        tempo.textContent =
+                            "Expira em: " + horas + "h " + minutos + "min";
+
+                        // BOTÃO VER PERFIL
+
+                        const botaoPerfil = document.createElement("button");
+
+                        botaoPerfil.type = "button";
+
+                        botaoPerfil.className = "profile-btn";
+
+                        botaoPerfil.dataset.colaboradorId =
+                            notificacao.colaborador_id;
+
+                        botaoPerfil.textContent = "Ver perfil";
+
+                        // MONTAR CARTÃO
+
+                        cartao.append(
+                            nome,
+                            materia,
+                            tipo,
+                            data,
+                            tempo,
+                            botaoPerfil
+                        );
+
+                        listaNotificacoes.appendChild(cartao);
+
                     });
 
                 } catch (erro) {
-                    console.error(
-                        "Erro ao consultar notificações:",
-                        erro
-                    );
 
-                    contador.hidden = true;
+                    console.error("Erro ao carregar notificações:", erro);
 
-                    mostrarMensagem(
-                        "Não foi possível carregar as notificações. Verifique sua conexão."
-                    );
+                    listaNotificacoes.replaceChildren();
+
+                    const mensagemErro = document.createElement("p");
+
+                    mensagemErro.className = "escolas-mensagem";
+
+                    mensagemErro.textContent =
+                        "Não foi possível carregar as notificações. Tente novamente.";
+
+                    listaNotificacoes.appendChild(mensagemErro);
+
+                }
+
+            };
+
+            // =========================================
+            // VERIFICAR ELEMENTOS
+            // =========================================
+
+            if (!botaoAbrir || !painel || !overlay || !botaoFechar) {
+                console.error("Elementos do painel lateral não encontrados.");
+                return;
+            }
+
+            // =========================================
+            // ABRIR E FECHAR PAINEL LATERAL
+            // =========================================
+
+            function abrirPainel() {
+                painel.classList.add("aberto");
+                overlay.classList.add("aberto");
+
+                painel.setAttribute("aria-hidden", "false");
+                overlay.setAttribute("aria-hidden", "false");
+
+                botaoAbrir.setAttribute("aria-expanded", "true");
+
+                document.body.classList.add("painel-lateral-aberto");
+            }
+
+            function fecharPainel() {
+                painel.classList.remove("aberto");
+                overlay.classList.remove("aberto");
+
+                painel.setAttribute("aria-hidden", "true");
+                overlay.setAttribute("aria-hidden", "true");
+
+                botaoAbrir.setAttribute("aria-expanded", "false");
+
+                document.body.classList.remove("painel-lateral-aberto");
+            }
+
+            botaoAbrir.addEventListener("click", abrirPainel);
+            botaoFechar.addEventListener("click", fecharPainel);
+            overlay.addEventListener("click", fecharPainel);
+
+            // =========================================
+            // VERIFICAR ELEMENTOS DA SELEÇÃO
+            // =========================================
+
+            const elementosSelecao = [
+                botaoInstituicao,
+                botaoAbrirSenha,
+                modal,
+                modalSenha,
+                lista,
+                pesquisa,
+                contador,
+                confirmar,
+                formularioSenha,
+                campoSenha,
+                mensagemSenha,
+                botaoEntrar,
+                botaoFecharModal,
+                botaoCancelar,
+                botaoFecharSenha,
+                botaoVoltar,
+                nomeEscolaSenha,
+                registrosContainer,
+                secaoNotificacoes,
+                descricao
+            ];
+
+            if (elementosSelecao.some(elemento => !elemento)) {
+                console.error("Erro: algum elemento da seleção de instituição não foi encontrado.");
+                return;
+            }
+
+            // =========================================
+            // VARIÁVEIS
+            // =========================================
+
+            let escolas = [];
+            let escolaSelecionada = null;
+            let carregamentoRealizado = false;
+
+            // =========================================
+            // ABRIR MODAL DE SELEÇÃO DE ESCOLAS
+            // =========================================
+
+            function abrirModal() {
+
+                fecharPainel();
+
+                modal.classList.add("aberto");
+                modal.setAttribute("aria-hidden", "false");
+
+                document.body.style.overflow = "hidden";
+
+                if (!carregamentoRealizado) {
+                    carregarEscolas();
+                } else {
+                    renderizarEscolas(escolas);
+                    pesquisa.focus();
                 }
             }
 
-            // Permite que o processo de validação da instituição
-            // solicite uma atualização imediatamente.
-            window.carregarNotificacoesInteresse =
-            carregarNotificacoesInteresse;
+            // =========================================
+            // FECHAR MODAL DE ESCOLAS
+            // =========================================
 
-        // Atualiza ao abrir o painel lateral.
-        if (botaoAbrir) {
-            botaoAbrir.addEventListener(
-                "click",
-                carregarNotificacoesInteresse
-            );
-        }
+            function fecharModalEscolas() {
 
-        // Atualiza as notificações a cada 30 segundos.
-        // Não é necessário recarregar a página.
-        carregarNotificacoesInteresse();
+                modal.classList.remove("aberto");
+                modal.setAttribute("aria-hidden", "true");
 
-        window.setInterval(
-            carregarNotificacoesInteresse,
-            30000
-        );
+                document.body.style.overflow = "";
+            }
+
+            // =========================================
+            // CARREGAR ESCOLAS DO BANCO
+            // =========================================
+
+            async function carregarEscolas() {
+
+                lista.replaceChildren();
+
+                const mensagem = document.createElement("p");
+                mensagem.className = "escolas-mensagem";
+                mensagem.textContent = "Carregando escolas...";
+
+                lista.appendChild(mensagem);
+
+                contador.textContent = "Buscando instituições...";
+
+                try {
+
+                    const resposta = await fetch("/instituicao/api/escolas/", {
+                        method: "GET",
+                        headers: {
+                            "Accept": "application/json"
+                        },
+                        credentials: "same-origin",
+                        cache: "no-store"
+                    });
+
+                    const dados = await resposta.json();
+
+                    if (!resposta.ok) {
+                        throw new Error("Erro ao consultar escolas.");
+                    }
+
+                    escolas = Array.isArray(dados.escolas)
+                        ? dados.escolas
+                        : [];
+
+                    carregamentoRealizado = true;
+
+                    renderizarEscolas(escolas);
+
+                    pesquisa.focus();
+
+                } catch (erro) {
+
+                    console.error("Erro ao carregar escolas:", erro);
+
+                    lista.replaceChildren();
+
+                    const mensagemErro = document.createElement("p");
+                    mensagemErro.className = "escolas-mensagem";
+                    mensagemErro.textContent = "Não foi possível carregar as escolas.";
+
+                    lista.appendChild(mensagemErro);
+
+                    contador.textContent = "";
+                }
+            }
+
+            // =========================================
+            // MOSTRAR ESCOLAS NA TELA
+            // =========================================
+
+            function renderizarEscolas(listaEscolas) {
+
+                lista.replaceChildren();
+
+                contador.textContent =
+                    listaEscolas.length +
+                    (listaEscolas.length === 1
+                        ? " escola encontrada"
+                        : " escolas encontradas");
+
+                const escolaEstaNaLista = listaEscolas.some(escola =>
+                    String(escola.id) === String(escolaSelecionada?.id)
+                );
+
+                confirmar.disabled = !escolaEstaNaLista;
+
+                if (listaEscolas.length === 0) {
+
+                    const mensagem = document.createElement("p");
+                    mensagem.className = "escolas-mensagem";
+                    mensagem.textContent = "Nenhuma escola encontrada.";
+
+                    lista.appendChild(mensagem);
+
+                    return;
+                }
+
+                listaEscolas.forEach(function (escola) {
+
+                    const opcao = document.createElement("label");
+                    opcao.className = "escola-opcao";
+
+                    const radio = document.createElement("input");
+
+                    radio.type = "radio";
+                    radio.name = "escola";
+                    radio.value = escola.id;
+
+                    radio.checked = Boolean(
+                        escolaSelecionada &&
+                        String(escolaSelecionada.id) === String(escola.id)
+                    );
+
+                    const nome = document.createElement("span");
+
+                    nome.className = "escola-opcao-nome";
+                    nome.textContent = escola.nome || "Escola sem nome";
+
+                    if (radio.checked) {
+                        opcao.classList.add("selecionada");
+                    }
+
+                    radio.addEventListener("change", function () {
+
+                        escolaSelecionada = escola;
+
+                        confirmar.disabled = false;
+
+                        lista.querySelectorAll(".escola-opcao").forEach(item => {
+                            item.classList.remove("selecionada");
+                        });
+
+                        opcao.classList.add("selecionada");
+                    });
+
+                    opcao.append(radio, nome);
+
+                    lista.appendChild(opcao);
+                });
+            }
+
+            // =========================================
+            // ABRIR MODAL DE SENHA
+            // =========================================
+
+            function abrirModalSenha() {
+
+                if (!escolaSelecionada) {
+                    return;
+                }
+
+                fecharModalEscolas();
+
+                modalSenha.classList.add("aberto");
+                modalSenha.setAttribute("aria-hidden", "false");
+
+                nomeEscolaSenha.textContent = escolaSelecionada.nome;
+
+                mensagemSenha.textContent = "";
+
+                registrosContainer.replaceChildren();
+                registrosContainer.hidden = true;
+
+                campoSenha.value = "";
+
+                document.body.style.overflow = "hidden";
+
+                campoSenha.focus();
+            }
+
+            // =========================================
+            // FECHAR MODAL DE SENHA
+            // =========================================
+
+            function fecharModalSenha() {
+
+                modalSenha.classList.remove("aberto");
+                modalSenha.setAttribute("aria-hidden", "true");
+
+                document.body.style.overflow = "";
+            }
+
+            // =========================================
+            // EVENTOS DOS DOIS BOTÕES INTERNOS
+            // =========================================
+
+            botaoInstituicao.addEventListener("click", abrirModal);
+            botaoAbrirSenha.addEventListener("click", abrirModal);
+
+            // =========================================
+            // PESQUISAR ESCOLAS
+            // =========================================
+
+            pesquisa.addEventListener("input", function () {
+
+                const termo = pesquisa.value.trim().toLocaleLowerCase("pt-BR");
+
+                const filtradas = escolas.filter(escola =>
+                    String(escola.nome || "")
+                        .toLocaleLowerCase("pt-BR")
+                        .includes(termo)
+                );
+
+                renderizarEscolas(filtradas);
+            });
+
+            // =========================================
+            // CONFIRMAR ESCOLA
+            // =========================================
+
+            confirmar.addEventListener("click", abrirModalSenha);
+
+            // =========================================
+            // BOTÕES DE FECHAMENTO
+            // =========================================
+
+            botaoFecharModal.addEventListener("click", fecharModalEscolas);
+            botaoCancelar.addEventListener("click", fecharModalEscolas);
+
+            botaoFecharSenha.addEventListener("click", fecharModalSenha);
+
+            modal.addEventListener("click", function (evento) {
+
+                if (evento.target === modal) {
+                    fecharModalEscolas();
+                }
+            });
+
+            modalSenha.addEventListener("click", function (evento) {
+
+                if (evento.target === modalSenha) {
+                    fecharModalSenha();
+                }
+            });
+
+            // =========================================
+            // VOLTAR PARA SELEÇÃO DE ESCOLAS
+            // =========================================
+
+            botaoVoltar.addEventListener("click", function () {
+
+                fecharModalSenha();
+
+                modal.classList.add("aberto");
+                modal.setAttribute("aria-hidden", "false");
+
+                document.body.style.overflow = "hidden";
+
+                pesquisa.focus();
+            });
+
+            // =========================================
+            // CONFIRMAR SENHA DA INSTITUIÇÃO
+            // =========================================
+
+            formularioSenha.addEventListener("submit", async function (evento) {
+
+                evento.preventDefault();
+
+                if (!escolaSelecionada) {
+
+                    mensagemSenha.textContent = "Selecione uma instituição.";
+
+                    return;
+                }
+
+                const senha = campoSenha.value.trim();
+
+                if (!senha) {
+
+                    mensagemSenha.textContent = "Informe a senha da instituição.";
+
+                    return;
+                }
+
+                const csrfInput = formularioSenha.querySelector(
+                    '[name="csrfmiddlewaretoken"]'
+                );
+
+                if (!csrfInput) {
+                    mensagemSenha.textContent = "Token de segurança não encontrado.";
+                    return;
+                }
+
+                secaoNotificacoes.hidden = true;
+
+                botaoEntrar.disabled = true;
+                botaoEntrar.textContent = "Verificando...";
+
+                mensagemSenha.textContent = "";
+
+                registrosContainer.replaceChildren();
+                registrosContainer.hidden = true;
+
+                try {
+
+                    const corpo = new URLSearchParams();
+
+                    corpo.set("escola_id", escolaSelecionada.id);
+                    corpo.set("senha", senha);
+
+                    const resposta = await fetch(
+                        "/instituicao/verificar-instituicao/",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                                "X-CSRFToken": csrfInput.value,
+                                "Accept": "application/json"
+                            },
+
+                            body: corpo.toString(),
+
+                            credentials: "same-origin"
+                        }
+                    );
+
+                    const dados = await resposta.json();
+
+                    if (!resposta.ok || !dados.sucesso) {
+
+                        mensagemSenha.textContent =
+                            dados.mensagem || "Não foi possível validar a instituição.";
+
+                        return;
+                    }
+
+                    // SALVAR INSTITUIÇÃO SELECIONADA
+
+                    sessionStorage.setItem(
+                        "instituicaoSelecionada",
+                        JSON.stringify({
+                            id: escolaSelecionada.id,
+                            nome: escolaSelecionada.nome
+                        })
+                    );
+
+                    // LIBERAR NOTIFICAÇÕES
+
+                    secaoNotificacoes.hidden = false;
+
+                    descricao.textContent = escolaSelecionada.nome;
+
+                    // MOSTRAR REGISTROS DA INSTITUIÇÃO
+
+                    const registros = Array.isArray(dados.registros)
+                        ? dados.registros
+                        : [];
+
+                    if (registros.length === 0) {
+
+                        const mensagem = document.createElement("p");
+
+                        mensagem.className = "escolas-mensagem";
+
+                        mensagem.textContent =
+                            "Esta instituição ainda não possui registros cadastrados.";
+
+                        registrosContainer.appendChild(mensagem);
+
+                    } else {
+
+                        registros.forEach(function (registro) {
+
+                            const cartao = document.createElement("article");
+
+                            cartao.className = "registro-instituicao";
+
+                            const titulo = document.createElement("h3");
+
+                            titulo.textContent =
+                                registro.materia || "Matéria não informada";
+
+                            cartao.appendChild(titulo);
+
+                            const campos = [
+                                ["Tipo", registro.tipo],
+                                ["Quantidade", registro.quantidade],
+                                ["Responsável", registro.responsavel],
+                                ["Endereço", registro.endereco],
+                                ["Município", registro.municipio],
+                                ["Bairro", registro.bairro],
+                                ["CEP", registro.cep],
+                                ["Observações", registro.observacoes]
+                            ];
+
+                            campos.forEach(function ([rotulo, valor]) {
+
+                                if (
+                                    valor === null ||
+                                    valor === undefined ||
+                                    valor === ""
+                                ) {
+                                    return;
+                                }
+
+                                const paragrafo = document.createElement("p");
+
+                                paragrafo.textContent = rotulo + ": " + valor;
+
+                                cartao.appendChild(paragrafo);
+                            });
+
+                            registrosContainer.appendChild(cartao);
+                        });
+                    }
+
+                    registrosContainer.hidden = false;
+
+                    // ATUALIZAR NOTIFICAÇÕES
+                    await window.carregarNotificacoesInteresse();
+
+                    fecharModalSenha();
+
+                } catch (erro) {
+
+                    console.error("Erro ao verificar instituição:", erro);
+
+                    mensagemSenha.textContent =
+                        "Ocorreu um erro ao verificar a senha. Tente novamente.";
+
+                } finally {
+
+                    botaoEntrar.disabled = false;
+                    botaoEntrar.textContent = "Entrar";
+                }
+            });
+
+            // =========================================
+            // FECHAR MODAIS E PAINEL COM ESC
+            // =========================================
+
+            document.addEventListener("keydown", function (evento) {
+
+                if (evento.key !== "Escape") {
+                    return;
+                }
+
+                if (modalSenha.classList.contains("aberto")) {
+
+                    fecharModalSenha();
+
+                } else if (modal.classList.contains("aberto")) {
+
+                    fecharModalEscolas();
+
+                } else {
+
+                    fecharPainel();
+                }
+            });
+
         });
     </script>
 </body>

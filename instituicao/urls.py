@@ -13,4 +13,6 @@ urlpatterns = [
     path("api/escolas/",views.listar_escolas,name="listar_escolas",),
     path("api/interesse/",views.registrar_interesse,name="registrar_interesse",),
     path("api/notificacoes-interesse/",views.listar_notificacoes_interesse,name="listar_notificacoes_interesse",),
+    path("api/perfil-colaborador/<int:colaborador_id>/",views.perfil_colaborador_api,name="perfil_colaborador_api",
+),
 ]

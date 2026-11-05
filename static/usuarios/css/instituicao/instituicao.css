@@ -1287,3 +1287,323 @@ button {
     color: #64748b;
     font-size: 13px;
 }
+
+#painel-notificacoes {
+    z-index: 10001;
+    pointer-events: auto;
+}
+
+#painel-notificacoes.aberto {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+#painel-notificacoes-overlay {
+    z-index: 10000;
+}
+
+#painel-notificacoes-overlay.aberto {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* =====================================================
+   INOVAÇÃO TEP — NOTIFICAÇÕES DE INTERESSE
+   Design integrado ao painel lateral da instituição
+===================================================== */
+
+/* LARGURA DO PAINEL */
+
+#painel-notificacoes {
+    width: min(380px, 94vw);
+    max-width: 94vw;
+}
+
+/* SEÇÃO PRINCIPAL */
+
+#painel-notificacoes #secao-notificacoes-interesse {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 18px 0 22px;
+    padding: 19px 15px;
+    border: 1px solid #dce7f5;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #f8fbff, #eef4fc);
+    box-shadow: 0 8px 22px rgba(30, 65, 115, 0.08);
+}
+
+#painel-notificacoes #secao-notificacoes-interesse[hidden] {
+    display: none !important;
+}
+
+/* CABEÇALHO */
+
+#secao-notificacoes-interesse .painel-notificacoes-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#secao-notificacoes-interesse .painel-notificacoes-etiqueta {
+    display: inline-block;
+    margin-bottom: 6px;
+    color: #3479d5;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+#secao-notificacoes-interesse #titulo-notificacoes-interesse {
+    margin: 0;
+    color: #17365f;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+/* CONTADOR */
+
+#secao-notificacoes-interesse .notificacao-contador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 31px;
+    height: 31px;
+    padding: 0 8px;
+    border-radius: 50px;
+    background: #286bd0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#secao-notificacoes-interesse .notificacao-contador[hidden] {
+    display: none !important;
+}
+
+/* DESCRIÇÃO */
+
+#secao-notificacoes-interesse .painel-notificacoes-descricao {
+    margin: 0 0 17px;
+    color: #70819a;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* LISTA */
+
+#painel-notificacoes #lista-notificacoes-interesse {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    max-height: 430px;
+    overflow-y: auto;
+    padding: 2px 4px 5px 2px;
+    overscroll-behavior: contain;
+}
+
+/* CARTÕES */
+
+#lista-notificacoes-interesse .notificacao-interesse-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 17px 14px;
+    border: 1px solid #e1eaf6;
+    border-left: 4px solid #397fe0;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(33, 70, 125, 0.07);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+#lista-notificacoes-interesse .notificacao-interesse-card:hover {
+    transform: translateY(-2px);
+    border-color: #b6d0f2;
+    box-shadow: 0 9px 20px rgba(33, 90, 160, 0.12);
+}
+
+/* NOME DO PROFESSOR */
+
+#lista-notificacoes-interesse .notificacao-interesse-card h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 0 0 3px;
+    color: #19375e;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+#lista-notificacoes-interesse .notificacao-interesse-card h4::before {
+    content: "👤";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 39px;
+    height: 39px;
+    border-radius: 12px;
+    background: #eaf2ff;
+    font-size: 19px;
+}
+
+/* MATÉRIA E TIPO */
+
+#lista-notificacoes-interesse .notificacao-interesse-card p {
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 7px 11px;
+    border-radius: 8px;
+    background: #f0f5fc;
+    color: #526b8b;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* DATA E HORÁRIO */
+
+#lista-notificacoes-interesse .notificacao-interesse-card small {
+    display: block;
+    width: 100%;
+    color: #8290a5;
+    font-size: 11px;
+    line-height: 1.6;
+    white-space: normal;
+}
+
+#lista-notificacoes-interesse .notificacao-interesse-card small:first-of-type::before {
+    content: "◷ ";
+    color: #4381d5;
+    font-size: 15px;
+}
+
+/* TEMPO RESTANTE */
+
+#lista-notificacoes-interesse .notificacao-interesse-card small:last-of-type {
+    display: block;
+    width: fit-content;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #fff5e6;
+    color: #b87925;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+#lista-notificacoes-interesse .notificacao-interesse-card small:last-of-type::before {
+    content: "⌛ ";
+}
+
+/* BOTÃO VER PERFIL */
+
+#secao-notificacoes-interesse .notificacao-interesse-card .profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 41px;
+    margin-top: 3px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #397fe5, #245fbd);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+#secao-notificacoes-interesse .notificacao-interesse-card .profile-btn::before {
+    content: none;
+}
+
+#secao-notificacoes-interesse .notificacao-interesse-card .profile-btn::after {
+    content: "→";
+    font-size: 16px;
+}
+
+#secao-notificacoes-interesse .notificacao-interesse-card .profile-btn:hover {
+    background: linear-gradient(135deg, #286bcf, #174e9e);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 13px rgba(40, 100, 190, 0.23);
+}
+
+/* MENSAGEM SEM NOTIFICAÇÕES */
+
+#lista-notificacoes-interesse .escolas-mensagem {
+    padding: 20px 13px;
+    margin: 0;
+    border: 1px dashed #cbd9ec;
+    border-radius: 12px;
+    background: #fff;
+    color: #71829a;
+    font-size: 12px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* BARRA DE ROLAGEM */
+
+#lista-notificacoes-interesse::-webkit-scrollbar {
+    width: 5px;
+}
+
+#lista-notificacoes-interesse::-webkit-scrollbar-thumb {
+    background: #bdcde2;
+    border-radius: 10px;
+}
+
+/* ANIMAÇÕES */
+
+#secao-notificacoes-interesse {
+    animation: notificacoesEntrada .35s ease;
+}
+
+@keyframes notificacoesEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 480px) {
+
+    #painel-notificacoes {
+        width: 94vw;
+    }
+
+    #painel-notificacoes #secao-notificacoes-interesse {
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    #secao-notificacoes-interesse #titulo-notificacoes-interesse {
+        font-size: 17px;
+    }
+
+    #lista-notificacoes-interesse .notificacao-interesse-card {
+        padding: 14px;
+    }
+
+}
