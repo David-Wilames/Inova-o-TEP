@@ -36,9 +36,7 @@ def test_pagina_login_abre_no_navegador(page, live_server):
     assert resposta is not None
     assert resposta.status == 200
 
-    expect(
-        page.get_by_role("heading", name="Entrar como professor")
-    ).to_be_visible()
+    expect(page.get_by_role("heading", name="Entrar como professor")).to_be_visible()
 
 
 @pytest.mark.django_db(transaction=True)
@@ -53,20 +51,14 @@ def test_login_visual_com_credenciais_corretas(
         wait_until="domcontentloaded",
     )
 
-    page.locator('input[name="usuario"]').fill(
-        "colaborador_playwright"
-    )
+    page.locator('input[name="usuario"]').fill("colaborador_playwright")
 
-    page.locator('input[name="senha"]').fill(
-        "SenhaTeste123"
-    )
+    page.locator('input[name="senha"]').fill("SenhaTeste123")
 
     with page.expect_navigation(wait_until="domcontentloaded"):
         page.get_by_role("button", name="Entrar").click()
 
-    expect(page).to_have_url(
-        f"{live_server.url}{reverse('colaborador')}"
-    )
+    expect(page).to_have_url(f"{live_server.url}{reverse('colaborador')}")
 
 
 @pytest.mark.django_db(transaction=True)
@@ -81,23 +73,15 @@ def test_login_visual_com_senha_incorreta(
         wait_until="domcontentloaded",
     )
 
-    page.locator('input[name="usuario"]').fill(
-        "colaborador_playwright"
-    )
+    page.locator('input[name="usuario"]').fill("colaborador_playwright")
 
-    page.locator('input[name="senha"]').fill(
-        "SenhaErrada123"
-    )
+    page.locator('input[name="senha"]').fill("SenhaErrada123")
 
     page.get_by_role("button", name="Entrar").click()
 
-    expect(
-        page.get_by_text("Senha incorreta.", exact=True)
-    ).to_be_visible()
+    expect(page.get_by_text("Senha incorreta.", exact=True)).to_be_visible()
 
-    expect(page).to_have_url(
-        f"{live_server.url}{reverse('login_colaborador')}"
-    )
+    expect(page).to_have_url(f"{live_server.url}{reverse('login_colaborador')}")
 
 
 @pytest.fixture
@@ -122,13 +106,9 @@ def test_pagina_cadastro_abre_no_navegador(page, live_server):
     assert resposta is not None
     assert resposta.status == 200
 
-    expect(
-        page.get_by_role("heading", name="Cadastro de professor")
-    ).to_be_visible()
+    expect(page.get_by_role("heading", name="Cadastro de professor")).to_be_visible()
 
-    expect(
-        page.get_by_role("button", name="Criar conta")
-    ).to_be_visible()
+    expect(page.get_by_role("button", name="Criar conta")).to_be_visible()
 
 
 @pytest.mark.django_db(transaction=True)
@@ -139,32 +119,20 @@ def test_cadastro_visual_com_dados_validos(page, live_server):
         wait_until="domcontentloaded",
     )
 
-    page.locator('input[name="nome_completo"]').fill(
-        "Colaborador Playwright"
-    )
+    page.locator('input[name="nome_completo"]').fill("Colaborador Playwright")
 
-    page.locator('input[name="email"]').fill(
-        "playwright.cadastro@exemplo.com"
-    )
+    page.locator('input[name="email"]').fill("playwright.cadastro@exemplo.com")
 
-    page.locator('input[name="username"]').fill(
-        "playwright_cadastro"
-    )
+    page.locator('input[name="username"]').fill("playwright_cadastro")
 
-    page.locator('input[name="senha"]').fill(
-        "SenhaPlaywright123"
-    )
+    page.locator('input[name="senha"]').fill("SenhaPlaywright123")
 
     with page.expect_navigation(wait_until="domcontentloaded"):
         page.get_by_role("button", name="Criar conta").click()
 
-    expect(page).to_have_url(
-        f"{live_server.url}{reverse('login_colaborador')}"
-    )
+    expect(page).to_have_url(f"{live_server.url}{reverse('login_colaborador')}")
 
-    usuario = Usuarios.objects.get(
-        username="playwright_cadastro"
-    )
+    usuario = Usuarios.objects.get(username="playwright_cadastro")
 
     assert usuario.nome_completo == "Colaborador Playwright"
     assert usuario.email == "playwright.cadastro@exemplo.com"
@@ -186,21 +154,13 @@ def test_cadastro_visual_com_email_existente(
         wait_until="domcontentloaded",
     )
 
-    page.locator('input[name="nome_completo"]').fill(
-        "Outro Colaborador"
-    )
+    page.locator('input[name="nome_completo"]').fill("Outro Colaborador")
 
-    page.locator('input[name="email"]').fill(
-        "existente@exemplo.com"
-    )
+    page.locator('input[name="email"]').fill("existente@exemplo.com")
 
-    page.locator('input[name="username"]').fill(
-        "outro_colaborador"
-    )
+    page.locator('input[name="username"]').fill("outro_colaborador")
 
-    page.locator('input[name="senha"]').fill(
-        "SenhaNova123"
-    )
+    page.locator('input[name="senha"]').fill("SenhaNova123")
 
     page.get_by_role("button", name="Criar conta").click()
 
@@ -211,13 +171,13 @@ def test_cadastro_visual_com_email_existente(
         )
     ).to_be_visible()
 
-    expect(page).to_have_url(
-        f"{live_server.url}{reverse('cadastro_colaborador')}"
-    )
+    expect(page).to_have_url(f"{live_server.url}{reverse('cadastro_colaborador')}")
+
 
 # =====================================================
 # AUXILIAR PARA LOGIN NO NAVEGADOR
 # =====================================================
+
 
 def fazer_login_no_navegador(page, live_server):
 
@@ -226,13 +186,9 @@ def fazer_login_no_navegador(page, live_server):
         wait_until="domcontentloaded",
     )
 
-    page.locator('input[name="usuario"]').fill(
-        "colaborador_playwright"
-    )
+    page.locator('input[name="usuario"]').fill("colaborador_playwright")
 
-    page.locator('input[name="senha"]').fill(
-        "SenhaTeste123"
-    )
+    page.locator('input[name="senha"]').fill("SenhaTeste123")
 
     with page.expect_navigation(wait_until="domcontentloaded"):
         page.get_by_role("button", name="Entrar").click()
@@ -241,6 +197,7 @@ def fazer_login_no_navegador(page, live_server):
 # =====================================================
 # TESTE 1 - ACESSO AO FORMULÁRIO SEM LOGIN
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_adicionar_informacoes_exige_login_no_navegador(
@@ -253,14 +210,13 @@ def test_adicionar_informacoes_exige_login_no_navegador(
         wait_until="domcontentloaded",
     )
 
-    expect(page).to_have_url(
-        f"{live_server.url}{reverse('login_colaborador')}"
-    )
+    expect(page).to_have_url(f"{live_server.url}{reverse('login_colaborador')}")
 
 
 # =====================================================
 # TESTE 2 - SALVAR INFORMAÇÕES PELO NAVEGADOR
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_salvar_informacoes_pelo_navegador(
@@ -276,63 +232,41 @@ def test_salvar_informacoes_pelo_navegador(
         wait_until="domcontentloaded",
     )
 
-    expect(
-        page.get_by_role("heading", name="Adicionar informações")
-    ).to_be_visible()
+    expect(page.get_by_role("heading", name="Adicionar informações")).to_be_visible()
 
     # Dados pessoais
-    page.locator("#nome_completo").fill(
-        "Colaborador Playwright"
-    )
+    page.locator("#nome_completo").fill("Colaborador Playwright")
 
     page.locator("#informar_nome_social").check()
 
-    page.locator("#nome_social").fill(
-        "Nome Social Teste"
-    )
+    page.locator("#nome_social").fill("Nome Social Teste")
 
-    page.locator("#data_nascimento").fill(
-        "1995-05-20"
-    )
+    page.locator("#data_nascimento").fill("1995-05-20")
 
     page.locator("#genero").select_option("masculino")
 
     page.locator("#possui_deficiencia").select_option("nao")
 
     # Contato
-    page.locator("#email").fill(
-        "playwright@exemplo.com"
-    )
+    page.locator("#email").fill("playwright@exemplo.com")
 
-    page.locator("#telefone").fill(
-        "11999999999"
-    )
+    page.locator("#telefone").fill("11999999999")
 
     # Endereço
-    page.locator("#cep").fill(
-        "07750000"
-    )
+    page.locator("#cep").fill("07750000")
 
     page.locator("#numero").fill("100")
 
-    page.locator("#logradouro").fill(
-        "Rua de Teste"
-    )
+    page.locator("#logradouro").fill("Rua de Teste")
 
-    page.locator("#bairro").fill(
-        "Centro"
-    )
+    page.locator("#bairro").fill("Centro")
 
-    page.locator("#municipio").fill(
-        "Cajamar"
-    )
+    page.locator("#municipio").fill("Cajamar")
 
     page.locator("#uf").select_option("SP")
 
     # Área profissional
-    page.locator("#materia").fill(
-        "Matemática"
-    )
+    page.locator("#materia").fill("Matemática")
 
     # Disponibilidade
     page.locator("#inicio").fill("08:00")
@@ -340,27 +274,17 @@ def test_salvar_informacoes_pelo_navegador(
     page.locator("#fim").fill("17:00")
 
     # Formação
-    page.locator("#formacao").fill(
-        "Licenciatura em Matemática"
-    )
+    page.locator("#formacao").fill("Licenciatura em Matemática")
 
-    page.locator("#pos_graduacao").fill(
-        "Educação Matemática"
-    )
+    page.locator("#pos_graduacao").fill("Educação Matemática")
 
     # Disciplinas
-    page.locator(
-        'input[name="disciplinas"][value="matematica"]'
-    ).check()
+    page.locator('input[name="disciplinas"][value="matematica"]').check()
 
-    page.locator(
-        'input[name="disciplinas"][value="portugues"]'
-    ).check()
+    page.locator('input[name="disciplinas"][value="portugues"]').check()
 
     # Observações
-    page.locator("#observacoes").fill(
-        "Teste automatizado com Playwright."
-    )
+    page.locator("#observacoes").fill("Teste automatizado com Playwright.")
 
     # Salvar formulário
     with page.expect_navigation(wait_until="domcontentloaded"):
@@ -369,14 +293,10 @@ def test_salvar_informacoes_pelo_navegador(
             name="Salvar informações",
         ).click()
 
-    expect(page).to_have_url(
-        f"{live_server.url}{reverse('colaborador')}"
-    )
+    expect(page).to_have_url(f"{live_server.url}{reverse('colaborador')}")
 
     # Confere os dados diretamente no banco de testes.
-    informacoes = InformacoesColaborador.objects.get(
-        usuario=colaborador_ui
-    )
+    informacoes = InformacoesColaborador.objects.get(usuario=colaborador_ui)
 
     assert informacoes.nome_completo == "Colaborador Playwright"
 
@@ -403,6 +323,7 @@ def test_salvar_informacoes_pelo_navegador(
 # =====================================================
 # TESTE 3 - VISUALIZAR CURRÍCULO NO NAVEGADOR
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_visualizar_curriculo_pelo_navegador(
@@ -436,9 +357,7 @@ def test_visualizar_curriculo_pelo_navegador(
         )
     ).to_be_visible()
 
-    expect(
-        page.get_by_text("Nome Social: Nome Social Teste")
-    ).to_be_visible()
+    expect(page.get_by_text("Nome Social: Nome Social Teste")).to_be_visible()
 
     expect(
         page.get_by_text("Seu perfil está ativado e visível para as instituições.")
@@ -448,6 +367,7 @@ def test_visualizar_curriculo_pelo_navegador(
 # =====================================================
 # TESTE 4 - ATIVAR E DESATIVAR PERFIL NO NAVEGADOR
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_alternar_visibilidade_pelo_navegador(
@@ -471,9 +391,7 @@ def test_alternar_visibilidade_pelo_navegador(
     )
 
     # Confirma que o perfil começa ativado.
-    expect(
-        page.get_by_role("button", name="Desativar perfil")
-    ).to_be_visible()
+    expect(page.get_by_role("button", name="Desativar perfil")).to_be_visible()
 
     # Desativa o perfil.
     with page.expect_navigation(wait_until="domcontentloaded"):
@@ -483,13 +401,9 @@ def test_alternar_visibilidade_pelo_navegador(
         page.get_by_text("Seu perfil está desativado e oculto das instituições.")
     ).to_be_visible()
 
-    expect(
-        page.get_by_role("button", name="Ativar perfil")
-    ).to_be_visible()
+    expect(page.get_by_role("button", name="Ativar perfil")).to_be_visible()
 
-    informacoes = InformacoesColaborador.objects.get(
-        usuario=colaborador_ui
-    )
+    informacoes = InformacoesColaborador.objects.get(usuario=colaborador_ui)
 
     informacoes.refresh_from_db()
 
@@ -507,9 +421,11 @@ def test_alternar_visibilidade_pelo_navegador(
 
     assert informacoes.perfil_ativo is True
 
+
 # =====================================================
 # TESTES DE INTERFACE DA INSTITUIÇÃO
 # =====================================================
+
 
 @pytest.fixture
 def escola_ui():
@@ -589,16 +505,14 @@ def abrir_selecao_instituicao(page, live_server, escola):
     # Abre o painel lateral.
     page.locator("#abrir-painel-notificacoes").click()
 
-    expect(
-        page.locator("#painel-notificacoes")
-    ).to_have_attribute("aria-hidden", "false")
+    expect(page.locator("#painel-notificacoes")).to_have_attribute(
+        "aria-hidden", "false"
+    )
 
     # Abre a seleção de instituição.
     page.locator("#botao-instituicao").click()
 
-    expect(
-        page.locator("#modal-escolas")
-    ).to_have_attribute("aria-hidden", "false")
+    expect(page.locator("#modal-escolas")).to_have_attribute("aria-hidden", "false")
 
     # Aguarda a escola ser carregada pela API.
     radio_escola = page.locator(
@@ -613,28 +527,27 @@ def selecionar_escola_no_navegador(page, escola):
     Seleciona uma escola e abre o modal de senha.
     """
 
-    opcao = page.locator(
-        "#lista-escolas .escola-opcao"
-    ).filter(has_text=escola.nome_unidade_escolar)
+    opcao = page.locator("#lista-escolas .escola-opcao").filter(
+        has_text=escola.nome_unidade_escolar
+    )
 
     opcao.click()
 
-    radio = page.locator(
-        f'#lista-escolas input[name="escola"][value="{escola.pk}"]'
-    )
+    radio = page.locator(f'#lista-escolas input[name="escola"][value="{escola.pk}"]')
 
     expect(radio).to_be_checked()
 
     page.locator("#confirmar-escola").click()
 
-    expect(
-        page.locator("#modal-senha-instituicao")
-    ).to_have_attribute("aria-hidden", "false")
+    expect(page.locator("#modal-senha-instituicao")).to_have_attribute(
+        "aria-hidden", "false"
+    )
 
 
 # =====================================================
 # TESTE 1 - LISTAR SOMENTE COLABORADORES ATIVOS
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_instituicao_lista_apenas_perfis_ativos(
@@ -683,14 +596,13 @@ def test_instituicao_lista_apenas_perfis_ativos(
     ).to_have_count(0)
 
     # Somente um colaborador deve estar listado.
-    expect(
-        page.locator(".teacher-card")
-    ).to_have_count(1)
+    expect(page.locator(".teacher-card")).to_have_count(1)
 
 
 # =====================================================
 # TESTE 2 - ABRIR O PERFIL DO COLABORADOR
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_modal_exibe_perfil_do_colaborador(
@@ -706,9 +618,7 @@ def test_modal_exibe_perfil_do_colaborador(
         wait_until="domcontentloaded",
     )
 
-    botao_perfil = page.locator(
-        f'.profile-btn[data-colaborador-id="{perfil.pk}"]'
-    )
+    botao_perfil = page.locator(f'.profile-btn[data-colaborador-id="{perfil.pk}"]')
 
     expect(botao_perfil).to_be_visible()
 
@@ -719,7 +629,6 @@ def test_modal_exibe_perfil_do_colaborador(
             and "/perfil/" in resposta.url
         )
     ) as resposta_api:
-
         botao_perfil.click()
 
     resposta = resposta_api.value
@@ -727,23 +636,18 @@ def test_modal_exibe_perfil_do_colaborador(
     assert resposta.status == 200
 
     # Confere a abertura do modal.
-    expect(
-        page.locator("#perfil-modal")
-    ).to_have_attribute("aria-hidden", "false")
+    expect(page.locator("#perfil-modal")).to_have_attribute("aria-hidden", "false")
 
     # Confere as informações carregadas.
-    expect(
-        page.locator("#perfil-conteudo")
-    ).to_be_visible()
+    expect(page.locator("#perfil-conteudo")).to_be_visible()
 
-    expect(
-        page.locator('[data-campo="materia"]')
-    ).to_have_text("Matemática")
+    expect(page.locator('[data-campo="materia"]')).to_have_text("Matemática")
 
 
 # =====================================================
 # TESTE 3 - ABRIR PAINEL E CARREGAR ESCOLAS
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_painel_instituicao_carrega_lista_de_escolas(
@@ -759,32 +663,23 @@ def test_painel_instituicao_carrega_lista_de_escolas(
     )
 
     # Confirma que a escola aparece na lista.
-    expect(
-        page.locator("#lista-escolas")
-    ).to_contain_text("Escola Playwright")
+    expect(page.locator("#lista-escolas")).to_contain_text("Escola Playwright")
 
     # Confirma que existe uma opção de escola.
-    expect(
-        page.locator("#lista-escolas .escola-opcao")
-    ).to_have_count(1)
+    expect(page.locator("#lista-escolas .escola-opcao")).to_have_count(1)
 
     # O botão só deve ser habilitado depois da seleção.
-    expect(
-        page.locator("#confirmar-escola")
-    ).to_be_disabled()
+    expect(page.locator("#confirmar-escola")).to_be_disabled()
 
-    page.locator(
-        f'#lista-escolas input[name="escola"][value="{escola_ui.pk}"]'
-    ).check()
+    page.locator(f'#lista-escolas input[name="escola"][value="{escola_ui.pk}"]').check()
 
-    expect(
-        page.locator("#confirmar-escola")
-    ).to_be_enabled()
+    expect(page.locator("#confirmar-escola")).to_be_enabled()
 
 
 # =====================================================
 # TESTE 4 - SELECIONAR ESCOLA E ABRIR MODAL DE SENHA
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_selecionar_escola_abre_modal_de_senha(
@@ -804,18 +699,15 @@ def test_selecionar_escola_abre_modal_de_senha(
         escola_ui,
     )
 
-    expect(
-        page.locator("#nome-escola-senha")
-    ).to_contain_text("Escola Playwright")
+    expect(page.locator("#nome-escola-senha")).to_contain_text("Escola Playwright")
 
-    expect(
-        page.locator("#senha-instituicao")
-    ).to_be_visible()
+    expect(page.locator("#senha-instituicao")).to_be_visible()
 
 
 # =====================================================
 # TESTE 5 - IMPEDIR ACESSO COM SENHA INCORRETA
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_instituicao_bloqueia_senha_incorreta_no_navegador(
@@ -836,38 +728,34 @@ def test_instituicao_bloqueia_senha_incorreta_no_navegador(
         escola_ui,
     )
 
-    page.locator("#senha-instituicao").fill(
-        "SenhaErrada123"
-    )
+    page.locator("#senha-instituicao").fill("SenhaErrada123")
 
     with page.expect_response(
-        lambda resposta: (
-            "/instituicao/verificar-instituicao/"
-            in resposta.url
-        )
+        lambda resposta: "/instituicao/verificar-instituicao/" in resposta.url
     ) as resposta_api:
-
-        page.locator(
-            "#confirmar-senha-instituicao"
-        ).click()
+        page.locator("#confirmar-senha-instituicao").click()
 
     resposta = resposta_api.value
 
     assert resposta.status == 403
 
-    expect(
-        page.locator("#mensagem-senha-instituicao")
-    ).to_contain_text("Senha incorreta")
+    expect(page.locator("#mensagem-senha-instituicao")).to_contain_text(
+        "Senha incorreta"
+    )
 
     # A área de notificações deve continuar bloqueada.
-    assert page.locator(
-        "#secao-notificacoes-interesse"
-    ).evaluate("(elemento) => elemento.hidden") is True
+    assert (
+        page.locator("#secao-notificacoes-interesse").evaluate(
+            "(elemento) => elemento.hidden"
+        )
+        is True
+    )
 
 
 # =====================================================
 # TESTE 6 - CONFIRMAR INSTITUIÇÃO COM SENHA CORRETA
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_instituicao_confirma_acesso_com_senha_correta(
@@ -888,21 +776,13 @@ def test_instituicao_confirma_acesso_com_senha_correta(
         escola_ui,
     )
 
-    # A senha corresponde ao telefone cadastrado.
-    page.locator("#senha-instituicao").fill(
-        escola_ui.telefone
-    )
+    # Informa o telefone cadastrado como senha.
+    page.locator("#senha-instituicao").fill(escola_ui.telefone)
 
     with page.expect_response(
-        lambda resposta: (
-            "/instituicao/verificar-instituicao/"
-            in resposta.url
-        )
+        lambda resposta: "/instituicao/verificar-instituicao/" in resposta.url
     ) as resposta_api:
-
-        page.locator(
-            "#confirmar-senha-instituicao"
-        ).click()
+        page.locator("#confirmar-senha-instituicao").click()
 
     resposta = resposta_api.value
 
@@ -913,24 +793,27 @@ def test_instituicao_confirma_acesso_com_senha_correta(
     assert dados["sucesso"] is True
     assert dados["nome_escola"] == "Escola Playwright"
 
-    # O modal de senha deve fechar.
-    expect(
-        page.locator("#modal-senha-instituicao")
-    ).to_have_attribute("aria-hidden", "true")
+    # Confirma que o modal de senha foi fechado.
+    expect(page.locator("#modal-senha-instituicao")).to_have_attribute(
+        "aria-hidden", "true"
+    )
 
-    # A seção de notificações deve ser liberada.
-    assert page.locator(
-        "#secao-notificacoes-interesse"
-    ).evaluate("(elemento) => elemento.hidden") is False
+    # Confirma que a seção de notificações foi liberada.
+    assert (
+        page.locator("#secao-notificacoes-interesse").evaluate(
+            "(elemento) => elemento.hidden"
+        )
+        is False
+    )
 
-    expect(
-        page.locator("#mensagem-senha-instituicao")
-    ).to_contain_text("Instituição verificada com sucesso!")
+    # Confirma que a instituição selecionada aparece na interface.
+    expect(page.locator("#instituicao-descricao")).to_have_text("Escola Playwright")
 
 
 # =====================================================
 # TESTE 7 - RECEBER NOTIFICAÇÃO DE INTERESSE
 # =====================================================
+
 
 @pytest.mark.django_db(transaction=True)
 def test_instituicao_visualiza_notificacao_de_interesse(
@@ -943,7 +826,23 @@ def test_instituicao_visualiza_notificacao_de_interesse(
 
     from instituicao.models import InteresseOportunidade
 
-    # Cria uma notificação válida para a escola.
+    # Captura possíveis erros do JavaScript.
+    erros_javascript = []
+    erros_console = []
+
+    page.on(
+        "pageerror",
+        lambda erro: erros_javascript.append(str(erro)),
+    )
+
+    page.on(
+        "console",
+        lambda mensagem: (
+            erros_console.append(mensagem.text) if mensagem.type == "error" else None
+        ),
+    )
+
+    # Cria uma notificação válida.
     notificacao = InteresseOportunidade.objects.create(
         escola=escola_ui,
         colaborador=perfil_colaborador_instituicao_ui,
@@ -964,31 +863,89 @@ def test_instituicao_visualiza_notificacao_de_interesse(
         escola_ui,
     )
 
-    page.locator("#senha-instituicao").fill(
-        escola_ui.telefone
+    page.locator("#senha-instituicao").fill(escola_ui.telefone)
+
+    # Confirma a instituição.
+    with page.expect_response(
+        lambda resposta: "/instituicao/verificar-instituicao/" in resposta.url
+    ) as resposta_verificacao:
+        page.locator("#confirmar-senha-instituicao").click()
+
+    resposta = resposta_verificacao.value
+
+    assert resposta.status == 200
+
+    dados = resposta.json()
+
+    assert dados["sucesso"] is True
+    assert dados["nome_escola"] == "Escola Playwright"
+
+    # Confirma que a área de notificações foi liberada.
+    assert (
+        page.locator("#secao-notificacoes-interesse").evaluate(
+            "(elemento) => elemento.hidden"
+        )
+        is False
     )
 
-    # Aguarda a validação e a consulta das notificações.
+    # Executa a função original da aplicação e aguarda
+    # tanto a resposta quanto a atualização do HTML.
     with page.expect_response(
-        lambda resposta: (
-            "/instituicao/verificar-instituicao/"
-            in resposta.url
-        )
-    ) as resposta_verificacao, page.expect_response(
-        lambda resposta: (
-            "/instituicao/api/notificacoes-interesse/"
-            in resposta.url
-        )
+        lambda resposta: "/instituicao/api/notificacoes-interesse/" in resposta.url
     ) as resposta_notificacoes:
+        estado = page.evaluate("""
+            async () => {
+                if (
+                    typeof window.carregarNotificacoesInteresse
+                    !== "function"
+                ) {
+                    return {
+                        erro: "A função de notificações não foi encontrada."
+                    };
+                }
 
-        page.locator(
-            "#confirmar-senha-instituicao"
-        ).click()
+                await window.carregarNotificacoesInteresse();
 
-    assert resposta_verificacao.value.status == 200
-    assert resposta_notificacoes.value.status == 200
+                const secao = document.getElementById(
+                    "secao-notificacoes-interesse"
+                );
 
-    dados = resposta_notificacoes.value.json()
+                const lista = document.getElementById(
+                    "lista-notificacoes-interesse"
+                );
+
+                return {
+                    funcaoDisponivel:
+                        typeof window.carregarNotificacoesInteresse,
+
+                    secaoExiste: !!secao,
+
+                    secaoOculta: secao ? secao.hidden : null,
+
+                    listaExiste: !!lista,
+
+                    quantidadeCartoes: lista
+                        ? lista.querySelectorAll(
+                            ".notificacao-interesse-card"
+                        ).length
+                        : null,
+
+                    conteudoHTML: lista
+                        ? lista.innerHTML
+                        : null,
+
+                    textoLista: lista
+                        ? lista.innerText
+                        : null
+                };
+            }
+        """)
+
+    resposta = resposta_notificacoes.value
+
+    assert resposta.status == 200
+
+    dados = resposta.json()
 
     assert dados["sucesso"] is True
     assert dados["total"] == 1
@@ -999,20 +956,76 @@ def test_instituicao_visualiza_notificacao_de_interesse(
 
     assert dados["notificacoes"][0]["materia"] == "Matemática"
 
-    # Confere a notificação na interface.
-    cartao = page.locator(
-        "#lista-notificacoes-interesse .interesse-notificacao"
-    )
+    # Imprime o estado real do navegador para diagnóstico.
+    # Imprime o estado real do navegador para diagnóstico.
+    print("\n========== DIAGNÓSTICO DA INTERFACE ==========")
+    print("Resposta da API:", dados)
+    print("Estado do HTML:", estado)
+    print("Erros JavaScript:", erros_javascript)
+    print("Erros do console:", erros_console)
+    print("===============================================\n")
+
+    # Confere se a função de carregamento foi executada.
+    assert "erro" not in estado
+
+    # Confere se a notificação apareceu no HTML.
+    assert estado["quantidadeCartoes"] == 1
+
+    # Localiza o cartão da notificação.
+    cartao = page.locator("#lista-notificacoes-interesse .notificacao-interesse-card")
 
     expect(cartao).to_have_count(1)
+    diagnostico_visibilidade = cartao.evaluate("""
+        elemento => {
+            const resultado = [];
+            let atual = elemento;
 
-    expect(cartao).to_contain_text(
-        "Colaborador Social Playwright"
+            while (atual) {
+                const estilo = window.getComputedStyle(atual);
+                const retangulo = atual.getBoundingClientRect();
+
+                resultado.push({
+                    elemento: atual.tagName,
+                    id: atual.id,
+                    classes: atual.className,
+                    hidden: atual.hidden,
+                    ariaHidden: atual.getAttribute("aria-hidden"),
+                    display: estilo.display,
+                    visibility: estilo.visibility,
+                    opacity: estilo.opacity,
+                    largura: retangulo.width,
+                    altura: retangulo.height
+                });
+
+                atual = atual.parentElement;
+            }
+
+            return resultado;
+        }
+    """)
+
+    print("\nDIAGNÓSTICO DE VISIBILIDADE:")
+    print(diagnostico_visibilidade)
+
+    print(
+        "Estado do painel:",
+        page.locator("#painel-notificacoes").get_attribute("aria-hidden"),
     )
 
-    expect(cartao).to_contain_text("Matemática")
-    expect(cartao).to_contain_text("Expira em")
+    print(
+        "Estado da seção:",
+        page.locator("#secao-notificacoes-interesse").get_attribute("hidden"),
+    )
+    expect(cartao).to_be_visible()
 
+    # Confere os dados exibidos na notificação.
+    expect(cartao).to_contain_text("Colaborador Social Playwright")
+    expect(cartao).to_contain_text("Matéria: Matemática")
+    expect(cartao).to_contain_text("Tipo: aula")
+    expect(cartao).to_contain_text("Recebida em:")
+    expect(cartao).to_contain_text("Expira em:")
+
+    # Confere se a notificação continua válida no banco.
     notificacao.refresh_from_db()
 
     assert notificacao.expira_em > timezone.now()

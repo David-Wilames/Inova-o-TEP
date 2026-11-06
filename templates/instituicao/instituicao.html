@@ -1168,10 +1168,23 @@
 
                     registrosContainer.hidden = false;
 
+                    // =========================================
                     // ATUALIZAR NOTIFICAÇÕES
+                    // =========================================
+
                     await window.carregarNotificacoesInteresse();
 
+                    // =========================================
+                    // FECHAR MODAL DE SENHA
+                    // =========================================
+
                     fecharModalSenha();
+
+                    // =========================================
+                    // REABRIR PAINEL DE NOTIFICAÇÕES
+                    // =========================================
+
+                    abrirPainel();
 
                 } catch (erro) {
 
