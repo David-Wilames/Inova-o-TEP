@@ -141,7 +141,7 @@ Mantenha o terminal aberto enquanto utiliza o sistema.
 
 Abra o Google Chrome ou outro navegador e acesse:
 
-http://127.0.0.1:8000/
+https://davidbatista.pythonanywhere.com/
 
 Para parar o servidor, pressione `Ctrl + C` no terminal.
 
@@ -168,7 +168,7 @@ do Inova-o-TEP antes de iniciar o servidor.
 Confira se o servidor Django está rodando no terminal.
 Mantenha esse terminal aberto e acesse:
 
-https://davidbatista.pythonanywhere.com/
+http://127.0.0.1:8000/
 
 Se o servidor encerrar ou apresentar erro, verifique a mensagem
 no terminal antes de tentar novamente.
