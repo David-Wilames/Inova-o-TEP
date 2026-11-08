@@ -420,7 +420,7 @@
 
     <!-- JAVASCRIPT DO MAPBOX -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.30.0/mapbox-gl.js"></script>
-    <script src="{% static 'usuarios/js/mapa_instituição.js' %}"></script>
+    <script src="{% static 'usuarios/js/mapa_instituição.js' %}?v=20261107-3"></script>
     <script src="{% static 'usuarios/js/perfil_colaborador.js' %}"></script>
 
     <!-- JAVASCRIPT DO PAINEL LATERAL -->
@@ -1173,6 +1173,10 @@
                     // =========================================
 
                     await window.carregarNotificacoesInteresse();
+                    // Atualizar o mapa com todos os colaboradores ativos.
+                    if (typeof window.atualizarMapaColaboradores === "function") {
+                        await window.atualizarMapaColaboradores();
+                    }
 
                     // =========================================
                     // FECHAR MODAL DE SENHA

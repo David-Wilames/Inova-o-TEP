@@ -400,6 +400,57 @@ def api_localizacao_colaborador(request):
         }
     )
 
+@require_GET
+def api_colaboradores_mapa(request):
+
+    # Somente instituições autenticadas podem consultar os endereços.
+    escola_id = request.session.get("escola_autenticada_id")
+
+    if not escola_id:
+        return JsonResponse(
+            {"erro": "Instituição não autenticada."},
+            status=403
+        )
+
+    # Buscar todos os colaboradores com perfil ativo.
+    perfis = (
+        InformacoesColaborador.objects
+        .filter(perfil_ativo=True)
+        .select_related("usuario")
+        .exclude(logradouro__exact="")
+        .order_by("nome_completo")
+    )
+
+    colaboradores = []
+
+    for informacoes in perfis:
+
+        nome = (
+            informacoes.nome_social.strip()
+            or informacoes.nome_completo.strip()
+            or informacoes.usuario.nome_completo.strip()
+        )
+
+        colaboradores.append({
+            "id": informacoes.id,
+            "nome": nome,
+            "logradouro": informacoes.logradouro,
+            "numero": informacoes.numero,
+            "complemento": informacoes.complemento,
+            "bairro": informacoes.bairro,
+            "municipio": informacoes.municipio,
+            "uf": informacoes.uf,
+            "cep": informacoes.cep,
+            "materia": informacoes.materia,
+        })
+
+    return JsonResponse({
+        "colaboradores": colaboradores,
+        "total": len(colaboradores)
+    })
+
+
+
 @require_POST
 def alternar_visibilidade_perfil(request):
     """

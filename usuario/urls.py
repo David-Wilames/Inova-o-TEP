@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/oportunidades/mapa/', views.api_oportunidades_mapa, name='api_oportunidades_mapa'),
     path('api/localizacao-colaborador/',views.api_localizacao_colaborador,name='api_localizacao_colaborador'),
     path("colaborador/alternar-visibilidade/",views.alternar_visibilidade_perfil,name="alternar_visibilidade_perfil",),
+    path("api/colaboradores-mapa/",views.api_colaboradores_mapa,name="api_colaboradores_mapa"),
 ]
